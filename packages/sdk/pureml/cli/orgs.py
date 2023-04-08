@@ -68,3 +68,26 @@ def select():
     else:
         print("[bold red]Did not Select any organization!")
         return None
+
+# Possibly useful for future commands
+# Moved from auth.py
+def check_org_status(access_token: str, base_url: str):
+
+    org_id: str = typer.prompt("Enter your Org Id")
+
+    url_path = "org/id/{}".format(org_id)
+    url = urljoin(base_url, url_path)
+
+    headers = {
+        "accept": "application/json",
+        "Authorization": "Bearer {}".format(access_token),
+    }
+
+    response = requests.get(url, headers=headers)
+
+    if response.ok:
+        # print("[green]Organization Exists!")
+        return org_id
+    else:
+        print("[red]Organization does not Exists!")
+        return None
