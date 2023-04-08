@@ -1,0 +1,32 @@
+import { MdxLayout } from "components/mdx-layout.tsx";
+
+export const meta = {
+  slug: "cli-authentication",
+  publishedAt: "2023-04-08T09:00:00.000Z",
+  title: "CLI Authentication to use PureML",
+  headerImage: "/changelogs/cliauthentication.png",
+  authors: [],
+};
+
+**New**
+
+- CLI authentication: User can now login and signup through CLI to use PureML. [Read more here](https://pureml.mintlify.app/installation#1-cli).
+- Select org without copy-pasting the orgId in CLI after signing in.
+- Font updated on changelog page from Space Grotesk to Satoshi.
+
+**Added**
+
+- PureML logo in changelog redirects to Landing page.
+
+**Fixes**
+
+- Click on approved reviews in models and datasets takes you to production branch (`main`) inside versions tabs.
+- Next Page button in changelog on last page hides when no more articles are available.
+- Changelog navbar links redirects to correct url.
+- Footer link in landing page and changelog redirects to correct url.
+
+export default ({ children, ...rest }) => (
+  <MdxLayout meta={meta} {...rest}>
+    {children}
+  </MdxLayout>
+);

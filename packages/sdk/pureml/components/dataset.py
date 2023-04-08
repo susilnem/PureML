@@ -34,7 +34,7 @@ def init_branch(label: str):
         "Authorization": "Bearer {}".format(user_token),
     }
 
-    data = {"dataset_name": name, "branchName": branch}
+    data = {"dataset_name": name, "branch_name": branch}
 
     data = json.dumps(data)
 
