@@ -800,7 +800,13 @@ func (ds *Datastore) GetUserByHandle(handle string) (*userorgmodels.UserProfileR
 	ds.DB.Model(&datasetdbmodels.DatasetUser{}).Where("user_uuid = ?", user.BaseModel.UUID).Count(&numberOfDatasets)
 	numberOfModel := int64(0)
 	ds.DB.Model(&modeldbmodels.ModelUser{}).Where("user_uuid = ?", user.BaseModel.UUID).Count(&numberOfModel)
+
+	userOrgs, err := ds.GetUserOrganizationsByEmail(user.Email)
+	if err != nil {
+		return nil, err
+	}
 	return &userorgmodels.UserProfileResponse{
+		UUID:             user.UUID,
 		Name:             user.Name,
 		Email:            user.Email,
 		Handle:           user.Handle,
@@ -808,6 +814,7 @@ func (ds *Datastore) GetUserByHandle(handle string) (*userorgmodels.UserProfileR
 		Avatar:           user.Avatar,
 		NumberOfModels:   numberOfModel,
 		NumberOfDatasets: numberOfDatasets,
+		Orgs:             userOrgs,
 	}, nil
 }
 
@@ -907,6 +914,11 @@ func (ds *Datastore) GetUserProfileByUUID(userUUID uuid.UUID) (*userorgmodels.Us
 	ds.DB.Model(&datasetdbmodels.DatasetUser{}).Where("user_uuid = ?", userUUID).Count(&numberOfDatasets)
 	numberOfModel := int64(0)
 	ds.DB.Model(&modeldbmodels.ModelUser{}).Where("user_uuid = ?", userUUID).Count(&numberOfModel)
+
+	userOrgs, err := ds.GetUserOrganizationsByEmail(user.Email)
+	if err != nil {
+		return nil, err
+	}
 	return &userorgmodels.UserProfileResponse{
 		UUID:             user.UUID,
 		Name:             user.Name,
@@ -916,6 +928,7 @@ func (ds *Datastore) GetUserProfileByUUID(userUUID uuid.UUID) (*userorgmodels.Us
 		Avatar:           user.Avatar,
 		NumberOfModels:   numberOfModel,
 		NumberOfDatasets: numberOfDatasets,
+		Orgs:             userOrgs,
 	}, nil
 }
 

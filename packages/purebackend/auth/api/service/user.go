@@ -106,6 +106,13 @@ func (api *Api) UserSignUp(request *models.Request) *models.Response {
 	if dbuser != nil {
 		return models.NewErrorResponse(http.StatusConflict, "User with email already exists")
 	}
+	dbuserhandle, err := api.app.Dao().GetUserByHandle(handleData)
+	if err != nil {
+		return models.NewServerErrorResponse(err)
+	}
+	if dbuserhandle != nil {
+		return models.NewErrorResponse(http.StatusConflict, "User with handle already exists")
+	}
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(passwordData), bcrypt.DefaultCost)
 	if err != nil {
 		return models.NewServerErrorResponse(err)
