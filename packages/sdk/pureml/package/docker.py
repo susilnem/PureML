@@ -97,9 +97,9 @@ def create_docker_image(label):
     client = docker.from_env()
 
     docker_file_path_relative = docker_schema.PATH_DOCKER_IMAGE.split(os.path.sep)[-1]
-    print(docker_schema.paths.PATH_PREDICT_DIR)
-    print(docker_file_path_relative)
-    print(image_tag)
+    # print(docker_schema.paths.PATH_PREDICT_DIR)
+    # print(docker_file_path_relative)
+    # print(image_tag)
 
     try:
         image, build_log = client.images.build(
@@ -126,6 +126,9 @@ def create_docker_image(label):
 def run_docker_container(image, runtime, gpu_ids, host_port):
     client = docker.from_env()
     name = image.tags[0].replace(":", "-")
+
+    random_value = "".join(random.choices(string.ascii_lowercase + string.digits, k=8))
+    name = "-".join([name, random_value])
 
     docker_port = "{p}/tcp".format(p=docker_schema.PORT_DOCKER)
 
