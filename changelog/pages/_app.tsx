@@ -4,7 +4,6 @@ import advancedFormat from "dayjs/plugin/advancedFormat";
 import { AnimateSharedLayout } from "framer-motion";
 import "../styles/global.css";
 
-import "@fontsource/space-grotesk";
 import "@fontsource/inter/100.css";
 import "@fontsource/inter/200.css";
 import "@fontsource/inter/300.css";
