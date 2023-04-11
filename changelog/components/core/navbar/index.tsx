@@ -5,8 +5,8 @@ import { useRouter } from "next/router";
 
 function primaryLinkCss(currentPage: boolean) {
   return clsx(
-    currentPage ? "text-slate-950" : "text-slate-600",
-    "w-full text-lg font-medium letterSpaced hover:underline hover:underline-offset-2"
+    currentPage ? "text-slate-950 font-medium" : "text-slate-600",
+    "w-full text-base letterSpaced hover:underline hover:underline-offset-2"
   );
 }
 
@@ -135,14 +135,14 @@ export default function Navbar() {
               <div className="flex justify-center items-center">
                 <a
                   href="https://pureml.com/auth/signin"
-                  className="flex justify-center items-center gap-y-4 text-brand-200 hover:underline hover:underline-offset-2 text-lg letterSpaced"
+                  className="flex justify-center items-center gap-y-4 text-brand-200 hover:underline hover:underline-offset-2 text-base letterSpaced"
                 >
                   SIGN IN <ArrowUpRight className="text-brand-200 w-5" />
                 </a>
               </div>
               <div className="flex justify-center items-center pt-1">
                 <a
-                  className="github-button flex justify-center items-center gap-y-4 text-brand-200 hover:underline hover:underline-offset-2 text-lg letterSpaced"
+                  className="github-button flex justify-center items-center gap-y-4 text-brand-200 hover:underline hover:underline-offset-2 text-base letterSpaced"
                   href="https://github.com/pureml-inc/pureml"
                   data-color-scheme="no-preference: dark_dimmed; light: light_high_contrast; dark: light;"
                   data-size="large"
