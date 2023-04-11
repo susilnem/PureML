@@ -8,7 +8,7 @@ import typer
 from rich import print
 from rich.console import Console
 from rich.table import Table
-from pureml.cli.helpers import get_backend_base_url
+from pureml.schema.backend import get_backend_base_url
 from pureml.cli.puremlconfig import PureMLConfigYML
 from pureml.components import get_org_id, get_token
 from pureml.schema.backend import BackendSchema
