@@ -30,7 +30,7 @@ class PredictSchema(BaseModel):
     PATH_PREDICT_REQUIREMENTS_USER: str = os.path.join(os.getcwd(), REQUIREMENTS_NAME)
 
     PATH_RESOURCES: str = os.path.join(paths.PATH_PREDICT_DIR, RESOURCES_NAME)
-    PATH_RESOURCES_DIR_DEFAULT: str = os.getcwd()
+    PATH_RESOURCES_DIR_DEFAULT: str = "./"  # os.getcwd()
 
     resource_format: str = "zip"
     dirs_to_ignore: list = [".pureml", ".venv", "__pycache__"]
