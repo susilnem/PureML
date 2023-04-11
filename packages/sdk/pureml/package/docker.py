@@ -14,7 +14,7 @@ def create_docker_file(org_id, access_token):
     os.makedirs(prediction_schema.paths.PATH_PREDICT_DIR, exist_ok=True)
 
     req_pos = prediction_schema.PATH_PREDICT_REQUIREMENTS.rfind(
-        prediction_schema.paths.PATH_PREDICT_DIR_RELATIVE
+        prediction_schema.REQUIREMENTS_NAME
     )
     req_path = prediction_schema.PATH_PREDICT_REQUIREMENTS[req_pos:]
 
@@ -123,16 +123,16 @@ def create_docker_image(label):
     return image, build_log, image_tag
 
 
-def run_docker_container(image, runtime, gpu_ids, host_port):
+def run_docker_container(image, runtime, gpu_ids, host_port, docker_port):
     client = docker.from_env()
     name = image.tags[0].replace(":", "-")
 
     random_value = "".join(random.choices(string.ascii_lowercase + string.digits, k=8))
     name = "-".join([name, random_value])
 
-    docker_port = "{p}/tcp".format(p=docker_schema.PORT_DOCKER)
+    docker_port = "{p}/tcp".format(p=docker_port)
 
-    # print(docker_port)
+    # print("docker_port", docker_port)
     container_args = {
         "image": image,
         "ports": {docker_port: host_port},
@@ -187,8 +187,14 @@ def create(
         else:
             host_port = port
 
+        docker_port = docker_schema.PORT_DOCKER
+
         container = run_docker_container(
-            image=image, runtime=runtime, gpu_ids=gpu_ids, host_port=host_port
+            image=image,
+            runtime=runtime,
+            gpu_ids=gpu_ids,
+            host_port=host_port,
+            docker_port=docker_port,
         )
 
         print("Created Docker container")
@@ -197,8 +203,8 @@ def create(
         print("Container id: ", container.short_id)
 
         print(
-            "Prediction requests can be forwarded to {ip}:{port}/predict".format(
-                ip=docker_schema.API_IP_HOST, port=host_port
+            "Prediction requests can be forwarded to {ip}:{p}/predict".format(
+                ip=docker_schema.API_IP_HOST, p=host_port
             )
         )
     else:
