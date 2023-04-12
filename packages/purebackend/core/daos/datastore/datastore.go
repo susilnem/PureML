@@ -90,6 +90,7 @@ func NewSQLiteDatastore(optDataDir ...string) *Datastore {
 		commondbmodels.Readme{},
 		commondbmodels.ReadmeVersion{},
 		authdbmodels.Session{},
+		authdbmodels.Tokens{},
 	)
 	if err != nil {
 		return &Datastore{}
@@ -130,6 +131,7 @@ func NewPostgresDatastore(databaseUrl string) *Datastore {
 		commondbmodels.Readme{},
 		commondbmodels.ReadmeVersion{},
 		authdbmodels.Session{},
+		authdbmodels.Tokens{},
 	)
 	if err != nil {
 		return &Datastore{}
@@ -1120,6 +1122,87 @@ func (ds *Datastore) UpdateSession(sessionUUID uuid.UUID, userUUID uuid.UUID, up
 		Invalid:        session.Invalid,
 		CreatedAt:      session.CreatedAt,
 	}, nil
+}
+
+//////////////////////////////// API TOKEN METHODS /////////////////////////////////
+
+func (ds *Datastore) CreateToken(userUUID uuid.UUID, tokenUUID uuid.UUID, tokenSecret string) (*authmodels.CreateTokenResponse, error) {
+	token := authdbmodels.Tokens{
+		BaseModel: commondbmodels.BaseModel{
+			UUID: tokenUUID,
+		},
+		User: userorgdbmodels.User{
+			BaseModel: commondbmodels.BaseModel{
+				UUID: userUUID,
+			},
+		},
+	}
+	err := ds.DB.Create(&token).Error
+	if err != nil {
+		return nil, err
+	}
+	return &authmodels.CreateTokenResponse{
+		UUID:           token.UUID,
+		APITokenSecret: tokenSecret,
+		CreatedAt:      token.CreatedAt,
+	}, nil
+}
+
+func (ds *Datastore) ValidateUserToken(userUUID uuid.UUID, tokenUUID uuid.UUID) (bool, error) {
+	token := &authdbmodels.Tokens{
+		BaseModel: commondbmodels.BaseModel{
+			UUID: tokenUUID,
+		},
+		User: userorgdbmodels.User{
+			BaseModel: commondbmodels.BaseModel{
+				UUID: userUUID,
+			},
+		},
+	}
+	err := ds.DB.Model(&token).Preload("User").First(&token).Error
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return false, nil
+		}
+		return false, err
+	}
+	return true, nil
+}
+
+func (ds *Datastore) GetUserByAPIKeyId(tokenUUID uuid.UUID) (*userorgmodels.UserResponse, error) {
+	token := &authdbmodels.Tokens{
+		BaseModel: commondbmodels.BaseModel{
+			UUID: tokenUUID,
+		},
+	}
+	err := ds.DB.Model(&token).Preload("User").First(&token).Error
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, nil
+		}
+		return nil, err
+	}
+	return &userorgmodels.UserResponse{
+		UUID:   token.User.UUID,
+		Name:   token.User.Name,
+		Email:  token.User.Email,
+		Handle: token.User.Handle,
+		Bio:    token.User.Bio,
+		Avatar: token.User.Avatar,
+	}, nil
+}
+
+func (ds *Datastore) DeleteToken(tokenUUID uuid.UUID) error {
+	token := &authdbmodels.Tokens{
+		BaseModel: commondbmodels.BaseModel{
+			UUID: tokenUUID,
+		},
+	}
+	err := ds.DB.Delete(&token).Error
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 // Helper

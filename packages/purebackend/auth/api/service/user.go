@@ -1,6 +1,9 @@
 package service
 
 import (
+	"crypto/hmac"
+	"crypto/sha256"
+	"encoding/hex"
 	"fmt"
 	"net/http"
 	"time"
@@ -36,6 +39,9 @@ func BindUserApi(app core.App, rg *echo.Group) {
 	userGroup.POST("/create-session", api.DefaultHandler(CreateSession))
 	userGroup.POST("/session-token", api.DefaultHandler(GetSessionToken))
 	userGroup.POST("/verify-session", api.DefaultHandler(VerifySession), authmiddlewares.RequireAuthContext)
+
+	userGroup.POST("/create-token", api.DefaultHandler(CreateToken), authmiddlewares.RequireAuthContext)
+	userGroup.DELETE("/delete-token/:tokenUUID", api.DefaultHandler(DeleteToken), authmiddlewares.RequireAuthContext)
 }
 
 // UserSignUp godoc
@@ -1270,6 +1276,64 @@ func (api *Api) VerifySession(request *models.Request) *models.Response {
 	return models.NewDataResponse(http.StatusOK, nil, "Session approved")
 }
 
+// CreateToken godoc
+//
+//	@Security		ApiKeyAuth
+//	@Summary		Create API Token.
+//	@Description	Create a new API token for user
+//	@Tags			User
+//	@Accept			*/*
+//	@Produce		json
+//	@Success		200	{object}	map[string]interface{}
+//	@Router			/user/create-token [post]
+func (api *Api) CreateToken(request *models.Request) *models.Response {
+	userUUID := request.GetUserUUID()
+	tokenUUID := uuid.NewV4()
+	tokenSecretHMAC := hmac.New(sha256.New, []byte(api.app.Settings().APITokenSecretKey))
+	tokenSecretHMAC.Write([]byte(tokenUUID.String()))
+	tokenSecret := hex.EncodeToString(tokenSecretHMAC.Sum(nil))
+	apiToken, err := api.app.Dao().CreateToken(userUUID, tokenUUID, tokenSecret)
+	if err != nil {
+		return models.NewServerErrorResponse(err)
+	}
+	return models.NewDataResponse(http.StatusOK, apiToken, "Token created")
+}
+
+// DeleteToken godoc
+//
+//	@Security		ApiKeyAuth
+//	@Summary		Delete API Token.
+//	@Description	Delete given API token of user
+//	@Tags			User
+//	@Accept			*/*
+//	@Produce		json
+//	@Success		200	{object}	map[string]interface{}
+//	@Router			/user/delete-token/{tokenUUID} [delete]
+//	@Param			tokenUUID	path	string	true	"Token UUID"
+func (api *Api) DeleteToken(request *models.Request) *models.Response {
+	userUUID := request.GetUserUUID()
+	tokenUUID := request.GetPathParam("tokenUUID")
+	if tokenUUID == "" {
+		return models.NewErrorResponse(http.StatusBadRequest, "Token UUID is required")
+	}
+	tokenUUIDData, err := uuid.FromString(tokenUUID)
+	if err != nil {
+		return models.NewErrorResponse(http.StatusBadRequest, "Invalid Token UUID")
+	}
+	validateUser, err := api.app.Dao().ValidateUserToken(userUUID, tokenUUIDData)
+	if err != nil {
+		return models.NewServerErrorResponse(err)
+	}
+	if !validateUser {
+		return models.NewErrorResponse(http.StatusUnauthorized, "Unauthorized")
+	}
+	err = api.app.Dao().DeleteToken(tokenUUIDData)
+	if err != nil {
+		return models.NewServerErrorResponse(err)
+	}
+	return models.NewDataResponse(http.StatusOK, nil, "Token deleted")
+}
+
 var UserSignUp ServiceFunc = (*Api).UserSignUp
 var UserLogin ServiceFunc = (*Api).UserLogin
 var UserVerifyEmail ServiceFunc = (*Api).UserVerifyEmail
@@ -1285,3 +1349,6 @@ var DeleteProfile ServiceFunc = (*Api).DeleteProfile
 var CreateSession ServiceFunc = (*Api).CreateSession
 var GetSessionToken ServiceFunc = (*Api).GetSessionToken
 var VerifySession ServiceFunc = (*Api).VerifySession
+
+var CreateToken ServiceFunc = (*Api).CreateToken
+var DeleteToken ServiceFunc = (*Api).DeleteToken
