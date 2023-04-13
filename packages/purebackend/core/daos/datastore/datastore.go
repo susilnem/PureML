@@ -1126,6 +1126,23 @@ func (ds *Datastore) UpdateSession(sessionUUID uuid.UUID, userUUID uuid.UUID, up
 
 //////////////////////////////// API TOKEN METHODS /////////////////////////////////
 
+func (ds *Datastore) GetTokens(userUUID uuid.UUID) ([]authmodels.TokenResponse, error) {
+	var tokens []authdbmodels.Tokens
+	err := ds.DB.Model(&authdbmodels.Tokens{}).Where("user_uuid = ?", userUUID).Find(&tokens).Error
+	if err != nil {
+		return nil, err
+	}
+	var tokenResponses []authmodels.TokenResponse
+	for _, token := range tokens {
+		tokenResponses = append(tokenResponses, authmodels.TokenResponse{
+			UUID:       token.UUID,
+			LastUsedAt: token.LastUsedAt,
+			CreatedAt:  token.CreatedAt,
+		})
+	}
+	return tokenResponses, nil
+}
+
 func (ds *Datastore) CreateToken(userUUID uuid.UUID, tokenUUID uuid.UUID, tokenSecret string) (*authmodels.CreateTokenResponse, error) {
 	token := authdbmodels.Tokens{
 		BaseModel: commondbmodels.BaseModel{
@@ -1144,6 +1161,7 @@ func (ds *Datastore) CreateToken(userUUID uuid.UUID, tokenUUID uuid.UUID, tokenS
 	return &authmodels.CreateTokenResponse{
 		UUID:           token.UUID,
 		APITokenSecret: tokenSecret,
+		LastUsedAt:     token.LastUsedAt,
 		CreatedAt:      token.CreatedAt,
 	}, nil
 }
@@ -1180,6 +1198,11 @@ func (ds *Datastore) GetUserByAPIKeyId(tokenUUID uuid.UUID) (*userorgmodels.User
 		if err == gorm.ErrRecordNotFound {
 			return nil, nil
 		}
+		return nil, err
+	}
+	token.LastUsedAt = time.Now()
+	err = ds.DB.Save(&token).Error
+	if err != nil {
 		return nil, err
 	}
 	return &userorgmodels.UserResponse{

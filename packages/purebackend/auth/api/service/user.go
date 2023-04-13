@@ -40,6 +40,7 @@ func BindUserApi(app core.App, rg *echo.Group) {
 	userGroup.POST("/session-token", api.DefaultHandler(GetSessionToken))
 	userGroup.POST("/verify-session", api.DefaultHandler(VerifySession), authmiddlewares.RequireAuthContext)
 
+	userGroup.GET("/tokens", api.DefaultHandler(GetTokens), authmiddlewares.RequireAuthContext)
 	userGroup.POST("/create-token", api.DefaultHandler(CreateToken), authmiddlewares.RequireAuthContext)
 	userGroup.DELETE("/delete-token/:tokenUUID", api.DefaultHandler(DeleteToken), authmiddlewares.RequireAuthContext)
 }
@@ -1276,6 +1277,25 @@ func (api *Api) VerifySession(request *models.Request) *models.Response {
 	return models.NewDataResponse(http.StatusOK, nil, "Session approved")
 }
 
+// GetTokens godoc
+//
+//	@Security		ApiKeyAuth
+//	@Summary		Get API Tokens of user.
+//	@Description	Get API token for user
+//	@Tags			User
+//	@Accept			*/*
+//	@Produce		json
+//	@Success		200	{object}	map[string]interface{}
+//	@Router			/user/tokens [get]
+func (api *Api) GetTokens(request *models.Request) *models.Response {
+	userUUID := request.GetUserUUID()
+	apiToken, err := api.app.Dao().GetTokens(userUUID)
+	if err != nil {
+		return models.NewServerErrorResponse(err)
+	}
+	return models.NewDataResponse(http.StatusOK, apiToken, "Tokens fetched")
+}
+
 // CreateToken godoc
 //
 //	@Security		ApiKeyAuth
@@ -1350,5 +1370,6 @@ var CreateSession ServiceFunc = (*Api).CreateSession
 var GetSessionToken ServiceFunc = (*Api).GetSessionToken
 var VerifySession ServiceFunc = (*Api).VerifySession
 
+var GetTokens ServiceFunc = (*Api).GetTokens
 var CreateToken ServiceFunc = (*Api).CreateToken
 var DeleteToken ServiceFunc = (*Api).DeleteToken

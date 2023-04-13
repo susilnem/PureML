@@ -174,6 +174,10 @@ func (dao *Dao) UpdateSession(sessionUUID uuid.UUID, userUUID uuid.UUID, updated
 	return dao.Datastore().UpdateSession(sessionUUID, userUUID, updatedAttributes)
 }
 
+func (dao *Dao) GetTokens(userUUID uuid.UUID) ([]authmodels.TokenResponse, error) {
+	return dao.Datastore().GetTokens(userUUID)
+}
+
 func (dao *Dao) CreateToken(userUUID uuid.UUID, tokenUUID uuid.UUID, tokenSecret string) (*authmodels.CreateTokenResponse, error) {
 	return dao.Datastore().CreateToken(userUUID, tokenUUID, tokenSecret)
 }
