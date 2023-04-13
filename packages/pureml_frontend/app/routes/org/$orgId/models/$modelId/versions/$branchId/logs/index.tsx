@@ -16,7 +16,6 @@ export async function loader({ params, request }: any) {
     params.modelId,
     session.get("accessToken")
   );
-  // console.log(params.modelId, params.branchId);
 
   const versions = await fetchModelVersions(
     session.get("orgId"),
@@ -24,7 +23,6 @@ export async function loader({ params, request }: any) {
     params.branchId,
     session.get("accessToken")
   );
-  // console.log(versions);
 
   return {
     versions: versions,
@@ -48,8 +46,6 @@ export default function ModelMetrics() {
   const ver1 = versionContext.ver1;
   const ver2 = versionContext.ver2;
   const data = useLoaderData();
-  // const [ver1, setVer1] = useState('');
-  // const [ver2, setVer2] = useState('');
   const [dataVersion, setDataVersion] = useState({});
   const [ver1Logs, setVer1Logs] = useState<{ [key: string]: string }>({});
   const [ver2Logs, setVer2Logs] = useState<{ [key: string]: string }>({});
@@ -60,15 +56,11 @@ export default function ModelMetrics() {
     setVersionData(data.versions);
   }, [data.versions]);
 
-  // console.log(versionData);
   // ##### checking version data #####
   useEffect(() => {
     if (!versionData) return;
     if (!versionData[0]) return;
     if (!versionContext) return;
-
-    // setVer1(versionContext.ver1);
-    // setVer2('');
   }, [versionData]);
 
   // ##### fetching & displaying latest version data #####
@@ -82,7 +74,6 @@ export default function ModelMetrics() {
     });
     setDataVersion(tempDict);
     const tt = dataVersion[ver1];
-    // console.log('tt=', tt);
     if (tt) {
       if (tt.logs === null) {
         setVer1Logs({});
@@ -99,7 +90,6 @@ export default function ModelMetrics() {
           }
         });
         setVer1Logs(tempDictv1);
-        // console.log(tt.logs);
       }
     }
   }, [versionData]);
@@ -107,7 +97,6 @@ export default function ModelMetrics() {
   useEffect(() => {
     if (!versionData) return;
     const t1 = dataVersion[ver1];
-    // console.log('tt=', tt);
     if (t1) {
       if (t1.logs === null) {
         setVer1Logs({});
@@ -128,20 +117,16 @@ export default function ModelMetrics() {
     }
     if (ver2 === "") {
       setVer2Logs({});
-      // console.log('ver2 is empty');
-
       return;
     }
 
     const tt = dataVersion[ver2];
-    // console.log('tt2=', tt);
     if (tt) {
       if (tt.logs === null) {
         setVer2Logs({});
         return;
       } else {
         const tempDictv2 = {};
-        // console.log('tt.logs=', tt.logs);
 
         tt.logs.forEach((log: { data: any }) => {
           try {
@@ -153,7 +138,6 @@ export default function ModelMetrics() {
             console.log("Invalid log.key=", log.key);
           }
         });
-        // console.log(tempDictv2);
 
         setVer2Logs(tempDictv2);
       }

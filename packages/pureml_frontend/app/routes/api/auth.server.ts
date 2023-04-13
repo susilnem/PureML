@@ -217,3 +217,47 @@ export async function updateProfile(
   }).then((res) => res.json());
   return res;
 }
+
+// ############################# api tokens api ############################
+
+export async function fetchAPITokens(accessToken: string) {
+  const url = makeUrl(`user/tokens`);
+  const res = await fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application / json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  }).then((res) => res.json());
+  return res.data;
+}
+
+export async function createAPIToken(accessToken: string) {
+  const url = makeUrl(`user/create-token`);
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application / json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  }).then((res) => res.json());
+  return res;
+}
+
+export async function deleteAPIToken(tokenUUID: string, accessToken: string) {
+  const url = makeUrl(`user/delete-token/${tokenUUID}`);
+  const res = await fetch(url, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application / json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({
+      tokenUUID: tokenUUID,
+    }),
+  }).then((res) => res.json());
+  return res;
+}

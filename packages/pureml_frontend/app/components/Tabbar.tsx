@@ -91,11 +91,11 @@ export default function TabBar(props: Props) {
       name: "Members",
       hyperlink: `/settings/members`,
     },
-    // {
-    //   id: "billing",
-    //   name: "Billing",
-    //   hyperlink: `/settings/billing`,
-    // },
+    {
+      id: "apiToken",
+      name: "API Tokens",
+      hyperlink: `/settings/apitokens`,
+    },
   ];
   const modelTabs = [
     {
