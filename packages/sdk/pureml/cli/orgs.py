@@ -5,9 +5,8 @@ from rich import print
 from rich.console import Console
 from rich.table import Table
 from urllib.parse import urljoin
-from pureml.cli.helpers import save_auth
+from pureml.cli.helpers import get_auth_headers, save_auth
 from pureml.schema import BackendSchema, PathSchema
-from pureml.components import get_token
 from pureml.schema.backend import get_backend_base_url
 
 
@@ -30,14 +29,10 @@ def callback():
 
 @app.command()
 def show(backend_url: str = typer.Option("", "--backend-url", "-b", help="Backend URL for self-hosted or custom pureml backend instance")):
-    access_token = get_token()
     url_path = "org"
     url = urljoin(get_backend_base_url(backend_url), url_path)
 
-    headers = {
-        "accept": "application/json",
-        "Authorization": "Bearer {}".format(access_token),
-    }
+    headers = get_auth_headers()
     response = requests.get(url, headers=headers)
     if response.ok:
         print()
@@ -78,17 +73,12 @@ def select(backend_url: str = typer.Option("", "--backend-url", "-b", help="Back
 
 # Possibly useful for future commands
 # Moved from auth.py
-def check_org_status(access_token: str, base_url: str):
+def check_org_status(headers: dict, base_url: str):
 
     org_id: str = typer.prompt("Enter your Org Id")
 
     url_path = "org/id/{}".format(org_id)
     url = urljoin(base_url, url_path)
-
-    headers = {
-        "accept": "application/json",
-        "Authorization": "Bearer {}".format(access_token),
-    }
 
     response = requests.get(url, headers=headers)
 

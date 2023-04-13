@@ -9,6 +9,8 @@ import json
 
 from urllib.parse import urljoin
 
+from pureml.cli.helpers import get_auth_headers
+
 from . import get_token, get_org_id
 
 from pureml.schema import PathSchema, BackendSchema
@@ -50,7 +52,6 @@ def details(
 
     """
 
-    user_token = get_token()
     org_id = get_org_id()
 
     url = "org/{}/model/{}/branch/{}/version/{}/log".format(
@@ -58,10 +59,7 @@ def details(
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": "Bearer {}".format(user_token),
-    }
+    headers = get_auth_headers()
 
     response = requests.get(url, headers=headers)
 
@@ -106,7 +104,6 @@ def add(
 
     """
 
-    user_token = get_token()
     org_id = get_org_id()
 
     url = "org/{}/model/{}/branch/{}/version/{}/log".format(
@@ -116,7 +113,7 @@ def add(
 
     array_paths = save_images(arrays=array)
 
-    headers = {"Authorization": "Bearer {}".format(user_token)}
+    headers = get_auth_headers()
 
     files = {}
     for file_name, file_path in array_paths.items():
@@ -160,7 +157,6 @@ def fetch(
 
     """
 
-    user_token = get_token()
     org_id = get_org_id()
 
     def fetch_array(array_details: dict):
@@ -173,10 +169,7 @@ def fetch(
 
         name_fetched = array_details["array"]
 
-        headers = {
-            "Content-Type": "application/x-www-form-urlencoded",
-            "Authorization": "Bearer {}".format(user_token),
-        }
+        headers = get_auth_headers()
 
         print("array url", url)
 
@@ -246,7 +239,6 @@ def delete(
 
     """
 
-    user_token = get_token()
     org_id = get_org_id()
 
     url = "org/{}/model/{}/branch/{}/version/{}/log".format(
@@ -254,10 +246,7 @@ def delete(
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": "Bearer {}".format(user_token),
-    }
+    headers = get_auth_headers()
 
     # array_details = details(model_name=model_name, array=array)
 

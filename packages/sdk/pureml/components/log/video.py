@@ -13,7 +13,9 @@ import typing
 
 from urllib.parse import urljoin
 
-from . import get_token, get_org_id
+from pureml.cli.helpers import get_auth_headers
+
+from . import get_org_id
 
 from pureml.schema import PathSchema, BackendSchema
 from joblib import Parallel, delayed
@@ -46,7 +48,6 @@ def add(
 
     """
 
-    user_token = get_token()
     org_id = get_org_id()
 
     url = "org/{}/model/{}/branch/{}/version/{}/log".format(
@@ -54,9 +55,8 @@ def add(
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    user_token = get_token()
 
-    headers = {"Authorization": "Bearer {}".format(user_token)}
+    headers = get_auth_headers()
 
     files = {}
     for file_name, file_path in video.items():
@@ -81,7 +81,6 @@ def add(
 
 
 def details(model_name: str, model_branch: str, model_version: str = "latest"):
-    user_token = get_token()
     org_id = get_org_id()
 
     url = "org/{}/model/{}/branch/{}/version/{}/log".format(
@@ -89,10 +88,7 @@ def details(model_name: str, model_branch: str, model_version: str = "latest"):
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = {
-        "accept": "application/json",
-        "Authorization": "Bearer {}".format(user_token),
-    }
+    headers = get_auth_headers(content_type="application/json")
 
     response = requests.get(url, headers=headers)
 
@@ -130,7 +126,6 @@ def fetch(
 
     """
 
-    user_token = get_token()
     org_id = get_org_id()
 
     def fetch_video(video_details: dict):
@@ -143,10 +138,7 @@ def fetch(
 
         name_fetched = video_details["video"]
 
-        headers = {
-            "Content-Type": "application/x-www-form-urlencoded",
-            "Authorization": "Bearer {}".format(user_token),
-        }
+        headers = get_auth_headers()
 
         print("video url", url)
 

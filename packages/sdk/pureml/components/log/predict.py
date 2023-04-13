@@ -5,6 +5,7 @@ from urllib.parse import urljoin
 import numpy as np
 import requests
 from joblib import Parallel, delayed
+from pureml.cli.helpers import get_auth_headers
 
 from pureml.utils.pipeline import add_pred_to_config
 from pureml.schema import (
@@ -15,7 +16,7 @@ from pureml.schema import (
     ConfigKeys,
 )
 from rich import print
-from . import get_org_id, get_token, pip_requirement, resources
+from . import get_org_id, pip_requirement, resources
 import shutil
 from pureml.utils.version_utils import parse_version_label
 from pureml.utils.config import reset_config
@@ -31,7 +32,6 @@ storage = StorageSchema().get_instance()
 
 
 def post_predict(file_paths, model_name: str, model_branch: str, model_version: str):
-    user_token = get_token()
     org_id = get_org_id()
 
     url = "org/{}/model/{}/branch/{}/version/{}/logfile".format(
@@ -39,7 +39,7 @@ def post_predict(file_paths, model_name: str, model_branch: str, model_version: 
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = {"Authorization": "Bearer {}".format(user_token)}
+    headers = get_auth_headers()
 
     files = []
     for file_name, file_path in file_paths.items():
@@ -111,7 +111,6 @@ def add(label: str = None, paths: dict = None) -> str:
 
 def details(label: str):
     model_name, model_branch, model_version = parse_version_label(label)
-    user_token = get_token()
     org_id = get_org_id()
 
     url = "org/{}/model/{}/branch/{}/version/{}/log".format(
@@ -119,10 +118,7 @@ def details(label: str):
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = {
-        "accept": "application/json",
-        "Authorization": "Bearer {}".format(user_token),
-    }
+    headers = get_auth_headers(content_type="application/json")
 
     response = requests.get(url, headers=headers)
 
@@ -143,7 +139,6 @@ def details(label: str):
 def fetch(label: str):
     model_name, model_branch, model_version = parse_version_label(label)
 
-    user_token = get_token()
     org_id = get_org_id()
 
     def fetch_predict(file_details):
@@ -153,10 +148,7 @@ def fetch(label: str):
         save_path = os.path.join(path_schema.PATH_PREDICT_DIR, file_name)
         # print("save path", save_path)
 
-        headers = {
-            "Content-Type": "application/x-www-form-urlencoded",
-            "Authorization": "Bearer {}".format(user_token),
-        }
+        headers = get_auth_headers()
 
         # print("predict url", url)
 

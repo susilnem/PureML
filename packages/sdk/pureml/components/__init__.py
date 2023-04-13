@@ -25,8 +25,35 @@ def get_token():
         # print(token)
         return token
     else:
-        print(f"[bold red]Authentication token does not exist! Please login")
+        return
 
+
+def get_api_token():
+    """It checks if the api token exists in the user's home directory. If it does, it returns the api token id and key. If it
+    doesn't, it returns None
+
+    Returns
+    -------
+        The api token id and key is returned.
+        Dictionary format: {"api_id": api_id, "api_key": api_key}
+    """
+    path = path_schema.PATH_USER_TOKEN
+    # path = os.path.expanduser(path)
+
+    if os.path.exists(path):
+        creds = open(path, "r").read()
+
+        creds_json = json.loads(creds)
+        api_id = creds_json["api_id"]
+        api_key = creds_json["api_key"]
+        # print(f"[bold green]Authentication token exists!")
+
+        # print(token)
+        return {
+            "api_id": api_id,
+            "api_key": api_key
+        }
+    else:
         return
 
 
@@ -78,7 +105,7 @@ def get_org_id():
         # print(org_id)
         return org_id
     else:
-        print(f"[bold red]Organization token does not exist! Please login")
+        print(f"[bold red]Organization id does not exist! Please login")
 
         return
 

@@ -8,9 +8,10 @@ import typer
 from rich import print
 from rich.console import Console
 from rich.table import Table
+from pureml.cli.helpers import get_auth_headers
 from pureml.schema.backend import get_backend_base_url
 from pureml.cli.puremlconfig import PureMLConfigYML
-from pureml.components import get_org_id, get_token
+from pureml.components import get_org_id
 from pureml.schema.backend import BackendSchema
 from pureml.schema.paths import PathSchema
 
@@ -75,7 +76,6 @@ def add(backend_url: str = typer.Option("", "--backend-url", "-b", help="Backend
         user_secrets[secret_key] = secret_value
 
     # Add secret
-    access_token = get_token()
     org_id = get_org_id()
 
     data = {}
@@ -106,10 +106,7 @@ def add(backend_url: str = typer.Option("", "--backend-url", "-b", help="Backend
 
     url = urljoin(backend_base_url, url_path)
 
-    headers = {
-        "accept": "application/json",
-        "Authorization": "Bearer {}".format(access_token),
-    }
+    headers = get_auth_headers()
 
     response = requests.post(url, json=data, headers=headers)
 
@@ -131,15 +128,11 @@ def all(backend_url: str = typer.Option("", "--backend-url", "-b", help="Backend
     backend_base_url = get_backend_base_url(backend_url)
 
     print()
-    access_token = get_token()
     org_id = get_org_id()
     url_path = f"org/{org_id}/secret"
     url = urljoin(backend_base_url, url_path)
 
-    headers = {
-        "accept": "application/json",
-        "Authorization": "Bearer {}".format(access_token),
-    }
+    headers = get_auth_headers()
 
     response = requests.get(url, headers=headers)
 
@@ -171,15 +164,11 @@ def show(secret_name: str = typer.Argument(..., case_sensitive=True), backend_ur
     backend_base_url = get_backend_base_url(backend_url)
     
     print()
-    access_token = get_token()
     org_id = get_org_id()
     url_path = f"org/{org_id}/secret/{secret_name}"
     url = urljoin(backend_base_url, url_path)
 
-    headers = {
-        "accept": "application/json",
-        "Authorization": "Bearer {}".format(access_token),
-    }
+    headers = get_auth_headers()
 
     response = requests.get(url, headers=headers)
 
@@ -224,15 +213,11 @@ def delete(secret_name: str = typer.Argument(..., case_sensitive=True), backend_
         return
 
     # Delete secret
-    access_token = get_token()
     org_id = get_org_id()
     url_path = f"org/{org_id}/secret/{secret_name}"
     url = urljoin(backend_base_url, url_path)
 
-    headers = {
-        "accept": "application/json",
-        "Authorization": "Bearer {}".format(access_token),
-    }
+    headers = get_auth_headers()
 
     response = requests.delete(url, headers=headers)
 
