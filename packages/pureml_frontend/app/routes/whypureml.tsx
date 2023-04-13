@@ -1,6 +1,5 @@
 import type { MetaFunction } from "@remix-run/node";
 import { CodeBlock, sunburst } from "react-code-blocks";
-import CTASection from "~/components/landingPage/CTASection";
 import Footer from "~/components/landingPage/Footer";
 import Navbar from "~/components/landingPage/Navbar";
 
@@ -190,7 +189,6 @@ def train_model():
           </div>
         </div>
       </div>
-      <CTASection />
       <Footer />
     </div>
   );
