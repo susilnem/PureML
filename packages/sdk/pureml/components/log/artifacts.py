@@ -15,7 +15,7 @@ from urllib.parse import urljoin
 
 from pureml.cli.helpers import get_auth_headers
 
-from . import get_token, get_org_id
+from . import get_org_id
 
 from pureml.schema import PathSchema, BackendSchema
 from joblib import Parallel, delayed
@@ -109,7 +109,7 @@ def add(
     if os.path.isfile(artifact):
         file = {"file": (name, open(artifact, "rb"))}
     else:
-        print("[bold red] Artifact doesnot exist at the given path")
+        print("[bold red] Artifact does not exist at the given path")
 
     data = {"name": name, "path": artifact}
 

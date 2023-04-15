@@ -49,7 +49,7 @@ def post_predict(file_paths, model_name: str, model_branch: str, model_version: 
             files.append(("file", (file_name, open(file_path, "rb"))))
 
         else:
-            print("[bold red] Predict", file_name, "doesnot exist at the given path")
+            print("[bold red] Predict", file_name, "does not exist at the given path")
 
     data = {
         "data": file_paths,

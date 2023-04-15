@@ -197,6 +197,7 @@ def init(label: str, readme: str = None):
 
     name, branch, _ = parse_version_label(label)
 
+    headers = get_auth_headers(content_type="*/*")
     org_id = get_org_id()
     dataset_schema = DatasetSchema()
 
@@ -211,7 +212,6 @@ def init(label: str, readme: str = None):
     url = "org/{}/dataset/{}/create".format(org_id, name)
     url = urljoin(dataset_schema.backend.BASE_URL, url)
 
-    headers = get_auth_headers(content_type="*/*")
 
     data = {
         "name": name,

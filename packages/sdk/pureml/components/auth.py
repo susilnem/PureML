@@ -3,7 +3,7 @@ import requests
 import json
 from rich import print
 from pureml.cli.auth import save_auth
-from . import get_api_token, get_org_id
+from . import delete_token, get_api_token, get_org_id
 from pureml.schema import BackendSchema
 
 backend_schema = BackendSchema().get_instance()
@@ -38,7 +38,7 @@ def login(org_id: str, api_id: str, api_key: str) -> str:
         response_org_id = response_org_details[0]["uuid"]
 
         if response_org_id == org_id:
-            print("[green]Valid Org Id and API token")
+            print("[green]Valid Org Id and API token. Logged in successfully")
             save_auth(org_id=org_id, api_id=api_id, api_key=api_key)
 
         else:
@@ -50,7 +50,10 @@ def login(org_id: str, api_id: str, api_key: str) -> str:
         #     print('[green] Invalid Org Id and Access token')
     elif response.status_code == 403:
         print("[red]Invalid API token")
+        delete_token(True)
     elif response.status_code == 404:
         print("[red]Invalid Org Id")
+        delete_token(True)
     else:
         print("[red]Unable to obtain the organization details")
+        delete_token(True)

@@ -1,8 +1,10 @@
 import json
 import os
-from pureml.cli import get_token
-from pureml.components import get_api_token
+
+import typer
+from pureml.components import get_token, get_api_token
 from pureml.schema import PathSchema
+from rich import print
 
 path_schema = PathSchema().get_instance()
 
@@ -44,6 +46,7 @@ def get_auth_headers(content_type: str = "application/x-www-form-urlencoded"):
     api_token = get_api_token()
     if token is None and api_token is None:
         print(f"[bold red]Authentication token or API token does not exist! Please login")
+        typer.Exit()
         return None
     elif token is not None:
         return {

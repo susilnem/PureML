@@ -52,7 +52,7 @@ def post_pip_requirement(
             print(
                 "[bold red] pip_requirement",
                 file_name,
-                "doesnot exist at the given path",
+                "does not exist at the given path",
             )
 
     data = {

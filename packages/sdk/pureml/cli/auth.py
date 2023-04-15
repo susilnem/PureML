@@ -8,7 +8,7 @@ from pureml.cli.helpers import get_auth_headers, save_auth
 from pureml.schema.backend import get_backend_base_url, get_frontend_base_url
 from .orgs import select
 from rich.progress import Progress, SpinnerColumn, TextColumn
-from pureml.components import delete_token, get_api_token, get_org_id
+from pureml.components import delete_token, get_api_token, get_org_id, get_token
 from urllib.parse import urljoin
 import json
 import platform

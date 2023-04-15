@@ -121,7 +121,7 @@ def add(
         if os.path.isfile(file_path):
             files[file_name] = open(file_path, "rb")
         else:
-            print("[bold red] array", file_name, "doesnot exist at the given path")
+            print("[bold red] array", file_name, "does not exist at the given path")
 
     data = {"name_path_mapping": array_paths}
 
