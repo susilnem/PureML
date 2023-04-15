@@ -1,0 +1,19 @@
+import { MdxLayout } from "components/mdx-layout.tsx";
+
+export const meta = {
+  slug: "api-token",
+  publishedAt: "2023-04-13T09:00:00.000Z",
+  title: "Authentication more easy with API Tokens & Secrets",
+  headerImage: "/changelogs/APIToken.png",
+  authors: [],
+};
+
+**New**
+
+- Authenticating to PureML, now at your ease to use API Tokens & secrets and login quickly.
+
+export default ({ children, ...rest }) => (
+  <MdxLayout meta={meta} {...rest}>
+    {children}
+  </MdxLayout>
+);

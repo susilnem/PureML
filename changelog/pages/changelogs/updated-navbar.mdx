@@ -1,0 +1,19 @@
+import { MdxLayout } from "components/mdx-layout.tsx";
+
+export const meta = {
+  slug: "updated-navbar",
+  publishedAt: "2023-04-12T09:00:00.000Z",
+  title: "More items in updated Navbar",
+  headerImage: "/changelogs/navbarUpdated.png",
+  authors: [],
+};
+
+**Updated**
+
+- Design of navbar to handle more items
+
+export default ({ children, ...rest }) => (
+  <MdxLayout meta={meta} {...rest}>
+    {children}
+  </MdxLayout>
+);
