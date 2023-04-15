@@ -9,7 +9,16 @@ fastapi_schema = FastAPISchema()
 docker_schema = DockerSchema()
 
 
-def create_docker_file(org_id, access_token):
+def generate_sys_commands(sys_commands):
+    commands = "\nRUN apt update\n"
+    if len(sys_commands) > 0:
+        sys_commands = ["RUN " + i for i in sys_commands]
+        commands += "\n".join(sys_commands)
+
+    return commands
+
+
+def create_docker_file(org_id, access_token, sys_commands):
     # os.makedirs(PATH_DOCKER_DIR, exist_ok=True)
     os.makedirs(prediction_schema.paths.PATH_PREDICT_DIR, exist_ok=True)
 
@@ -23,9 +32,13 @@ def create_docker_file(org_id, access_token):
     )
     api_path = fastapi_schema.PATH_FASTAPI_FILE[api_pos:]
 
+    commands = generate_sys_commands(sys_commands=sys_commands)
+
     docker = """
     
 FROM {BASE_IMAGE}
+
+{commands}
 
 ENV ORG_ID={ORG_ID}
 ENV ACCESS_TOKEN={ACCESS_TOKEN}
@@ -55,6 +68,7 @@ CMD ["python", "{API_PATH}"]
         REQUIREMENTS_PATH=req_path,
         ORG_ID=org_id,
         ACCESS_TOKEN=access_token,
+        commands=commands,
     )
 
     with open(docker_schema.PATH_DOCKER_IMAGE, "w") as docker_file:
@@ -170,13 +184,16 @@ def create(
     port=None,
     predict_path=None,
     requirements_path=None,
+    sys_commands=[],
 ):
 
     create_fastapi_file(
         label=label, predict_path=predict_path, requirements_path=requirements_path
     )
 
-    create_docker_file(org_id=org_id, access_token=access_token)
+    create_docker_file(
+        org_id=org_id, access_token=access_token, sys_commands=sys_commands
+    )
 
     image, build_log, image_tag = create_docker_image(label=label)
 
