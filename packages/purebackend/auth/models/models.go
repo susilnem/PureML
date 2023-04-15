@@ -53,5 +53,12 @@ type VerifySessionResponse struct {
 type CreateTokenResponse struct {
 	UUID           uuid.UUID `json:"uuid"`
 	APITokenSecret string    `json:"api_token_secret"`
+	LastUsedAt    time.Time `json:"last_used_at"`
 	CreatedAt      time.Time `json:"created_at"`
+}
+
+type TokenResponse struct {
+	UUID           uuid.UUID `json:"uuid"`
+	LastUsedAt     time.Time `json:"last_used_at"`
+	CreatedAt	  time.Time `json:"created_at"`
 }

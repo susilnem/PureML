@@ -18,8 +18,8 @@ import (
 
 const (
 	AuthHeaderName   = "Authorization"
-	APIIdHeaderName  = "X-API-ID"
-	APIKeyHeaderName = "X-API-KEY"
+	APIIdHeaderName  = "X-Api-Id"
+	APIKeyHeaderName = "X-Api-Key"
 	ContextAuthKey   = "User"
 )
 

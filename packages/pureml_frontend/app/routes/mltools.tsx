@@ -1,7 +1,6 @@
 import type { MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { useState } from "react";
-import CTASection from "~/components/landingPage/CTASection";
 import Footer from "~/components/landingPage/Footer";
 import Navbar from "~/components/landingPage/Navbar";
 import { fetchMLTools } from "./api/auth.server";
@@ -438,7 +437,6 @@ export default function MLTools() {
           </div>
         </div>
       </div>
-      <CTASection />
       <Footer />
     </div>
   );

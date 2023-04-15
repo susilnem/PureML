@@ -3024,6 +3024,24 @@ paths:
       summary: User sign up.
       tags:
       - User
+  /user/tokens:
+    get:
+      consumes:
+      - '*/*'
+      description: Get API token for user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Get API Tokens of user.
+      tags:
+      - User
   /user/verify-email:
     post:
       consumes:

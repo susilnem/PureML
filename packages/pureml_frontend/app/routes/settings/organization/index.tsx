@@ -86,7 +86,7 @@ export default function Organization() {
                 />
               </label>
             </div>
-            <div className="pb-4">
+            <div className="pb-8">
               <label htmlFor="orgid" className="pb-1">
                 Organization ID
                 <div className="input-icons">
@@ -113,21 +113,6 @@ export default function Organization() {
                     />
                   </i>
                 </div>
-              </label>
-            </div>
-            <div className="pb-8">
-              <label htmlFor="jwttoken" className="pb-1">
-                JWT Token
-                <Input
-                  intent="read"
-                  type="text"
-                  name="jwttoken"
-                  fullWidth={false}
-                  defaultValue={orgData[0].token || "Your JWT Token"}
-                  aria-label="jwttoken"
-                  data-testid="jwttoken"
-                  required
-                />
               </label>
             </div>
             <div className="w-fit">

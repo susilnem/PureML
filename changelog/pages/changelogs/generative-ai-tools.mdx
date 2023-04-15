@@ -1,0 +1,20 @@
+import { MdxLayout } from "components/mdx-layout.tsx";
+
+export const meta = {
+  slug: "generative-ai-tools",
+  publishedAt: "2023-04-11T09:00:00.000Z",
+  title: "One stop place for all Generative AI tools",
+  headerImage: "/changelogs/generativeAI.png",
+  authors: [],
+};
+
+**New**
+
+- Page for all tools under different categories of Generative AI.
+- [Reach out to us](https://tally.so/r/wa96xv) to get listed on our page.
+
+export default ({ children, ...rest }) => (
+  <MdxLayout meta={meta} {...rest}>
+    {children}
+  </MdxLayout>
+);

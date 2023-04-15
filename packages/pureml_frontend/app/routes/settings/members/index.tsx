@@ -198,7 +198,7 @@ export default function MembersSetting() {
                   {data[0].members ? (
                     <>
                       {data[0].members.map((member: any, index: number) => (
-                        <tr key={index} className="hover:bg-slate-50">
+                        <tr key={index} className="hover:bg-slate-100">
                           {/* <th className="w-4">
                         <input type="checkbox" className="checkbox" />
                       </th> */}

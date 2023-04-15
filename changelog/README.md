@@ -10,7 +10,7 @@ This folder contains a record of changes made to the project. For more details c
 
 To the changelog locally,
 
-1. Install the packages through `yarn install`
+1. Install the packages through `npm install`
 2. Run locally, `npm run dev`
 3. Go to [`localhost:3000`](http://localhost:3000).
 

@@ -4259,6 +4259,35 @@ const docTemplate = `{
                 }
             }
         },
+        "/user/tokens": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Get API token for user",
+                "consumes": [
+                    "*/*"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get API Tokens of user.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/user/verify-email": {
             "post": {
                 "description": "User can verify email by providing verification token.",

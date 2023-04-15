@@ -178,11 +178,10 @@ input[type="text"]:focus,
 /* ################ Table ################ */
 
 .table :where(thead, tfoot) :where(th, td) {
-  background-color: white;
+  background-color: #f1f5f9;
   height: 48px;
   font-weight: 500;
   font-size: 14px;
-  color: #94a3b8;
   text-transform: capitalize;
 }
 
@@ -199,6 +198,10 @@ input[type="text"]:focus,
   background-image: url("/imgs/landingPage/MLToolsHeroBG.svg");
 }
 
+.generativeAiToolsbg {
+  background-image: url("/imgs/landingPage/GenerativeAIHeroBG.svg");
+}
+
 .whypuremlbg {
   background: linear-gradient(
     101.3deg,
@@ -206,7 +209,6 @@ input[type="text"]:focus,
     rgba(28, 35, 82, 0.88) 48.28%,
     rgba(39, 46, 100, 0.43) 126.37%
   );
-  backdrop-filter: blur(2px);
 }
 
 @layer utilities {

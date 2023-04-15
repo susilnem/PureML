@@ -32,6 +32,29 @@ export async function fetchMLTools() {
   return res.results;
 }
 
+// ############################## generative ai tools ##############################
+
+export async function fetchGenerativeAITools() {
+  const notionSecret = process.env.NOTION_SECRET;
+  const notionDatabaseId = process.env.NOTION_AI_DATABASE_ID;
+
+  const notion = new Client({ auth: notionSecret });
+  if (!notionSecret || !notionDatabaseId) {
+    return null;
+  }
+
+  const res = await notion.databases.query({
+    database_id: notionDatabaseId,
+    sorts: [
+      {
+        property: "Name",
+        direction: "ascending",
+      },
+    ],
+  });
+  return res.results;
+}
+
 // ###########################################################################
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -213,6 +236,50 @@ export async function updateProfile(
       name,
       bio,
       avatar: "",
+    }),
+  }).then((res) => res.json());
+  return res;
+}
+
+// ############################# api tokens api ############################
+
+export async function fetchAPITokens(accessToken: string) {
+  const url = makeUrl(`user/tokens`);
+  const res = await fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application / json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  }).then((res) => res.json());
+  return res.data;
+}
+
+export async function createAPIToken(accessToken: string) {
+  const url = makeUrl(`user/create-token`);
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application / json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  }).then((res) => res.json());
+  return res;
+}
+
+export async function deleteAPIToken(tokenUUID: string, accessToken: string) {
+  const url = makeUrl(`user/delete-token/${tokenUUID}`);
+  const res = await fetch(url, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application / json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({
+      tokenUUID: tokenUUID,
     }),
   }).then((res) => res.json());
   return res;

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import clsx from "clsx";
 import { useRouter } from "next/router";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 
 function primaryLinkCss(currentPage: boolean) {
   return clsx(
@@ -21,19 +22,30 @@ export default function Navbar() {
       hyperlink: `https://pureml.com/whypureml`,
     },
     {
-      id: "mltools",
-      name: "ML TOOLS",
-      hyperlink: `https://pureml.com/mltools`,
+      id: "tools",
+      name: "TOOLS",
+      hyperlink: "",
+      group: [
+        { id: "mltools", name: "MLOPS", hyperlink: `https://pureml.com/mltools` },
+        {
+          id: "generativeAitools",
+          name: "GENERATIVE AI",
+          hyperlink: `https://pureml.com/generative-ai-tools`,
+        },
+      ],
     },
     {
-      id: "changelog",
-      name: "CHANGELOG",
-      hyperlink: "/",
-    },
-    {
-      id: "docs",
-      name: "DOCS",
-      hyperlink: "https://pureml.mintlify.app",
+      id: "resources",
+      name: "RESOURCES",
+      hyperlink: "",
+      group: [
+        { id: "docs", name: "DOCS", hyperlink: `https://pureml.mintlify.app` },
+        {
+          id: "changelog",
+          name: "CHANGELOG",
+          hyperlink: `https://changelog.pureml.com`,
+        },
+      ],
     },
   ];
   if (!open)
@@ -61,6 +73,11 @@ export default function Navbar() {
                   <div className="flex items-center">
                     <a href="https://pureml.com/mltools" className="w-max letterSpaced">
                       MLOPS TOOLS
+                    </a>
+                  </div>
+                  <div className="flex items-center">
+                    <a href="https://pureml.com/generative-ai-tools" className="w-max letterSpaced">
+                      GENERATIVE AI TOOLS
                     </a>
                   </div>
                   <div className="flex items-center">
@@ -124,12 +141,33 @@ export default function Navbar() {
             <div className="hidden sm:flex gap-x-4">
               {Object.keys(navItems).map((key: string) => (
                 <div className="flex justify-center items-center" key={key}>
-                  <a
-                    href={navItems[key as any].hyperlink}
-                    className={`${primaryLinkCss(pathname === navItems[key as any].hyperlink)}`}
-                  >
-                    {navItems[key as any].name}
-                  </a>
+                  {navItems[key as any].group ? (
+                    <DropdownMenu.Root>
+                      <DropdownMenu.Trigger className="focus:outline-none z-50 flex justify-between items-center text-slate-600 text-base">
+                        {navItems[key as any].name}
+                      </DropdownMenu.Trigger>
+                      <DropdownMenu.Content
+                        sideOffset={7}
+                        className="bg-white/75 justify-center items-center text-sm text-slate-600 rounded w-44 z-50 shadow"
+                      >
+                        {navItems[key as any].group.map((item: any) => (
+                          <DropdownMenu.Item
+                            className="flex px-3 py-2 text-base justify-left items-center rounded outline-none hover:bg-white/50 cursor-pointer"
+                            key={item}
+                          >
+                            <a href={item.hyperlink}>{item.name}</a>
+                          </DropdownMenu.Item>
+                        ))}
+                      </DropdownMenu.Content>
+                    </DropdownMenu.Root>
+                  ) : (
+                    <a
+                      href={navItems[key as any].hyperlink}
+                      className={`${primaryLinkCss(pathname === navItems[key as any].hyperlink)}`}
+                    >
+                      {navItems[key as any].name}
+                    </a>
+                  )}
                 </div>
               ))}
               <div className="flex justify-center items-center">
