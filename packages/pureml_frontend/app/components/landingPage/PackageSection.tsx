@@ -3,12 +3,12 @@ import LandingPgTab from "./Tabs";
 
 export default function PackageSection() {
   return (
-    <div className="h-fit flex flex-col gap-y-6 pt-16 md:py-16">
+    <div className="h-fit flex flex-col gap-y-12 pt-16 md:py-32">
       <h1 className="flex items-center text-3xl md:text-4xl lg:text-5xl !text-slate-400">
         04
       </h1>
       <div className="flex flex-col gap-y-12 text-slate-600">
-        <div className="flex flex-col gap-y-6">
+        <div className="flex flex-col gap-y-8">
           <div className="md:w-3/4">
             <h1 className="font-medium text-3xl md:text-4xl lg:text-5xl pb-2">
               PureML-package

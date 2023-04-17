@@ -133,7 +133,7 @@ export default function Navbar() {
                 height="96"
               />
             </a>
-            <div className="md:hidden flex">
+            <div className="sm:hidden flex">
               <div className="flex items-center pr-8">
                 <a
                   href="https://github.com/pureml-inc/pureml"
