@@ -52,7 +52,7 @@ export default function ResetPassword() {
   return (
     <Suspense fallback={<Loader />}>
       <div className="w-screen h-screen flex items-center justify-center bg-slate-50">
-        <div className="bg-slate-0 md:flex md:flex-col justify-center items-center md:pt-0 text-white">
+        <div className="md:flex md:flex-col justify-center items-center md:pt-0 text-white">
           <div className="w-fit text-center">
             <div className="flex justify-center items-center pb-16">
               <img src="/PureMLLogoWText.svg" alt="Logo" className="w-36" />

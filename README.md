@@ -293,7 +293,7 @@ services:
   frontend:
     image: puremlhq/pureml_frontend:dev
     environment:
-      - NEXT_PUBLIC_BACKEND_URL=http://backend:8080/api/
+      - BACKEND_URL=http://backend:8080/api/
     ports:
       - 3000:3000
     links:
