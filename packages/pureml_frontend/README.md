@@ -34,15 +34,55 @@
 
 ## Quick start
 
-PureML UI helps you to visualize all the details and versions of your models and datasets you want to work with. It takes no time to run PureML UI on your local system. Follow below steps to run:
+PureML UI helps you to visualize all the details and versions of your models and datasets you want to work with. It takes no time to run PureML UI on your local system.
 
-Start the server:
+> Make sure you are inside `packages/pureml_frontend` to run below commands.
+
+#### Pre-requisites
+
+- `pnpm` installed in your local system. If not, take a look at [its installation](https://pnpm.io/installation) to use it.
+- Python version `>=3.8` and `<4.0`. [(more)](https://pypi.org/project/pureml/)
+- `pip` installed in your system.
+
+#### Installation
+
+To use PureML in local, you need to install PureML package to create an account through CLI.
+
+`pip3 install pureml`
+
+#### Configure
+
+1. Since you already have `pureml` package installed, you can now [create an account](https://pureml.mintlify.app/installation#new-to-pureml).
+
+2. Set up [PureML Backend](https://github.com/keshakaneria/PureML/blob/main/packages/purebackend/README.md) in your local.
+
+   > Backend will be hosted on [localhost:8000](http://localhost:8000/api/swagger/index.html)
+
+3. Add `.env` file with
+
+| Variable    | Description                         | Default Value              |
+| ----------- | ----------------------------------- | -------------------------- |
+| BACKEND_URL | backend url env to connect frontend | http://localhost:8000/api/ |
+
+#### Run the server
+
+1. Install `node modules`
+
+```bash
+pnpm i
+```
+
+2. Start the server:
 
 ```bash
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to use the UI.
+3. Open [http://localhost:3000](http://localhost:3000) to use the PureML UI.
+
+4. Sign in with the registered account you created before through CLI.
+
+🎉 You are now ready to explore & contribute to PureML UI.
 
 <br/>
 
