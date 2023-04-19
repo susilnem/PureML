@@ -11,9 +11,9 @@ export default function AuthLayout() {
   let [searchParams] = useSearchParams();
   const session = searchParams.get("sessionid");
   return (
-    <div className="w-screen h-screen flex items-center justify-center bg-slate-0">
+    <div className="w-screen h-screen flex items-center justify-center">
       {!session && (
-        <div className="bg-slate-0 md:flex md:flex-col justify-center items-center md:pt-0 text-white">
+        <div className="md:flex md:flex-col justify-center items-center md:pt-0 text-white">
           <Outlet />
         </div>
       )}

@@ -11,8 +11,8 @@ RUN npm run build
 
 # Set environment variables
 # ENV NODE_ENV=production
-ENV NEXT_PUBLIC_BACKEND_URL=http://localhost:8080/api/
-ARG NEXT_PUBLIC_AIRTABLE_API_KEY
+ENV BACKEND_URL=http://localhost:8080/api/
+ARG AIRTABLE_API_KEY
 ARG GA_TRACKING_ID
 
 # Run

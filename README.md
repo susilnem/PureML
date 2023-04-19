@@ -1,4 +1,4 @@
-[![PureML](/assets/PureMLCoverImg.png)](https://pureml.com)
+[![PureML](/assets/PureMLReadmeImg.svg)](https://pureml.com)
 
 <h align="center">
 
@@ -265,13 +265,19 @@ pureml deploy pet_classifier:dev:v1
 
 ## 💻 Self-Host on Local Machine
 
+To install PureML, simply run the following command:
+
+```bash
+pip install pureml
+```
+
 ### Requirements
 
 A subsystem with docker-engine installed. [Installation guidelines](https://docs.docker.com/engine/install/).
 
 > _Currently docker-compose is the best way to self-host the official images [puremlhq/pureml_backend](https://hub.docker.com/r/puremlhq/pureml_backend) and [puremlhq/pureml_frontend](https://hub.docker.com/r/puremlhq/pureml_frontend)_
 
-### Using [Docker Compose](https://github.com/PureMLHQ/PureML/blob/main/packages/pureml_docker/docker-compose.yml)
+### Setting up the [Docker Compose](https://github.com/PureMLHQ/PureML/blob/main/packages/pureml_docker/docker-compose.yml)
 
 1. Create a new file `docker-compose.yml`
 
@@ -293,7 +299,7 @@ services:
   frontend:
     image: puremlhq/pureml_frontend:dev
     environment:
-      - NEXT_PUBLIC_BACKEND_URL=http://backend:8080/api/
+      - BACKEND_URL=http://backend:8080/api/
     ports:
       - 3000:3000
     links:
@@ -315,7 +321,9 @@ docker compose up
 
 The PureML UI will be available at http://localhost:3000. For more information about supported environment variables, please consult the documentation for [Environment Variables](https://github.com/PureMLHQ/PureML/blob/main/packages/pureml_docker/README.md).
 
-For further information, go through this [self hosting PureML docs](https://pureml.mintlify.app/self-hosting).
+### Configuring self-hosted PureML
+
+Go through a clear configuring process on [self hosting PureML docs](https://pureml.mintlify.app/self-hosting/configuration).
 
 <br />
 

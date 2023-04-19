@@ -102,7 +102,7 @@ export default function CreateOrg() {
           user=""
           orgName={
             <a href="/models" className="flex items-center justify-center pr-8">
-              <img src="/PureMLLogoWText.svg" alt="Logo" className="w-20" />
+              <img src="/PureMLLogoText.svg" alt="Logo" className="w-20" />
             </a>
           }
           orgAvatarName=""

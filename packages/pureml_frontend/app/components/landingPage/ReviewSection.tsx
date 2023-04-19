@@ -2,13 +2,13 @@ import LandingPgTab from "./Tabs";
 
 export default function ReviewSection() {
   return (
-    <div className="flex flex-col gap-y-6 pt-16 md:py-16">
+    <div className="flex flex-col gap-y-12 pt-16 md:py-32">
       <h1 className="flex items-center text-3xl md:text-4xl lg:text-5xl !text-slate-400">
         03
       </h1>
       <div className="flex flex-col gap-y-12 text-slate-600">
-        <div className="flex flex-col gap-y-6">
-          <div className="md:w-3/4">
+        <div className="flex flex-col gap-y-12">
+          <div className="md:w-3/4 flex flex-col gap-y-8">
             <h1 className="font-medium text-3xl md:text-4xl lg:text-5xl pb-2">
               Review
             </h1>

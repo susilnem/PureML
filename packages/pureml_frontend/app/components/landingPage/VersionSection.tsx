@@ -3,7 +3,7 @@ import LandingPgTab from "./Tabs";
 
 export default function VersionSection() {
   return (
-    <div className="h-fit flex flex-col gap-y-6 pt-16 md:py-16">
+    <div className="h-fit flex flex-col gap-y-12 pt-16 md:py-32">
       <h1 className="flex font-medium items-center text-3xl md:text-4xl lg:text-5xl !text-slate-400">
         01
       </h1>
@@ -182,7 +182,7 @@ def train_model(train_ds, val_ds):
             </div>
           </div>
         </div>
-        <div className="flex flex-col md:flex-row justify-between text-xl gap-y-6 gap-x-12">
+        <div className="flex flex-col md:flex-row justify-between text-xl gap-y-16 gap-x-12">
           <div className="w-full">
             <h1 className="text-slate-950 text-3xl pb-1 font-medium flex gap-x-3">
               <img

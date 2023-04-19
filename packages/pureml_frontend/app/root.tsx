@@ -66,11 +66,11 @@ export const meta: MetaFunction = () => ({
   "og:url": "https://pureml.com",
   "og:title": "PureML",
   "og:description": "Developer Platform for Production ML.",
-  "og:image": "https://www.pureml.com/PureMLMetaImg.svg",
+  "og:image": "https://www.pureml.com/PureMLMetaTagImg.svg",
   "twitter:url": "https://pureml.com",
   "twitter:title": "PureML",
   "twitter:description": "Developer Platform for Production ML.",
-  "twitter:image": "https://www.pureml.com/PureMLMetaImg.svg",
+  "twitter:image": "https://www.pureml.com/PureMLMetaTagImg.svg",
   viewport: "width=device-width, height=device-height, initial-scale=1",
 });
 
@@ -195,7 +195,7 @@ function Document({
         />
         <meta
           property="og:image"
-          content="https://www.pureml.com/PureMLMetaImg.svg"
+          content="https://www.pureml.com/PureMLMetaTagImg.svg"
         />
         <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:url" content="https://pureml.com" />
@@ -206,7 +206,7 @@ function Document({
         />
         <meta
           property="twitter:image"
-          content="https://www.pureml.com/PureMLMetaImg.svg"
+          content="https://www.pureml.com/PureMLMetaTagImg.svg"
         />
         <Meta />
         <Links />

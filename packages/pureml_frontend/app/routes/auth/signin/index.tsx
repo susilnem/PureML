@@ -137,7 +137,7 @@ export default function SignIn() {
                       className="flex items-center justify-center pr-8"
                     >
                       <img
-                        src="/PureMLLogoWText.svg"
+                        src="/PureMLLogoText.svg"
                         alt="Logo"
                         className="w-20"
                       />
@@ -196,7 +196,7 @@ export default function SignIn() {
                       className="flex items-center justify-center pr-8"
                     >
                       <img
-                        src="/PureMLLogoWText.svg"
+                        src="/PureMLLogoText.svg"
                         alt="Logo"
                         className="w-20"
                       />
@@ -232,7 +232,7 @@ export default function SignIn() {
       <div className="flex justify-center">
         <div className="w-fit text-center">
           <div className="flex justify-center items-center pb-16">
-            <img src="/PureMLLogoWText.svg" alt="Logo" className="w-36" />
+            <img src="/PureMLLogoText.svg" alt="Logo" className="w-36" />
           </div>
           <Form
             method="post"

@@ -75,7 +75,7 @@ export default function VerifySession() {
                     className="flex items-center justify-center pr-8"
                   >
                     <img
-                      src="/PureMLLogoWText.svg"
+                      src="/PureMLLogoText.svg"
                       alt="Logo"
                       className="w-20"
                     />
@@ -132,7 +132,7 @@ export default function VerifySession() {
                     className="flex items-center justify-center pr-8"
                   >
                     <img
-                      src="/PureMLLogoWText.svg"
+                      src="/PureMLLogoText.svg"
                       alt="Logo"
                       className="w-20"
                     />

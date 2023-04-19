@@ -28,7 +28,7 @@ export const PaginatedArticles = ({
         <link rel="icon" href="/favicon.ico" />
         <meta name="title" content={metaTitle} />
         <meta name="description" content="Discover new updates and improvements to PureML." />
-        <meta name="image" content="https://changelog.pureml.com/PureMLMetaImg.svg" />
+        <meta name="image" content="https://changelog.pureml.com/PureMLMetaTagImg.svg" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://changelog.pureml.com" />
         <meta property="og:title" content={metaTitle} />
@@ -36,7 +36,7 @@ export const PaginatedArticles = ({
           property="og:description"
           content="Discover new updates and improvements to PureML."
         />
-        <meta property="og:image" content="https://changelog.pureml.com/PureMLMetaImg.svg" />
+        <meta property="og:image" content="https://changelog.pureml.com/PureMLMetaTagImg.svg" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:url" content="https://changelog.pureml.com" />
         <meta name="twitter:title" content={metaTitle} />
@@ -44,7 +44,7 @@ export const PaginatedArticles = ({
           name="twitter:description"
           content="Discover new updates and improvements to PureML."
         />
-        <meta name="twitter:image" content="https://changelog.pureml.com/PureMLMetaImg.svg" />
+        <meta name="twitter:image" content="https://changelog.pureml.com/PureMLMetaTagImg.svg" />
       </Head>
       <Navbar />
       <Box w="full" maxW="100vw" overflow="hidden" zIndex="docked">
