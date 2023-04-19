@@ -29,7 +29,7 @@ export default function Logout() {
   return (
     <Suspense fallback={<Loader />}>
       <div className="flex flex-col justify-center items-center text-slate-600 font-medium pt-80">
-        <img src="/PureMLLogoWText.svg" alt="Logo" className="w-24 mb-6" />
+        <img src="/PureMLLogoText.svg" alt="Logo" className="w-24 mb-6" />
         <div className="flex font-medium">
           <div className="mt-6 mr-5">
             <div className="loader-verify">

@@ -55,7 +55,7 @@ export default function ResetPassword() {
         <div className="md:flex md:flex-col justify-center items-center md:pt-0 text-white">
           <div className="w-fit text-center">
             <div className="flex justify-center items-center pb-16">
-              <img src="/PureMLLogoWText.svg" alt="Logo" className="w-36" />
+              <img src="/PureMLLogoText.svg" alt="Logo" className="w-36" />
             </div>
             <Form
               method="post"

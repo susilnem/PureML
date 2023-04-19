@@ -1,4 +1,4 @@
-[![PureML](/assets/PureMLCoverImg.png)](https://pureml.com)
+[![PureML](/assets/PureMLReadmeImg.svg)](https://pureml.com)
 
 <h align="center">
 

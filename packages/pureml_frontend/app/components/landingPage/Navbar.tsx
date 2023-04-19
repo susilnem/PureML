@@ -58,7 +58,7 @@ export default function Navbar() {
                 <div className="flex px-4 py-5 md:px-12 justify-between items-center">
                   <a href="/">
                     <img
-                      src="/PureMLLogoWText.svg"
+                      src="/PureMLLogoText.svg"
                       alt="PureMLLogo"
                       width="96"
                       height="96"
@@ -127,7 +127,7 @@ export default function Navbar() {
           <div className="flex p-4 md:px-0 justify-between items-center w-full">
             <a href="/">
               <img
-                src="/PureMLLogoWText.svg"
+                src="/PureMLLogoText.svg"
                 alt="PureMLLogo"
                 width="96"
                 height="96"
