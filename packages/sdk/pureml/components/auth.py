@@ -24,6 +24,10 @@ def login(org_id: str, api_id: str, api_key: str) -> str:
     url_path_1 = "org/id/{}".format(org_id)
     url = urljoin(backend_schema.BASE_URL, url_path_1)
 
+    if api_id is None or api_key is None or org_id is None or api_id == "" or api_key == "" or org_id == "":
+        print("[red]Invalid credentials for login")
+        return
+
     headers = {"X-Api-Id": api_id, "X-Api-Key": api_key}
 
     response = requests.get(url, headers=headers)
