@@ -65,7 +65,7 @@ def post_figures(figure_paths, model_name: str, model_branch: str, model_version
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = get_auth_headers()
+    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
     files = []
     for file_name, file_path in figure_paths.items():
@@ -163,7 +163,7 @@ def details(label: str):
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = get_auth_headers(content_type="application/json")
+    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
     response = requests.get(url, headers=headers)
 
@@ -209,7 +209,7 @@ def fetch(label: str, key: str):
         save_path = os.path.join(path_schema.PATH_FIGURE_DIR, file_name)
         # print("save path in fetching", save_path)
 
-        headers = get_auth_headers()
+        headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
         # print("figure url", url)
 

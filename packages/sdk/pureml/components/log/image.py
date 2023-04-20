@@ -47,7 +47,7 @@ def details(
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = get_auth_headers()
+    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
     response = requests.get(url, headers=headers)
 
@@ -100,7 +100,7 @@ def add(
 
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = get_auth_headers()
+    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
     files = {}
     for file_name, file_path in image.items():
@@ -156,7 +156,7 @@ def fetch(
 
         name_fetched = image_details["image"]
 
-        headers = get_auth_headers()
+        headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
         print("image url", url)
 

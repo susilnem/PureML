@@ -241,14 +241,14 @@ def login(
 
 @app.command()
 def status():
-    exists = get_auth_headers()
+    exists = get_auth_headers(content_type="application/x-www-form-urlencoded")
     if exists:
         print(f"[green]You are logged in!")
 
 
 @app.command()
 def logout():
-    exists = get_auth_headers()
+    exists = get_auth_headers(content_type="application/x-www-form-urlencoded")
     if exists:
         delete_token()
 

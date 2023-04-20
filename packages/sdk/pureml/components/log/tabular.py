@@ -48,7 +48,7 @@ def details(
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = get_auth_headers()
+    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
     response = requests.get(url, headers=headers)
 
@@ -100,7 +100,7 @@ def add(
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = get_auth_headers()
+    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
     files = {}
     for file_name, file_path in tabular.items():
@@ -156,7 +156,7 @@ def fetch(
 
         name_fetched = tabular_details["tabular"]
 
-        headers = get_auth_headers()
+        headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
         print("tabular url", url)
 

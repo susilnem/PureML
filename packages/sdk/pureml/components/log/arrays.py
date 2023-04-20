@@ -59,7 +59,7 @@ def details(
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = get_auth_headers()
+    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
     response = requests.get(url, headers=headers)
 
@@ -113,7 +113,7 @@ def add(
 
     array_paths = save_images(arrays=array)
 
-    headers = get_auth_headers()
+    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
     files = {}
     for file_name, file_path in array_paths.items():
@@ -169,7 +169,7 @@ def fetch(
 
         name_fetched = array_details["array"]
 
-        headers = get_auth_headers()
+        headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
         print("array url", url)
 
@@ -246,7 +246,7 @@ def delete(
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = get_auth_headers()
+    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
     # array_details = details(model_name=model_name, array=array)
 

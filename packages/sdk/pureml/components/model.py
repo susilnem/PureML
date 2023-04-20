@@ -59,7 +59,7 @@ def check_model_hash(hash: str, label: str):
     url = "org/{}/model/{}/branch/{}/hash-status".format(org_id, name, branch)
     url = urljoin(model_schema.backend.BASE_URL, url)
 
-    headers = get_auth_headers()
+    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
     data = {"hash": hash, "branch": branch}
 
@@ -84,7 +84,7 @@ def branch_details(label: str):
     url = "org/{}/model/{}/branch/{}".format(org_id, name, branch)
     url = urljoin(model_schema.backend.BASE_URL, url)
 
-    headers = get_auth_headers()
+    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
     response = requests.get(url, headers=headers)
     # print(response.url)
@@ -122,7 +122,7 @@ def branch_delete(label: str) -> str:
     url = "org/{}/model/{}/branch/{}/delete".format(org_id, name, branch)
     url = urljoin(model_schema.backend.BASE_URL, url)
 
-    headers = get_auth_headers()
+    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
     response = requests.delete(url, headers=headers)
 
@@ -145,7 +145,7 @@ def branch_list(label: str) -> str:
     url = "org/{}/model/{}/branch".format(org_id, name)
     url = urljoin(model_schema.backend.BASE_URL, url)
 
-    headers = get_auth_headers()
+    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
     response = requests.get(url, headers=headers)
 
@@ -176,7 +176,7 @@ def list():
     url = "org/{}/model/all".format(org_id)
     url = urljoin(model_schema.backend.BASE_URL, url)
 
-    headers = get_auth_headers()
+    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
     response = requests.get(url, headers=headers)
 
@@ -353,7 +353,7 @@ def details(label: str):
     url = "org/{}/model/{}".format(org_id, name)
     url = urljoin(model_schema.backend.BASE_URL, url)
 
-    headers = get_auth_headers()
+    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
     response = requests.get(url, headers=headers)
     # print(response.url)
@@ -395,7 +395,7 @@ def version_details(label: str):
     url = "org/{}/model/{}/branch/{}/version/{}".format(org_id, name, branch, version)
     url = urljoin(model_schema.backend.BASE_URL, url)
 
-    headers = get_auth_headers()
+    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
     response = requests.get(url, headers=headers)
 
@@ -451,7 +451,7 @@ def fetch(label: str):
 
     model_url = model_details["path"]
 
-    headers = get_auth_headers()
+    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
     response = requests.get(model_url)
 

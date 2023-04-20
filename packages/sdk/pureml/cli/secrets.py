@@ -106,7 +106,7 @@ def add(backend_url: str = typer.Option("", "--backend-url", "-b", help="Backend
 
     url = urljoin(backend_base_url, url_path)
 
-    headers = get_auth_headers()
+    headers = get_auth_headers(content_type="application/json")
 
     response = requests.post(url, json=data, headers=headers)
 
@@ -132,7 +132,7 @@ def all(backend_url: str = typer.Option("", "--backend-url", "-b", help="Backend
     url_path = f"org/{org_id}/secret"
     url = urljoin(backend_base_url, url_path)
 
-    headers = get_auth_headers()
+    headers = get_auth_headers(content_type="application/json")
 
     response = requests.get(url, headers=headers)
 
@@ -168,7 +168,7 @@ def show(secret_name: str = typer.Argument(..., case_sensitive=True), backend_ur
     url_path = f"org/{org_id}/secret/{secret_name}"
     url = urljoin(backend_base_url, url_path)
 
-    headers = get_auth_headers()
+    headers = get_auth_headers(content_type="application/json")
 
     response = requests.get(url, headers=headers)
 
@@ -217,7 +217,7 @@ def delete(secret_name: str = typer.Argument(..., case_sensitive=True), backend_
     url_path = f"org/{org_id}/secret/{secret_name}"
     url = urljoin(backend_base_url, url_path)
 
-    headers = get_auth_headers()
+    headers = get_auth_headers(content_type="application/json")
 
     response = requests.delete(url, headers=headers)
 

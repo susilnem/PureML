@@ -40,7 +40,7 @@ def post_resource(path, model_name: str, model_branch: str, model_version: str):
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = get_auth_headers()
+    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
     try:
         zip_content(src_path=path, dst_path=predict_schema.PATH_RESOURCES)
@@ -114,7 +114,7 @@ def details(label: str):
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = get_auth_headers(content_type="application/json")
+    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
     response = requests.get(url, headers=headers)
 
@@ -144,7 +144,7 @@ def fetch(label: str):
         save_path = os.path.join(path_schema.PATH_PREDICT_DIR, file_name)
         # print("save path", save_path)
 
-        headers = get_auth_headers()
+        headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
         # print("resorce url", url)
 

@@ -39,7 +39,7 @@ def post_predict(file_paths, model_name: str, model_branch: str, model_version: 
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = get_auth_headers()
+    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
     files = []
     for file_name, file_path in file_paths.items():
@@ -118,7 +118,7 @@ def details(label: str):
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = get_auth_headers(content_type="application/json")
+    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
     response = requests.get(url, headers=headers)
 
@@ -148,7 +148,7 @@ def fetch(label: str):
         save_path = os.path.join(path_schema.PATH_PREDICT_DIR, file_name)
         # print("save path", save_path)
 
-        headers = get_auth_headers()
+        headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
         # print("predict url", url)
 

@@ -9,8 +9,6 @@ from pureml.cli.helpers import get_auth_headers, save_auth
 from pureml.schema import BackendSchema, PathSchema
 from pureml.schema.backend import get_backend_base_url
 
-
-
 path_schema = PathSchema().get_instance()
 backend_schema = BackendSchema().get_instance()
 app = typer.Typer()
@@ -32,7 +30,7 @@ def show(backend_url: str = typer.Option("", "--backend-url", "-b", help="Backen
     url_path = "org"
     url = urljoin(get_backend_base_url(backend_url), url_path)
 
-    headers = get_auth_headers()
+    headers = get_auth_headers(content_type="application/json")
     response = requests.get(url, headers=headers)
     if response.ok:
         print()

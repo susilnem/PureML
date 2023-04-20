@@ -47,7 +47,7 @@ def details(
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = get_auth_headers()
+    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
     response = requests.get(url, headers=headers)
 
@@ -101,7 +101,7 @@ def add(
 
     user_token = get_token()
 
-    headers = get_auth_headers()
+    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
     files = {}
     for file_name, file_path in audio.items():
@@ -157,7 +157,7 @@ def fetch(
 
         name_fetched = audio_details["audio"]
 
-        headers = get_auth_headers()
+        headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
         print("audio url", url)
 
