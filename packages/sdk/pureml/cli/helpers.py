@@ -51,11 +51,13 @@ def get_auth_headers(content_type: str = "application/x-www-form-urlencoded"):
     elif token is not None:
         return {
             "Content-Type": content_type,
+            "Accept": "application/json",
             "Authorization": "Bearer {}".format(token),
         }
     else:
         return {
             "Content-Type": content_type,
+            "Accept": "application/json",
             "X-Api-Id": api_token["api_id"],
             "X-Api-Key": api_token["api_key"],
         }

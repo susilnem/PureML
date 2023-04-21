@@ -72,6 +72,13 @@ def select(backend_url: str = typer.Option("", "--backend-url", "-b", help="Back
 # Possibly useful for future commands
 # Moved from auth.py
 def check_org_status(headers: dict, base_url: str):
+    """
+    Headers: dict
+        headers from get_auth_headers() invocation of parent function
+
+    base_url: str
+        base_url from get_backend_base_url() invocation of parent function
+    """
 
     org_id: str = typer.prompt("Enter your Org Id")
 
