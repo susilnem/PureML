@@ -1,5 +1,6 @@
 import os, json
 from pureml.schema import PathSchema
+from rich import print
 
 path_schema = PathSchema().get_instance()
 
@@ -19,18 +20,39 @@ def get_token():
         creds = open(path, "r").read()
 
         creds_json = json.loads(creds)
-        token = creds_json["accessToken"]
-        # print(f"[bold green]Authentication token exists!")
-
-        # print(token)
-        return token
-    else:
-        print(f"[bold red]Authentication token does not exist! Please login")
-
-        return
+        if "accessToken" in creds_json:
+            token = creds_json["accessToken"]
+            return token
+    return
 
 
-def delete_token():
+def get_api_token():
+    """It checks if the api token exists in the user's home directory. If it does, it returns the api token id and key. If it
+    doesn't, it returns None
+
+    Returns
+    -------
+        The api token id and key is returned.
+        Dictionary format: {"api_id": api_id, "api_key": api_key}
+    """
+    path = path_schema.PATH_USER_TOKEN
+    # path = os.path.expanduser(path)
+
+    if os.path.exists(path):
+        creds = open(path, "r").read()
+
+        creds_json = json.loads(creds)
+        if "api_id" in creds_json and "api_key" in creds_json:
+            api_id = creds_json["api_id"]
+            api_key = creds_json["api_key"]
+            return {
+                "api_id": api_id,
+                "api_key": api_key
+            }
+    return
+
+
+def delete_token(silent=False):
     """It checks if the token exists in the user's home directory. If it does, it deletes the token. If it
     doesn't, it returns None
 
@@ -43,13 +65,12 @@ def delete_token():
 
     if os.path.exists(path):
         os.remove(path)
-        print(f"[bold green]Authentication token deleted!")
-
-        # print(token)
+        if not silent:
+            print(f"[bold green]Authentication token deleted!")
         return
     else:
-        print(f"[bold red]Authentication token does not exist! Please login")
-
+        if not silent:
+            print(f"[bold red]Authentication token does not exist! Please login")
         return
 
 
@@ -72,15 +93,15 @@ def get_org_id():
 
         creds_json = json.loads(creds)
 
-        org_id = creds_json["org_id"]
-        # print(f"[bold green]Organization exists!")
+        if "org_id" in creds_json:
+            org_id = creds_json["org_id"]
+            # print(f"[bold green]Organization exists!")
 
-        # print(org_id)
-        return org_id
-    else:
-        print(f"[bold red]Organization token does not exist! Please login")
-
-        return
+            # print(org_id)
+            return org_id
+        
+    print(f"[bold red]Organization id does not exist! Please login")
+    return
 
 
 def convert_values_to_string(logged_dict):

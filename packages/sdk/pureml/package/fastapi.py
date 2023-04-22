@@ -33,7 +33,7 @@ def get_resources(label, resources_path):
                 prediction_schema.PATH_RESOURCES, path_schema.PATH_PREDICT_DIR
             )
         else:
-            raise Exception(resources_path, "doesnot exists!!!")
+            raise Exception(resources_path, "does not exists!!!")
     else:
         print("Taking the fetched resources file path")
 
@@ -56,7 +56,7 @@ def get_predict_file(label, predict_path):
         if os.path.exists(predict_path):
             shutil.copy(predict_path, prediction_schema.PATH_PREDICT)
         else:
-            raise Exception(predict_path, "doesnot exists!!!")
+            raise Exception(predict_path, "does not exists!!!")
     else:
         print("Taking the fetched predict.py file path")
 
@@ -75,7 +75,7 @@ def get_requirements_file(label, requirements_path):
         if os.path.exists(requirements_path):
             shutil.copy(requirements_path, prediction_schema.PATH_PREDICT_REQUIREMENTS)
         else:
-            raise Exception(requirements_path, "doesnot exists!!!")
+            raise Exception(requirements_path, "does not exists!!!")
     else:
         print("Taking the fetched requirements.txt file path")
 

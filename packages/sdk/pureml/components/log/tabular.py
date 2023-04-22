@@ -13,7 +13,9 @@ import typing
 
 from urllib.parse import urljoin
 
-from . import get_token, get_org_id
+from pureml.cli.helpers import get_auth_headers
+
+from . import get_org_id
 
 from pureml.schema import PathSchema, BackendSchema
 from joblib import Parallel, delayed
@@ -39,7 +41,6 @@ def details(
 
     """
 
-    user_token = get_token()
     org_id = get_org_id()
 
     url = "org/{}/model/{}/branch/{}/version/{}/log".format(
@@ -47,10 +48,7 @@ def details(
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": "Bearer {}".format(user_token),
-    }
+    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
     response = requests.get(url, headers=headers)
 
@@ -95,7 +93,6 @@ def add(
 
     """
 
-    user_token = get_token()
     org_id = get_org_id()
 
     url = "org/{}/model/{}/branch/{}/version/{}/log".format(
@@ -103,7 +100,7 @@ def add(
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = {"Authorization": "Bearer {}".format(user_token)}
+    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
     files = {}
     for file_name, file_path in tabular.items():
@@ -111,7 +108,7 @@ def add(
         if os.path.isfile(file_path):
             files[file_name] = open(file_path, "rb")
         else:
-            print("[bold red] Tabular", file_name, "doesnot exist at the given path")
+            print("[bold red] Tabular", file_name, "does not exist at the given path")
 
     data = {"name_path_mapping": tabular}
 
@@ -147,7 +144,6 @@ def fetch(
 
     """
 
-    user_token = get_token()
     org_id = get_org_id()
 
     def fetch_tabular(tabular_details: dict):
@@ -160,10 +156,7 @@ def fetch(
 
         name_fetched = tabular_details["tabular"]
 
-        headers = {
-            "Content-Type": "application/x-www-form-urlencoded",
-            "Authorization": "Bearer {}".format(user_token),
-        }
+        headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
         print("tabular url", url)
 

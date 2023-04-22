@@ -224,7 +224,7 @@ PureML quick start demo
 |                                     |                                                                                                                 |
 | ----------------------------------- | --------------------------------------------------------------------------------------------------------------- |
 | Easy developer experience           | An intuitive open source package aimed to bridge the gaps in data science teams                                 |
-| Engineering best practices built-in | Integrating PureML functionalities in your code doesnot disrupt your workflow                                   |
+| Engineering best practices built-in | Integrating PureML functionalities in your code does not disrupt your workflow                                  |
 | Object Versioning                   | A reliable object versioning mechanism to track changes to your datasets, and models                            |
 | Data is a first-class citizen       | Your data is secure. It will never leave your system.                                                           |
 | Reduce Friction                     | Have access to operations performed on data using data lineage without having to spend time on lengthy meetings |
@@ -290,12 +290,12 @@ Work with mutual respect.
 # 👨‍👩‍👧‍👦 Community
 
 To get quick updates, feature release for PureML follow us on
-| |
-| --- |
-| [<img alt="Twitter" height="20" src="https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white" />](https://twitter.com/getPureML) |
-[<img alt="LinkedIn" height="20" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" />](https://www.linkedin.com/company/pureml-inc/) |
-| [<img alt="GitHub" height="20" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />](https://github.com/PureML-Inc/PureML) |
-| [<img alt="GitHub" height="20" src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white" />](https://discord.gg/DBvedzGu) |
+|                                                                                                                                                                                         |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [<img alt="Twitter" height="20" src="https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white" />](https://twitter.com/getPureML)                   |
+| [<img alt="LinkedIn" height="20" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" />](https://www.linkedin.com/company/pureml-inc/) |
+| [<img alt="GitHub" height="20" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />](https://github.com/PureML-Inc/PureML)               |
+| [<img alt="GitHub" height="20" src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white" />](https://discord.gg/DBvedzGu)                      |
 
 # 📄 License
 

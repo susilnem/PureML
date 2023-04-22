@@ -5,13 +5,14 @@ import time
 import joblib
 import pandas as pd
 import requests
+from pureml.cli.helpers import get_auth_headers
 
 from pureml.schema import DatasetSchema, StorageSchema, ConfigKeys
 from pureml.utils.hash import generate_hash_for_file
 from pureml.utils.readme import load_readme
 from rich import print
 
-from . import get_org_id, get_token
+from . import get_org_id
 from pureml.utils.version_utils import parse_version_label
 from pureml.utils.config import reset_config
 
@@ -22,17 +23,13 @@ storage = StorageSchema().get_instance()
 def init_branch(label: str):
     name, branch, _ = parse_version_label(label)
 
-    user_token = get_token()
     org_id = get_org_id()
     dataset_schema = DatasetSchema()
 
     url = "org/{}/dataset/{}/branch/create".format(org_id, name)
     url = urljoin(dataset_schema.backend.BASE_URL, url)
 
-    headers = {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer {}".format(user_token),
-    }
+    headers = get_auth_headers(content_type="application/json")
 
     data = {"dataset_name": name, "branch_name": branch}
 
@@ -55,14 +52,13 @@ def check_dataset_hash(hash: str, label: str):
 
     name, branch, _ = parse_version_label(label)
 
-    user_token = get_token()
     org_id = get_org_id()
     dataset_schema = DatasetSchema()
 
     url = "org/{}/dataset/{}/branch/{}/hash-status".format(org_id, name, branch)
     url = urljoin(dataset_schema.backend.BASE_URL, url)
 
-    headers = {"Authorization": "Bearer {}".format(user_token)}
+    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
     data = {"hash": hash, "branch": branch}
 
@@ -81,17 +77,13 @@ def check_dataset_hash(hash: str, label: str):
 def branch_details(label: str):
     name, branch, _ = parse_version_label(label)
 
-    user_token = get_token()
     org_id = get_org_id()
     dataset_schema = DatasetSchema()
 
     url = "org/{}/dataset/{}/branch/{}".format(org_id, name, branch)
     url = urljoin(dataset_schema.backend.BASE_URL, url)
 
-    headers = {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": "Bearer {}".format(user_token),
-    }
+    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
     response = requests.get(url, headers=headers)
 
@@ -123,17 +115,13 @@ def branch_status(label: str):
 def branch_delete(label: str) -> str:
     name, branch, _ = parse_version_label(label)
 
-    user_token = get_token()
     org_id = get_org_id()
     dataset_schema = DatasetSchema()
 
     url = "org/{}/dataset/{}/branch/{}/delete".format(org_id, name, branch)
     url = urljoin(dataset_schema.backend.BASE_URL, url)
 
-    headers = {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": "Bearer {}".format(user_token),
-    }
+    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
     response = requests.delete(url, headers=headers)
 
@@ -150,17 +138,13 @@ def branch_list(label: str) -> str:
 
     name, _, _ = parse_version_label(label)
 
-    user_token = get_token()
     org_id = get_org_id()
     dataset_schema = DatasetSchema()
 
     url = "org/{}/dataset/{}/branch".format(org_id, name)
     url = urljoin(dataset_schema.backend.BASE_URL, url)
 
-    headers = {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": "Bearer {}".format(user_token),
-    }
+    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
     response = requests.get(url, headers=headers)
 
@@ -185,17 +169,13 @@ def list():
 
     """
 
-    user_token = get_token()
     org_id = get_org_id()
     dataset_schema = DatasetSchema()
 
     url = "org/{}/dataset/all".format(org_id)
     url = urljoin(dataset_schema.backend.BASE_URL, url)
 
-    headers = {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": "Bearer {}".format(user_token),
-    }
+    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
     response = requests.get(url, headers=headers)
 
@@ -217,7 +197,7 @@ def init(label: str, readme: str = None):
 
     name, branch, _ = parse_version_label(label)
 
-    user_token = get_token()
+    headers = get_auth_headers(content_type="*/*")
     org_id = get_org_id()
     dataset_schema = DatasetSchema()
 
@@ -232,12 +212,6 @@ def init(label: str, readme: str = None):
     url = "org/{}/dataset/{}/create".format(org_id, name)
     url = urljoin(dataset_schema.backend.BASE_URL, url)
 
-    headers = {
-        # "Content-Type": "application/json",
-        "Authorization": "Bearer {}".format(user_token),
-        # 'accept': 'application/json',
-        "Content-Type": "*/*",
-    }
 
     data = {
         "name": name,
@@ -292,7 +266,6 @@ def register(dataset, label: str, lineage, is_empty: bool = False) -> str:
     """
     name, branch, _ = parse_version_label(label)
 
-    user_token = get_token()
     org_id = get_org_id()
     dataset_schema = DatasetSchema()
 
@@ -343,10 +316,7 @@ def register(dataset, label: str, lineage, is_empty: bool = False) -> str:
         url = "org/{}/dataset/{}/branch/{}/register".format(org_id, name, branch)
         url = urljoin(dataset_schema.backend.BASE_URL, url)
 
-        headers = {
-            "Authorization": "Bearer {}".format(user_token),
-            "accept": "application/json",
-        }
+        headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
         files = {"file": (name_with_ext, open(dataset_path, "rb"))}
 
@@ -425,17 +395,13 @@ def details(
 
     name, _, _ = parse_version_label(label)
 
-    user_token = get_token()
     org_id = get_org_id()
     dataset_schema = DatasetSchema()
 
     url = "org/{}/dataset/{}".format(org_id, name)
     url = urljoin(dataset_schema.backend.BASE_URL, url)
 
-    headers = {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": "Bearer {}".format(user_token),
-    }
+    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
     response = requests.get(url, headers=headers)
 
@@ -468,17 +434,13 @@ def version_details(label: str):
 
     name, branch, version = parse_version_label(label)
 
-    user_token = get_token()
     org_id = get_org_id()
     dataset_schema = DatasetSchema()
 
     url = "org/{}/dataset/{}/branch/{}/version/{}".format(org_id, name, branch, version)
     url = urljoin(dataset_schema.backend.BASE_URL, url)
 
-    headers = {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": "Bearer {}".format(user_token),
-    }
+    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
     response = requests.get(url, headers=headers)
 
@@ -513,7 +475,6 @@ def fetch(label: str):
 
     name, branch, version = parse_version_label(label)
 
-    user_token = get_token()
     org_id = get_org_id()
     dataset_schema = DatasetSchema()
 
@@ -536,10 +497,7 @@ def fetch(label: str):
 
     dataset_url = dataset_details["path"]
 
-    headers = {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": "Bearer {}".format(user_token),
-    }
+    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
     # print('url', dataset_url)
 

@@ -5,6 +5,7 @@ from urllib.parse import urljoin
 import numpy as np
 import requests
 from joblib import Parallel, delayed
+from pureml.cli.helpers import get_auth_headers
 
 from pureml.utils.pipeline import add_resource_to_config
 from pureml.utils.resources import zip_content, unzip_content
@@ -17,7 +18,7 @@ from pureml.schema import (
     ConfigKeys,
 )
 from rich import print
-from . import get_org_id, get_token
+from . import get_org_id
 
 from pureml.utils.version_utils import parse_version_label
 from pureml.utils.config import reset_config
@@ -32,7 +33,6 @@ storage = StorageSchema().get_instance()
 
 
 def post_resource(path, model_name: str, model_branch: str, model_version: str):
-    user_token = get_token()
     org_id = get_org_id()
 
     url = "org/{}/model/{}/branch/{}/version/{}/logfile".format(
@@ -40,7 +40,7 @@ def post_resource(path, model_name: str, model_branch: str, model_version: str):
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = {"Authorization": "Bearer {}".format(user_token)}
+    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
     try:
         zip_content(src_path=path, dst_path=predict_schema.PATH_RESOURCES)
@@ -107,7 +107,6 @@ def add(
 
 def details(label: str):
     model_name, model_branch, model_version = parse_version_label(label)
-    user_token = get_token()
     org_id = get_org_id()
 
     url = "org/{}/model/{}/branch/{}/version/{}/log".format(
@@ -115,10 +114,7 @@ def details(label: str):
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = {
-        "accept": "application/json",
-        "Authorization": "Bearer {}".format(user_token),
-    }
+    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
     response = requests.get(url, headers=headers)
 
@@ -139,7 +135,6 @@ def details(label: str):
 def fetch(label: str):
     model_name, model_branch, model_version = parse_version_label(label)
 
-    user_token = get_token()
     org_id = get_org_id()
 
     def fetch_resource(file_details):
@@ -149,10 +144,7 @@ def fetch(label: str):
         save_path = os.path.join(path_schema.PATH_PREDICT_DIR, file_name)
         # print("save path", save_path)
 
-        headers = {
-            "Content-Type": "application/x-www-form-urlencoded",
-            "Authorization": "Bearer {}".format(user_token),
-        }
+        headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
         # print("resorce url", url)
 

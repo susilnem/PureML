@@ -1,5 +1,5 @@
 from pureml import project
-from pureml.components import get_token, get_project_name, get_project_id
+from pureml.components import get_project_name, get_project_id
 from pureml.utils.constants import PATH_USER_TOKEN, PATH_USER_PROJECT
 import shutil
 import json

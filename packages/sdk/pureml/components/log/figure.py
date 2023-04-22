@@ -6,6 +6,7 @@ import numpy as np
 import requests
 from joblib import Parallel, delayed
 from PIL import Image
+from pureml.cli.helpers import get_auth_headers
 
 from pureml.utils.pipeline import add_figures_to_config
 from pureml.schema import (
@@ -16,7 +17,7 @@ from pureml.schema import (
     ConfigKeys,
 )
 from rich import print
-from . import get_org_id, get_token
+from . import get_org_id
 
 from pureml.utils.version_utils import parse_version_label
 from pureml.utils.config import reset_config
@@ -55,7 +56,6 @@ def save_images(figure):
 
 
 def post_figures(figure_paths, model_name: str, model_branch: str, model_version: str):
-    user_token = get_token()
     org_id = get_org_id()
 
     # print('figure_paths', figure_paths)
@@ -65,7 +65,7 @@ def post_figures(figure_paths, model_name: str, model_branch: str, model_version
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = {"Authorization": "Bearer {}".format(user_token)}
+    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
     files = []
     for file_name, file_path in figure_paths.items():
@@ -75,7 +75,7 @@ def post_figures(figure_paths, model_name: str, model_branch: str, model_version
             files.append(("file", (file_name, open(file_path, "rb"))))
 
         else:
-            print("[bold red] figure", file_name, "doesnot exist at the given path")
+            print("[bold red] figure", file_name, "does not exist at the given path")
 
     data = {
         "data": figure_paths,
@@ -156,7 +156,6 @@ def add(label: str = None, figure: dict = None, file_paths: dict = None) -> str:
 
 def details(label: str):
     model_name, model_branch, model_version = parse_version_label(label)
-    user_token = get_token()
     org_id = get_org_id()
 
     url = "org/{}/model/{}/branch/{}/version/{}/log".format(
@@ -164,10 +163,7 @@ def details(label: str):
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = {
-        "accept": "application/json",
-        "Authorization": "Bearer {}".format(user_token),
-    }
+    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
     response = requests.get(url, headers=headers)
 
@@ -204,7 +200,6 @@ def fetch(label: str, key: str):
     """
     model_name, model_branch, model_version = parse_version_label(label)
 
-    user_token = get_token()
     org_id = get_org_id()
 
     def fetch_figure(file_details):
@@ -214,10 +209,7 @@ def fetch(label: str, key: str):
         save_path = os.path.join(path_schema.PATH_FIGURE_DIR, file_name)
         # print("save path in fetching", save_path)
 
-        headers = {
-            "Content-Type": "application/x-www-form-urlencoded",
-            "Authorization": "Bearer {}".format(user_token),
-        }
+        headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
 
         # print("figure url", url)
 

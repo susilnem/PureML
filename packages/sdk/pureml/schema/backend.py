@@ -9,8 +9,8 @@ from pureml.cli.puremlconfig import PureMLConfigYML
 
 
 project_path = Path.cwd()
-if Path.exists(project_path / "puremlconfig.yml"):
-    puremlconfig = PureMLConfigYML(project_path / "puremlconfig.yml")
+if Path.exists(project_path / "puremlconfig.yaml"):
+    puremlconfig = PureMLConfigYML(project_path / "puremlconfig.yaml")
 else:
     puremlconfig = None
 

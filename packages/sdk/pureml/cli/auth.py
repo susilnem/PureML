@@ -3,12 +3,12 @@ from time import sleep, time
 import requests
 import typer
 from rich import print
-from pureml.cli.helpers import save_auth
+from pureml.cli.helpers import get_auth_headers, save_auth
 
 from pureml.schema.backend import get_backend_base_url, get_frontend_base_url
 from .orgs import select
 from rich.progress import Progress, SpinnerColumn, TextColumn
-from pureml.components import delete_token, get_org_id, get_token
+from pureml.components import delete_token, get_api_token, get_org_id, get_token
 from urllib.parse import urljoin
 import json
 import platform
@@ -44,11 +44,15 @@ def get_location():
 @app.command()
 def details():
     token = get_token()
+    api_token = get_api_token()
     org_id = get_org_id()
 
     print("Org Id: ", org_id)
-    print("Access Token: ", token)
-
+    if token is not None:
+        print("Access Token: ", token)
+    if api_token is not None:
+        print("API Id: ", api_token["api_id"])
+        print("API Key: ", api_token["api_key"])
 
 @app.callback()
 def callback():
@@ -107,6 +111,7 @@ def login(
     frontend_url: str = typer.Option("", "--frontend-url", "-f", help="Frontend URL for self-hosted or custom pureml frontend instance"),
     browserless: bool = typer.Option(False, "--browserless", "-s", help="Browserless login for ssh or pipelines"),
     interactive: bool = typer.Option(False, "--interactive", "-i", help="Login with email and password interactively"),
+    api_key: bool = typer.Option(False, "--api-key", "-k", help="Login with api key"),
     ):
     try:
         backend_base_url = get_backend_base_url(backend_url)
@@ -135,16 +140,19 @@ def login(
                 print(f"[green]Successfully logged in as {email}!")
 
                 # Select organization
-                org_id = select()
-                if org_id is not None:
-                    save_auth(org_id=org_id, access_token=access_token, email=email)
-                    print(f"[green]Successfully linked to organization {org_id}!")
-                else:
-                    print(f"[red]Organization details not found! Please contact your admin to add you to an organization!")
+                select()
 
             else:
                 print(f"[red]Unable to login to your account!")
         
+        # API key login
+        elif api_key:
+            print(f"\n[Enter your credentials to login[/\n")
+            api_id: str = typer.prompt("Enter your api id")
+            api_key: str = typer.prompt("Enter your api key")
+            save_auth(api_id=api_id, api_key=api_key)
+            select()
+
         # Browser based login
         else:
             # Get device details
@@ -233,14 +241,14 @@ def login(
 
 @app.command()
 def status():
-    exists = get_token()
+    exists = get_auth_headers(content_type="application/x-www-form-urlencoded")
     if exists:
         print(f"[green]You are logged in!")
 
 
 @app.command()
 def logout():
-    exists = get_token()
+    exists = get_auth_headers(content_type="application/x-www-form-urlencoded")
     if exists:
         delete_token()
 
