@@ -7,7 +7,13 @@ import pandas as pd
 import requests
 from pureml.cli.helpers import get_auth_headers
 
-from pureml.schema import DatasetSchema, StorageSchema, ConfigKeys
+from pureml.schema import (
+    DatasetSchema,
+    StorageSchema,
+    ConfigKeys,
+    ContentTypeHeader,
+    AcceptHeader,
+)
 from pureml.utils.hash import generate_hash_for_file
 from pureml.utils.readme import load_readme
 from rich import print
@@ -212,7 +218,6 @@ def init(label: str, readme: str = None):
     url = "org/{}/dataset/{}/create".format(org_id, name)
     url = urljoin(dataset_schema.backend.BASE_URL, url)
 
-
     data = {
         "name": name,
         "branch_names": [branch_main, branch_user],
@@ -316,7 +321,8 @@ def register(dataset, label: str, lineage, is_empty: bool = False) -> str:
         url = "org/{}/dataset/{}/branch/{}/register".format(org_id, name, branch)
         url = urljoin(dataset_schema.backend.BASE_URL, url)
 
-        headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+        accept_header = AcceptHeader.APP_JSON.value
+        headers = get_auth_headers(content_type=None, accept=accept_header)
 
         files = {"file": (name_with_ext, open(dataset_path, "rb"))}
 
@@ -334,6 +340,8 @@ def register(dataset, label: str, lineage, is_empty: bool = False) -> str:
         # data = json.dumps(data)
 
         response = requests.post(url, files=files, data=data, headers=headers)
+        # print(response.request.headers)
+        # print(response.request.body)
 
         if response.ok:
 
@@ -341,6 +349,8 @@ def register(dataset, label: str, lineage, is_empty: bool = False) -> str:
             try:
                 dataset_version = response.json()["data"][0]["version"]
                 print("Version: ", dataset_version)
+                dataset_label = ":".join([label, dataset_label])
+                print("Dataset label: ", dataset_label)
 
                 if is_empty:
                     print(f"[bold green]Lineage has been registered!")

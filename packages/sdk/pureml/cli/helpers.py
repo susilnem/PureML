@@ -8,7 +8,14 @@ from rich import print
 
 path_schema = PathSchema().get_instance()
 
-def save_auth(org_id: str = None, access_token: str = None, email: str = None, api_id: str = None, api_key: str = None):
+
+def save_auth(
+    org_id: str = None,
+    access_token: str = None,
+    email: str = None,
+    api_id: str = None,
+    api_key: str = None,
+):
     token_path = path_schema.PATH_USER_TOKEN
 
     token_dir = os.path.dirname(token_path)
@@ -32,7 +39,13 @@ def save_auth(org_id: str = None, access_token: str = None, email: str = None, a
                 token["org_id"] = ""
             token["email"] = email
     else:
-        token = {"org_id": org_id, "accessToken": access_token, "email": email, "api_id": api_id, "api_key": api_key}
+        token = {
+            "org_id": org_id,
+            "accessToken": access_token,
+            "email": email,
+            "api_id": api_id,
+            "api_key": api_key,
+        }
         if org_id is None:
             token["org_id"] = ""
 
@@ -41,11 +54,47 @@ def save_auth(org_id: str = None, access_token: str = None, email: str = None, a
     with open(token_path, "w") as token_file:
         token_file.write(token)
 
-def get_auth_headers(content_type: str = "application/x-www-form-urlencoded"):
+
+# content_type: str = "application/x-www-form-urlencoded",
+# accept: str = "application/json",
+def get_auth_headers(
+    content_type: str = "application/x-www-form-urlencoded",
+    accept: str = None,
+):
+    token = get_token()
+    api_token = get_api_token()
+
+    if token is None and api_token is None:
+        print(
+            f"[bold red]Authentication token and API token does not exist! Please login"
+        )
+        typer.Exit()
+        return None
+    else:
+        headers = {}
+        if content_type is not None:
+            headers["Content-Type"] = content_type
+        if accept is not None:
+            headers["Accept"] = accept
+
+        if token is not None:
+            headers["Authorization"] = "Bearer {}".format(token)
+            return headers
+
+        if api_token is not None:
+            headers["X-Api-Id"] = api_token["api_id"]
+            headers["X-Api-Key"] = api_token["api_key"]
+
+            return headers
+
+
+def get_auth_headers_2(content_type: str = "application/x-www-form-urlencoded"):
     token = get_token()
     api_token = get_api_token()
     if token is None and api_token is None:
-        print(f"[bold red]Authentication token or API token does not exist! Please login")
+        print(
+            f"[bold red]Authentication token or API token does not exist! Please login"
+        )
         typer.Exit()
         return None
     elif token is not None:

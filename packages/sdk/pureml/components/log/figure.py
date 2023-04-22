@@ -15,6 +15,7 @@ from pureml.schema import (
     StorageSchema,
     LogSchema,
     ConfigKeys,
+    AcceptHeader,
 )
 from rich import print
 from . import get_org_id
@@ -65,7 +66,8 @@ def post_figures(figure_paths, model_name: str, model_branch: str, model_version
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+    accept_header = AcceptHeader.APP_JSON.value
+    headers = get_auth_headers(content_type=None, accept=accept_header)
 
     files = []
     for file_name, file_path in figure_paths.items():
@@ -95,6 +97,7 @@ def post_figures(figure_paths, model_name: str, model_branch: str, model_version
 
     else:
         print(f"[bold red]Figures have not been registered!")
+        print(response.text)
 
     return response
     # except Exception as e:

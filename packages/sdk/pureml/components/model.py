@@ -7,7 +7,13 @@ import json
 from pureml.cli.helpers import get_auth_headers
 
 from . import get_org_id
-from pureml.schema import ModelSchema, StorageSchema, ConfigKeys
+from pureml.schema import (
+    ModelSchema,
+    StorageSchema,
+    ConfigKeys,
+    ContentTypeHeader,
+    AcceptHeader,
+)
 from pureml import save_model, load_model
 from urllib.parse import urljoin
 import joblib
@@ -288,7 +294,8 @@ def register(
         url = "org/{}/model/{}/branch/{}/register".format(org_id, name, branch)
         url = urljoin(model_schema.backend.BASE_URL, url)
 
-        headers = get_auth_headers(content_type="*/*")
+        accept_header = AcceptHeader.APP_JSON.value
+        headers = get_auth_headers(content_type=None, accept=accept_header)
 
         files = {"file": (model_file_name, open(model_path, "rb"))}
 
@@ -301,12 +308,15 @@ def register(
         }
 
         response = requests.post(url, files=files, data=data, headers=headers)
+        # print(response.request.headers)
 
         if response.ok:
             print(f"[bold green]Model has been registered!")
 
             model_version = response.json()["data"][0]["version"]
             print("Model Version: ", model_version)
+            model_label = ":".join([label, model_version])
+            print("Model label: ", model_label)
 
             # reset_config(key=config_keys.model.value)
 
@@ -314,6 +324,7 @@ def register(
 
         else:
             print(f"[bold red]Model has not been registered!")
+            print(response.text)
 
         return False, model_hash, None
 
