@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowUpRight, Menu, X } from "lucide-react";
+import { ArrowUpRight, Menu, X, Github } from "lucide-react";
 import clsx from "clsx";
 import { useRouter } from "next/router";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
@@ -114,21 +114,22 @@ export default function Navbar() {
     <div className="flex justify-center">
       <div className="flex justify-center w-full backdrop-blur-sm bg-white/30">
         <div className="lg:h-fit w-full md:max-w-screen-xl px-0 md:px-8">
-          <div className="flex p-4 md:px-0 justify-between w-full">
+          <div className="flex p-4 md:px-0 justify-between items-center w-full">
             <a href="https://pureml.com">
               <img src="/PureMLLogoText.svg" alt="PureMLLogo" width="96" height="96" />
             </a>
             <div className="md:hidden flex">
               <div className="flex items-center pr-8">
                 <a
-                  className="sm:hidden github-button letterSpaced"
-                  href="https://github.com/pureml-inc/pureml"
+                  className="flex gap-x-2 border border-slate-950 rounded-full py-2 px-4 text-brand-200 text-lg hover:bg-slate-100 letterSpaced"
+                  href="https://github.com/PuremlHQ/PureML"
                   data-color-scheme="no-preference: dark_dimmed; light: light_high_contrast; dark: light;"
                   data-size="large"
                   data-show-count="true"
                   aria-label="Star pureml-inc/pureml on GitHub"
                 >
-                  STARS
+                  <Github className="w-5" />
+                  STAR
                 </a>
               </div>
               <div className="flex justify-center items-center">
@@ -178,15 +179,16 @@ export default function Navbar() {
                   SIGN IN <ArrowUpRight className="text-brand-200 w-5" />
                 </a>
               </div>
-              <div className="flex justify-center items-center pt-1">
+              <div className="flex justify-center items-center">
                 <a
-                  className="github-button flex justify-center items-center gap-y-4 text-brand-200 hover:underline hover:underline-offset-2 text-base letterSpaced"
-                  href="https://github.com/pureml-inc/pureml"
+                  className="flex gap-x-2 border border-slate-600 rounded-full py-2 px-4 text-slate-600 text-base letterSpaced hover:bg-slate-100"
+                  href="https://github.com/PuremlHQ/PureML"
                   data-color-scheme="no-preference: dark_dimmed; light: light_high_contrast; dark: light;"
                   data-size="large"
                   data-show-count="true"
                   aria-label="Star pureml-inc/pureml on GitHub"
                 >
+                  <Github className="w-5" />
                   STAR
                 </a>
               </div>
