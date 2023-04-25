@@ -103,9 +103,11 @@ from pyngrok import ngrok
 load_dotenv()
 
 org_id = os.getenv('ORG_ID')
-access_token = os.getenv('ACCESS_TOKEN')
+api_id = os.getenv('API_ID')
+api_key = os.getenv('API_KEY')
 
-pureml.login(org_id=org_id, access_token=access_token)
+if api_id is not None and api_key is not None and org_id is not None:
+    pureml.login(org_id=org_id, api_id=api_id, api_key=api_key)
 
 predictor = Predictor()
 predictor.load_models()

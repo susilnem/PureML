@@ -3,6 +3,7 @@ import docker
 from .fastapi import create_fastapi_file
 from pureml.schema import FastAPISchema, PredictSchema, DockerSchema
 import string, random
+from pureml.utils.env import generate_env_dict, validate_env_docker
 
 prediction_schema = PredictSchema()
 fastapi_schema = FastAPISchema()
@@ -18,7 +19,7 @@ def generate_sys_commands(sys_commands):
     return commands
 
 
-def create_docker_file(org_id, access_token, sys_commands):
+def create_docker_file(sys_commands):
     # os.makedirs(PATH_DOCKER_DIR, exist_ok=True)
     os.makedirs(prediction_schema.paths.PATH_PREDICT_DIR, exist_ok=True)
 
@@ -39,9 +40,6 @@ def create_docker_file(org_id, access_token, sys_commands):
 FROM {BASE_IMAGE}
 
 {commands}
-
-ENV ORG_ID={ORG_ID}
-ENV ACCESS_TOKEN={ACCESS_TOKEN}
 
 RUN mkdir -p {PREDICT_DIR}
 
@@ -66,8 +64,6 @@ CMD ["python", "{API_PATH}"]
         PREDICT_DIR=prediction_schema.paths.PATH_PREDICT_DIR_RELATIVE,
         API_PATH=api_path,
         REQUIREMENTS_PATH=req_path,
-        ORG_ID=org_id,
-        ACCESS_TOKEN=access_token,
         commands=commands,
     )
 
@@ -137,7 +133,7 @@ def create_docker_image(label):
     return image, build_log, image_tag
 
 
-def run_docker_container(image, runtime, gpu_ids, host_port, docker_port):
+def run_docker_container(image, runtime, gpu_ids, host_port, docker_port, env_dict):
     client = docker.from_env()
     name = image.tags[0].replace(":", "-")
 
@@ -154,6 +150,7 @@ def run_docker_container(image, runtime, gpu_ids, host_port, docker_port):
         "auto_remove": True,
         "name": name,
         "runtime": runtime,
+        "environment": env_dict,
     }
 
     if len(gpu_ids) != 0:
@@ -177,8 +174,9 @@ def run_docker_container(image, runtime, gpu_ids, host_port, docker_port):
 
 def create(
     label,
-    org_id,
-    access_token,
+    # org_id,
+    # access_token,
+    env_path,
     runtime=None,
     gpu_ids=[],
     port=None,
@@ -187,13 +185,17 @@ def create(
     sys_commands=[],
 ):
 
+    env_dict = generate_env_dict(env_path=env_path)
+    env_valid = validate_env_docker(env_dict=env_dict)
+
+    if not env_valid:
+        return None
+
     create_fastapi_file(
         label=label, predict_path=predict_path, requirements_path=requirements_path
     )
 
-    create_docker_file(
-        org_id=org_id, access_token=access_token, sys_commands=sys_commands
-    )
+    create_docker_file(sys_commands=sys_commands)
 
     image, build_log, image_tag = create_docker_image(label=label)
 
@@ -212,6 +214,7 @@ def create(
             gpu_ids=gpu_ids,
             host_port=host_port,
             docker_port=docker_port,
+            env_dict=env_dict,
         )
 
         print("Created Docker container")
