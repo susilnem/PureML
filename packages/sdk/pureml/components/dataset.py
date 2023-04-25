@@ -35,7 +35,7 @@ def init_branch(label: str):
     url = "org/{}/dataset/{}/branch/create".format(org_id, name)
     url = urljoin(dataset_schema.backend.BASE_URL, url)
 
-    headers = get_auth_headers(content_type="application/json")
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_JSON.value)
 
     data = {"dataset_name": name, "branch_name": branch}
 
@@ -64,7 +64,7 @@ def check_dataset_hash(hash: str, label: str):
     url = "org/{}/dataset/{}/branch/{}/hash-status".format(org_id, name, branch)
     url = urljoin(dataset_schema.backend.BASE_URL, url)
 
-    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_FORM_URL_ENCODED)
 
     data = {"hash": hash, "branch": branch}
 
@@ -89,7 +89,9 @@ def branch_details(label: str):
     url = "org/{}/dataset/{}/branch/{}".format(org_id, name, branch)
     url = urljoin(dataset_schema.backend.BASE_URL, url)
 
-    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+    headers = get_auth_headers(
+        content_type=ContentTypeHeader.APP_FORM_URL_ENCODED.value
+    )
 
     response = requests.get(url, headers=headers)
 
@@ -127,7 +129,9 @@ def branch_delete(label: str) -> str:
     url = "org/{}/dataset/{}/branch/{}/delete".format(org_id, name, branch)
     url = urljoin(dataset_schema.backend.BASE_URL, url)
 
-    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+    headers = get_auth_headers(
+        content_type=ContentTypeHeader.APP_FORM_URL_ENCODED.value
+    )
 
     response = requests.delete(url, headers=headers)
 
@@ -150,7 +154,9 @@ def branch_list(label: str) -> str:
     url = "org/{}/dataset/{}/branch".format(org_id, name)
     url = urljoin(dataset_schema.backend.BASE_URL, url)
 
-    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+    headers = get_auth_headers(
+        content_type=ContentTypeHeader.APP_FORM_URL_ENCODED.value
+    )
 
     response = requests.get(url, headers=headers)
 
@@ -181,7 +187,9 @@ def list():
     url = "org/{}/dataset/all".format(org_id)
     url = urljoin(dataset_schema.backend.BASE_URL, url)
 
-    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+    headers = get_auth_headers(
+        content_type=ContentTypeHeader.APP_FORM_URL_ENCODED.value
+    )
 
     response = requests.get(url, headers=headers)
 
@@ -321,8 +329,9 @@ def register(dataset, label: str, lineage, is_empty: bool = False) -> str:
         url = "org/{}/dataset/{}/branch/{}/register".format(org_id, name, branch)
         url = urljoin(dataset_schema.backend.BASE_URL, url)
 
-        accept_header = AcceptHeader.APP_JSON.value
-        headers = get_auth_headers(content_type=None, accept=accept_header)
+        headers = get_auth_headers(
+            content_type=None, accept=AcceptHeader.APP_JSON.value
+        )
 
         files = {"file": (name_with_ext, open(dataset_path, "rb"))}
 
@@ -411,7 +420,9 @@ def details(
     url = "org/{}/dataset/{}".format(org_id, name)
     url = urljoin(dataset_schema.backend.BASE_URL, url)
 
-    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+    headers = get_auth_headers(
+        content_type=ContentTypeHeader.APP_FORM_URL_ENCODED.value
+    )
 
     response = requests.get(url, headers=headers)
 
@@ -450,7 +461,9 @@ def version_details(label: str):
     url = "org/{}/dataset/{}/branch/{}/version/{}".format(org_id, name, branch, version)
     url = urljoin(dataset_schema.backend.BASE_URL, url)
 
-    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+    headers = get_auth_headers(
+        content_type=ContentTypeHeader.APP_FORM_URL_ENCODED.value
+    )
 
     response = requests.get(url, headers=headers)
 
@@ -507,7 +520,9 @@ def fetch(label: str):
 
     dataset_url = dataset_details["path"]
 
-    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+    headers = get_auth_headers(
+        content_type=ContentTypeHeader.APP_FORM_URL_ENCODED.value
+    )
 
     # print('url', dataset_url)
 
@@ -553,7 +568,7 @@ def fetch(label: str):
 #     url = urljoin(dataset_schema.backend.BASE_URL, url)
 
 #     headers = {
-#         "Content-Type": "application/x-www-form-urlencoded",
+#         "Content-Type": ContentTypeHeader.APP_FORM_URL_ENCODED.value,
 #         "Authorization": "Bearer {}".format(user_token),
 #     }
 

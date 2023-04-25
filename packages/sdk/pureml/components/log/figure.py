@@ -16,6 +16,7 @@ from pureml.schema import (
     LogSchema,
     ConfigKeys,
     AcceptHeader,
+    ContentTypeHeader,
 )
 from rich import print
 from . import get_org_id
@@ -66,8 +67,7 @@ def post_figures(figure_paths, model_name: str, model_branch: str, model_version
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    accept_header = AcceptHeader.APP_JSON.value
-    headers = get_auth_headers(content_type=None, accept=accept_header)
+    headers = get_auth_headers(content_type=None, accept=AcceptHeader.APP_JSON.value)
 
     files = []
     for file_name, file_path in figure_paths.items():
@@ -166,7 +166,9 @@ def details(label: str):
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+    headers = get_auth_headers(
+        content_type=ContentTypeHeader.APP_FORM_URL_ENCODED.value
+    )
 
     response = requests.get(url, headers=headers)
 
@@ -212,7 +214,9 @@ def fetch(label: str, key: str):
         save_path = os.path.join(path_schema.PATH_FIGURE_DIR, file_name)
         # print("save path in fetching", save_path)
 
-        headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+        headers = get_auth_headers(
+            content_type=ContentTypeHeader.APP_FORM_URL_ENCODED.value
+        )
 
         # print("figure url", url)
 

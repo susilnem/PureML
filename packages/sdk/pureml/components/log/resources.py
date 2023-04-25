@@ -16,6 +16,8 @@ from pureml.schema import (
     LogSchema,
     PredictSchema,
     ConfigKeys,
+    AcceptHeader,
+    ContentTypeHeader,
 )
 from rich import print
 from . import get_org_id
@@ -40,7 +42,7 @@ def post_resource(path, model_name: str, model_branch: str, model_version: str):
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+    headers = get_auth_headers(content_type=None, accept=AcceptHeader.APP_JSON.value)
 
     try:
         zip_content(src_path=path, dst_path=predict_schema.PATH_RESOURCES)
@@ -100,7 +102,7 @@ def add(
             model_version=model_version,
         )
 
-        # print(response.text)
+        print(response.text)
 
     # return response.text
 
@@ -114,7 +116,7 @@ def details(label: str):
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+    headers = get_auth_headers(content_type=None, accept=AcceptHeader.APP_JSON.value)
 
     response = requests.get(url, headers=headers)
 
@@ -144,7 +146,10 @@ def fetch(label: str):
         save_path = os.path.join(path_schema.PATH_PREDICT_DIR, file_name)
         # print("save path", save_path)
 
-        headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+        headers = get_auth_headers(
+            content_type=ContentTypeHeader.APP_FORM_URL_ENCODED.value,
+            accept=AcceptHeader.APP_JSON,
+        )
 
         # print("resorce url", url)
 

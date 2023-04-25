@@ -36,7 +36,7 @@ def init_branch(label):
     url = "org/{}/model/{}/branch/create".format(org_id, name)
     url = urljoin(model_schema.backend.BASE_URL, url)
 
-    headers = get_auth_headers(content_type="application/json")
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_JSON.value)
 
     data = {"model_name": name, "branch_name": branch}
 
@@ -65,7 +65,9 @@ def check_model_hash(hash: str, label: str):
     url = "org/{}/model/{}/branch/{}/hash-status".format(org_id, name, branch)
     url = urljoin(model_schema.backend.BASE_URL, url)
 
-    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+    headers = get_auth_headers(
+        content_type=ContentTypeHeader.APP_FORM_URL_ENCODED.value
+    )
 
     data = {"hash": hash, "branch": branch}
 
@@ -90,7 +92,9 @@ def branch_details(label: str):
     url = "org/{}/model/{}/branch/{}".format(org_id, name, branch)
     url = urljoin(model_schema.backend.BASE_URL, url)
 
-    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+    headers = get_auth_headers(
+        content_type=ContentTypeHeader.APP_FORM_URL_ENCODED.value
+    )
 
     response = requests.get(url, headers=headers)
     # print(response.url)
@@ -128,7 +132,9 @@ def branch_delete(label: str) -> str:
     url = "org/{}/model/{}/branch/{}/delete".format(org_id, name, branch)
     url = urljoin(model_schema.backend.BASE_URL, url)
 
-    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+    headers = get_auth_headers(
+        content_type=ContentTypeHeader.APP_FORM_URL_ENCODED.value
+    )
 
     response = requests.delete(url, headers=headers)
 
@@ -151,7 +157,9 @@ def branch_list(label: str) -> str:
     url = "org/{}/model/{}/branch".format(org_id, name)
     url = urljoin(model_schema.backend.BASE_URL, url)
 
-    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+    headers = get_auth_headers(
+        content_type=ContentTypeHeader.APP_FORM_URL_ENCODED.value
+    )
 
     response = requests.get(url, headers=headers)
 
@@ -182,7 +190,9 @@ def list():
     url = "org/{}/model/all".format(org_id)
     url = urljoin(model_schema.backend.BASE_URL, url)
 
-    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+    headers = get_auth_headers(
+        content_type=ContentTypeHeader.APP_FORM_URL_ENCODED.value
+    )
 
     response = requests.get(url, headers=headers)
 
@@ -218,7 +228,7 @@ def init(label: str, readme: str = None):
     url = "org/{}/model/{}/create".format(org_id, name)
     url = urljoin(model_schema.backend.BASE_URL, url)
 
-    headers = get_auth_headers(content_type="application/json")
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_JSON)
 
     data = {
         "name": name,
@@ -294,8 +304,9 @@ def register(
         url = "org/{}/model/{}/branch/{}/register".format(org_id, name, branch)
         url = urljoin(model_schema.backend.BASE_URL, url)
 
-        accept_header = AcceptHeader.APP_JSON.value
-        headers = get_auth_headers(content_type=None, accept=accept_header)
+        headers = get_auth_headers(
+            content_type=None, accept=AcceptHeader.APP_JSON.value
+        )
 
         files = {"file": (model_file_name, open(model_path, "rb"))}
 
@@ -364,7 +375,10 @@ def details(label: str):
     url = "org/{}/model/{}".format(org_id, name)
     url = urljoin(model_schema.backend.BASE_URL, url)
 
-    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+    headers = get_auth_headers(
+        content_type=ContentTypeHeader.APP_FORM_URL_ENCODED.value,
+        accept=AcceptHeader.APP_JSON.value,
+    )
 
     response = requests.get(url, headers=headers)
     # print(response.url)
@@ -406,7 +420,9 @@ def version_details(label: str):
     url = "org/{}/model/{}/branch/{}/version/{}".format(org_id, name, branch, version)
     url = urljoin(model_schema.backend.BASE_URL, url)
 
-    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+    headers = get_auth_headers(
+        content_type=ContentTypeHeader.APP_FORM_URL_ENCODED.value
+    )
 
     response = requests.get(url, headers=headers)
 
@@ -462,7 +478,9 @@ def fetch(label: str):
 
     model_url = model_details["path"]
 
-    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+    headers = get_auth_headers(
+        content_type=ContentTypeHeader.APP_FORM_URL_ENCODED.value
+    )
 
     response = requests.get(model_url)
 
@@ -504,7 +522,7 @@ def fetch(label: str):
 #     url = urljoin(model_schema.backend.BASE_URL, url)
 
 #     headers = {
-#         "Content-Type": "application/x-www-form-urlencoded",
+#         "Content-Type": ContentTypeHeader.APP_FORM_URL_ENCODED.value,
 #         "Authorization": "Bearer {}".format(user_token),
 #     }
 
