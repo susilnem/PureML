@@ -24,7 +24,14 @@ def login(org_id: str, api_id: str, api_key: str) -> str:
     url_path_1 = "org/id/{}".format(org_id)
     url = urljoin(backend_schema.BASE_URL, url_path_1)
 
-    if api_id is None or api_key is None or org_id is None or api_id == "" or api_key == "" or org_id == "":
+    if (
+        api_id is None
+        or api_key is None
+        or org_id is None
+        or api_id == ""
+        or api_key == ""
+        or org_id == ""
+    ):
         print("[red]Invalid credentials for login")
         return
 
@@ -46,18 +53,16 @@ def login(org_id: str, api_id: str, api_key: str) -> str:
             save_auth(org_id=org_id, api_id=api_id, api_key=api_key)
 
         else:
-            print(
-                "[orange]Valid Org Id and API token. Obtained different organization"
-            )
+            print("[orange]Valid Org Id and API token. Obtained different organization")
 
         # else:
         #     print('[green] Invalid Org Id and Access token')
     elif response.status_code == 403:
         print("[red]Invalid API token")
-        delete_token(True)
+        # delete_token(True)
     elif response.status_code == 404:
         print("[red]Invalid Org Id")
-        delete_token(True)
+        # delete_token(True)
     else:
         print("[red]Unable to obtain the organization details")
-        delete_token(True)
+        # delete_token(True)
