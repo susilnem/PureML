@@ -218,7 +218,7 @@ def init(label: str, readme: str = None):
     url = "org/{}/model/{}/create".format(org_id, name)
     url = urljoin(model_schema.backend.BASE_URL, url)
 
-    headers = get_auth_headers(content_type=ContentTypeHeader)
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_JSON)
 
     data = {
         "name": name,
@@ -365,7 +365,7 @@ def details(label: str):
 
     headers = get_auth_headers(
         content_type=ContentTypeHeader.APP_FORM_URL_ENCODED,
-        accept=AcceptHeader.APP_JSON.value,
+        accept=AcceptHeader.APP_JSON,
     )
 
     response = requests.get(url, headers=headers)
