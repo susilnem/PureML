@@ -41,7 +41,7 @@ def post_predict(file_paths, model_name: str, model_branch: str, model_version: 
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = get_auth_headers(content_type=None, accept=AcceptHeader.APP_JSON.value)
+    headers = get_auth_headers(content_type=None, accept=AcceptHeader.APP_JSON)
 
     files = []
     for file_name, file_path in file_paths.items():
@@ -120,7 +120,7 @@ def details(label: str):
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = get_auth_headers(content_type=None, accept=AcceptHeader.APP_JSON.value)
+    headers = get_auth_headers(content_type=None, accept=AcceptHeader.APP_JSON)
 
     response = requests.get(url, headers=headers)
 
@@ -151,7 +151,7 @@ def fetch(label: str):
         # print("save path", save_path)
 
         headers = get_auth_headers(
-            content_type=ContentTypeHeader.APP_FORM_URL_ENCODED.value,
+            content_type=ContentTypeHeader.APP_FORM_URL_ENCODED,
             accept=AcceptHeader.APP_JSON,
         )
         # print("predict url", url)
