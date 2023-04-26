@@ -17,7 +17,7 @@ from pureml.cli.helpers import get_auth_headers
 
 from . import get_org_id
 
-from pureml.schema import PathSchema, BackendSchema
+from pureml.schema import PathSchema, BackendSchema, ContentTypeHeader
 from joblib import Parallel, delayed
 
 
@@ -55,8 +55,7 @@ def add(
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-
-    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_FORM_URL_ENCODED)
 
     files = {}
     for file_name, file_path in video.items():
@@ -88,7 +87,7 @@ def details(model_name: str, model_branch: str, model_version: str = "latest"):
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_FORM_URL_ENCODED)
 
     response = requests.get(url, headers=headers)
 
@@ -138,7 +137,7 @@ def fetch(
 
         name_fetched = video_details["video"]
 
-        headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+        headers = get_auth_headers(content_type=ContentTypeHeader.APP_FORM_URL_ENCODED)
 
         print("video url", url)
 

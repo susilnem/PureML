@@ -13,7 +13,7 @@ from pureml.cli.helpers import get_auth_headers
 
 from . import get_token, get_org_id
 
-from pureml.schema import PathSchema, BackendSchema
+from pureml.schema import PathSchema, BackendSchema, ContentTypeHeader
 from joblib import Parallel, delayed
 from PIL import Image
 
@@ -59,7 +59,7 @@ def details(
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_FORM_URL_ENCODED)
 
     response = requests.get(url, headers=headers)
 
@@ -113,7 +113,7 @@ def add(
 
     array_paths = save_images(arrays=array)
 
-    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_FORM_URL_ENCODED)
 
     files = {}
     for file_name, file_path in array_paths.items():
@@ -169,7 +169,7 @@ def fetch(
 
         name_fetched = array_details["array"]
 
-        headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+        headers = get_auth_headers(content_type=ContentTypeHeader.APP_FORM_URL_ENCODED)
 
         print("array url", url)
 
@@ -246,7 +246,7 @@ def delete(
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_FORM_URL_ENCODED)
 
     # array_details = details(model_name=model_name, array=array)
 

@@ -17,7 +17,7 @@ from pureml.cli.helpers import get_auth_headers
 
 from . import get_org_id
 
-from pureml.schema import PathSchema, BackendSchema
+from pureml.schema import PathSchema, BackendSchema, ContentTypeHeader
 from joblib import Parallel, delayed
 
 path_schema = PathSchema().get_instance()
@@ -47,7 +47,7 @@ def details(
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_FORM_URL_ENCODED)
 
     response = requests.get(url, headers=headers)
 
@@ -104,7 +104,7 @@ def add(
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_FORM_URL_ENCODED)
 
     if os.path.isfile(artifact):
         file = {"file": (name, open(artifact, "rb"))}
@@ -156,7 +156,7 @@ def fetch(model_name: str, model_version: str = "latest", name: str = ""):
 
         name_fetched = artifact_details["artifact"]
 
-        headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+        headers = get_auth_headers(content_type=ContentTypeHeader.APP_FORM_URL_ENCODED)
 
         print("Artifact url", url)
 
@@ -231,7 +231,7 @@ def delete(
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_FORM_URL_ENCODED)
 
     # artifact_details = details(model_name=model_name, artifact=artifact)
 

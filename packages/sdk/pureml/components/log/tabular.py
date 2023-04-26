@@ -17,7 +17,7 @@ from pureml.cli.helpers import get_auth_headers
 
 from . import get_org_id
 
-from pureml.schema import PathSchema, BackendSchema
+from pureml.schema import PathSchema, BackendSchema, ContentTypeHeader
 from joblib import Parallel, delayed
 
 
@@ -48,7 +48,7 @@ def details(
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_FORM_URL_ENCODED)
 
     response = requests.get(url, headers=headers)
 
@@ -100,7 +100,7 @@ def add(
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_FORM_URL_ENCODED)
 
     files = {}
     for file_name, file_path in tabular.items():
@@ -156,7 +156,7 @@ def fetch(
 
         name_fetched = tabular_details["tabular"]
 
-        headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+        headers = get_auth_headers(content_type=ContentTypeHeader.APP_FORM_URL_ENCODED)
 
         print("tabular url", url)
 

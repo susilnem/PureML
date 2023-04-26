@@ -3,7 +3,7 @@ from urllib.parse import urljoin
 
 import requests
 from pureml.cli.helpers import get_auth_headers
-from pureml.schema import BackendSchema, LogSchema, ConfigKeys
+from pureml.schema import BackendSchema, LogSchema, ConfigKeys, ContentTypeHeader
 from pureml.utils.log_utils import merge_step_with_value
 from pureml.utils.pipeline import add_params_to_config
 from rich import print
@@ -25,7 +25,7 @@ def post_params(params, model_name: str, model_branch: str, model_version: str):
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_FORM_URL_ENCODED)
 
     params = json.dumps(params)
 
@@ -105,7 +105,7 @@ def details(label: str):
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_FORM_URL_ENCODED)
 
     response = requests.get(url, headers=headers)
 

@@ -17,7 +17,7 @@ from pureml.cli.helpers import get_auth_headers
 
 from . import get_token, get_org_id
 
-from pureml.schema import PathSchema, BackendSchema
+from pureml.schema import PathSchema, BackendSchema, ContentTypeHeader
 from joblib import Parallel, delayed
 
 path_schema = PathSchema().get_instance()
@@ -47,7 +47,7 @@ def details(
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_FORM_URL_ENCODED)
 
     response = requests.get(url, headers=headers)
 
@@ -101,7 +101,7 @@ def add(
 
     user_token = get_token()
 
-    headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_FORM_URL_ENCODED)
 
     files = {}
     for file_name, file_path in audio.items():
@@ -157,7 +157,7 @@ def fetch(
 
         name_fetched = audio_details["audio"]
 
-        headers = get_auth_headers(content_type="application/x-www-form-urlencoded")
+        headers = get_auth_headers(content_type=ContentTypeHeader.APP_FORM_URL_ENCODED)
 
         print("audio url", url)
 
