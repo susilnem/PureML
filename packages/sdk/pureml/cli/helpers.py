@@ -86,27 +86,3 @@ def get_auth_headers(
             headers["X-Api-Key"] = api_token["api_key"]
 
             return headers
-
-
-def get_auth_headers_2(content_type: str = "application/x-www-form-urlencoded"):
-    token = get_token()
-    api_token = get_api_token()
-    if token is None and api_token is None:
-        print(
-            f"[bold red]Authentication token or API token does not exist! Please login"
-        )
-        typer.Exit()
-        return None
-    elif token is not None:
-        return {
-            "Content-Type": content_type,
-            "Accept": "application/json",
-            "Authorization": "Bearer {}".format(token),
-        }
-    else:
-        return {
-            "Content-Type": content_type,
-            "Accept": "application/json",
-            "X-Api-Id": api_token["api_id"],
-            "X-Api-Key": api_token["api_key"],
-        }
