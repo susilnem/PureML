@@ -12,8 +12,8 @@ from pureml.cli.helpers import get_auth_headers
 from pureml.schema.backend import get_backend_base_url
 from pureml.cli.puremlconfig import PureMLConfigYML
 from pureml.components import get_org_id
-from pureml.schema.backend import BackendSchema
-from pureml.schema.paths import PathSchema
+from pureml.schema import BackendSchema, PathSchema, ContentTypeHeader
+
 
 path_schema = PathSchema().get_instance()
 backend_schema = BackendSchema().get_instance()
@@ -35,7 +35,14 @@ def callback():
 
 
 @app.command()
-def add(backend_url: str = typer.Option("", "--backend-url", "-b", help="Backend URL for self-hosted or custom pureml backend instance")):
+def add(
+    backend_url: str = typer.Option(
+        "",
+        "--backend-url",
+        "-b",
+        help="Backend URL for self-hosted or custom pureml backend instance",
+    )
+):
     """
     Add a new integration and it's secrets
 
@@ -106,7 +113,7 @@ def add(backend_url: str = typer.Option("", "--backend-url", "-b", help="Backend
 
     url = urljoin(backend_base_url, url_path)
 
-    headers = get_auth_headers(content_type="application/json")
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_JSON)
 
     response = requests.post(url, json=data, headers=headers)
 
@@ -118,7 +125,14 @@ def add(backend_url: str = typer.Option("", "--backend-url", "-b", help="Backend
 
 
 @app.command()
-def all(backend_url: str = typer.Option("", "--backend-url", "-b", help="Backend URL for self-hosted or custom pureml backend instance")):
+def all(
+    backend_url: str = typer.Option(
+        "",
+        "--backend-url",
+        "-b",
+        help="Backend URL for self-hosted or custom pureml backend instance",
+    )
+):
     """
     Get all secret names for the organization
 
@@ -132,7 +146,7 @@ def all(backend_url: str = typer.Option("", "--backend-url", "-b", help="Backend
     url_path = f"org/{org_id}/secret"
     url = urljoin(backend_base_url, url_path)
 
-    headers = get_auth_headers(content_type="application/json")
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_JSON)
 
     response = requests.get(url, headers=headers)
 
@@ -154,7 +168,15 @@ def all(backend_url: str = typer.Option("", "--backend-url", "-b", help="Backend
 
 
 @app.command()
-def show(secret_name: str = typer.Argument(..., case_sensitive=True), backend_url: str = typer.Option("", "--backend-url", "-b", help="Backend URL for self-hosted or custom pureml backend instance")):
+def show(
+    secret_name: str = typer.Argument(..., case_sensitive=True),
+    backend_url: str = typer.Option(
+        "",
+        "--backend-url",
+        "-b",
+        help="Backend URL for self-hosted or custom pureml backend instance",
+    ),
+):
     """
     Shows the secrets under given secret name
 
@@ -162,13 +184,13 @@ def show(secret_name: str = typer.Argument(..., case_sensitive=True), backend_ur
     pureml secrets show "secret_name"
     """
     backend_base_url = get_backend_base_url(backend_url)
-    
+
     print()
     org_id = get_org_id()
     url_path = f"org/{org_id}/secret/{secret_name}"
     url = urljoin(backend_base_url, url_path)
 
-    headers = get_auth_headers(content_type="application/json")
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_JSON)
 
     response = requests.get(url, headers=headers)
 
@@ -195,7 +217,15 @@ def show(secret_name: str = typer.Argument(..., case_sensitive=True), backend_ur
 
 
 @app.command()
-def delete(secret_name: str = typer.Argument(..., case_sensitive=True), backend_url: str = typer.Option("", "--backend-url", "-b", help="Backend URL for self-hosted or custom pureml backend instance")):
+def delete(
+    secret_name: str = typer.Argument(..., case_sensitive=True),
+    backend_url: str = typer.Option(
+        "",
+        "--backend-url",
+        "-b",
+        help="Backend URL for self-hosted or custom pureml backend instance",
+    ),
+):
     """
     Delete secrets using key
 
@@ -217,7 +247,7 @@ def delete(secret_name: str = typer.Argument(..., case_sensitive=True), backend_
     url_path = f"org/{org_id}/secret/{secret_name}"
     url = urljoin(backend_base_url, url_path)
 
-    headers = get_auth_headers(content_type="application/json")
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_JSON)
 
     response = requests.delete(url, headers=headers)
 

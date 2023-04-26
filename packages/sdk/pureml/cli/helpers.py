@@ -3,7 +3,7 @@ import os
 
 import typer
 from pureml.components import get_token, get_api_token
-from pureml.schema import PathSchema
+from pureml.schema import PathSchema, ContentTypeHeader, AcceptHeader
 from rich import print
 
 path_schema = PathSchema().get_instance()
@@ -58,7 +58,7 @@ def save_auth(
 # content_type: str = "application/x-www-form-urlencoded",
 # accept: str = "application/json",
 def get_auth_headers(
-    content_type: str = "application/x-www-form-urlencoded",
+    content_type: str = ContentTypeHeader.APP_FORM_URL_ENCODED,
     accept: str = None,
 ):
     token = get_token()
@@ -73,9 +73,9 @@ def get_auth_headers(
     else:
         headers = {}
         if content_type is not None:
-            headers["Content-Type"] = content_type
+            headers["Content-Type"] = content_type.value
         if accept is not None:
-            headers["Accept"] = accept
+            headers["Accept"] = accept.value
 
         if token is not None:
             headers["Authorization"] = "Bearer {}".format(token)
