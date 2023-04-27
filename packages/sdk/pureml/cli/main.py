@@ -52,17 +52,17 @@ def init(
     ),
 ):
     """
-    This command will initialize the puremlconfig.yml file for your project
+    This command will initialize the puremlconfig.yaml file for your project
     """
     from pathlib import Path
 
     project_path = Path.cwd()
 
-    puremlconfig = PureMLConfigYML(project_path / "puremlconfig.yml")
+    puremlconfig = PureMLConfigYML(project_path / "puremlconfig.yaml")
     
     # check if the config file exists
     if puremlconfig.file.exists():
-        print("A puremlconfig.yml file already exists in this directory - aborting")
+        print("A puremlconfig.yaml file already exists in this directory - aborting")
         return
     
     # if not silent, ask for the config values

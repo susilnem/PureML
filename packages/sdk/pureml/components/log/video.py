@@ -13,9 +13,11 @@ import typing
 
 from urllib.parse import urljoin
 
-from . import get_token, get_org_id
+from pureml.cli.helpers import get_auth_headers
 
-from pureml.schema import PathSchema, BackendSchema
+from . import get_org_id
+
+from pureml.schema import PathSchema, BackendSchema, ContentTypeHeader
 from joblib import Parallel, delayed
 
 
@@ -46,7 +48,6 @@ def add(
 
     """
 
-    user_token = get_token()
     org_id = get_org_id()
 
     url = "org/{}/model/{}/branch/{}/version/{}/log".format(
@@ -54,9 +55,7 @@ def add(
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    user_token = get_token()
-
-    headers = {"Authorization": "Bearer {}".format(user_token)}
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_FORM_URL_ENCODED)
 
     files = {}
     for file_name, file_path in video.items():
@@ -64,7 +63,7 @@ def add(
         if os.path.isfile(file_path):
             files[file_name] = open(file_path, "rb")
         else:
-            print("[bold red] video", file_name, "doesnot exist at the given path")
+            print("[bold red] video", file_name, "does not exist at the given path")
 
     data = {"name_path_mapping": video}
 
@@ -81,7 +80,6 @@ def add(
 
 
 def details(model_name: str, model_branch: str, model_version: str = "latest"):
-    user_token = get_token()
     org_id = get_org_id()
 
     url = "org/{}/model/{}/branch/{}/version/{}/log".format(
@@ -89,10 +87,7 @@ def details(model_name: str, model_branch: str, model_version: str = "latest"):
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = {
-        "accept": "application/json",
-        "Authorization": "Bearer {}".format(user_token),
-    }
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_FORM_URL_ENCODED)
 
     response = requests.get(url, headers=headers)
 
@@ -130,7 +125,6 @@ def fetch(
 
     """
 
-    user_token = get_token()
     org_id = get_org_id()
 
     def fetch_video(video_details: dict):
@@ -143,10 +137,7 @@ def fetch(
 
         name_fetched = video_details["video"]
 
-        headers = {
-            "Content-Type": "application/x-www-form-urlencoded",
-            "Authorization": "Bearer {}".format(user_token),
-        }
+        headers = get_auth_headers(content_type=ContentTypeHeader.APP_FORM_URL_ENCODED)
 
         print("video url", url)
 

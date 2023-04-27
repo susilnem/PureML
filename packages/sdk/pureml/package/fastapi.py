@@ -33,7 +33,7 @@ def get_resources(label, resources_path):
                 prediction_schema.PATH_RESOURCES, path_schema.PATH_PREDICT_DIR
             )
         else:
-            raise Exception(resources_path, "doesnot exists!!!")
+            raise Exception(resources_path, "does not exists!!!")
     else:
         print("Taking the fetched resources file path")
 
@@ -56,7 +56,7 @@ def get_predict_file(label, predict_path):
         if os.path.exists(predict_path):
             shutil.copy(predict_path, prediction_schema.PATH_PREDICT)
         else:
-            raise Exception(predict_path, "doesnot exists!!!")
+            raise Exception(predict_path, "does not exists!!!")
     else:
         print("Taking the fetched predict.py file path")
 
@@ -75,7 +75,7 @@ def get_requirements_file(label, requirements_path):
         if os.path.exists(requirements_path):
             shutil.copy(requirements_path, prediction_schema.PATH_PREDICT_REQUIREMENTS)
         else:
-            raise Exception(requirements_path, "doesnot exists!!!")
+            raise Exception(requirements_path, "does not exists!!!")
     else:
         print("Taking the fetched requirements.txt file path")
 
@@ -103,9 +103,11 @@ from pyngrok import ngrok
 load_dotenv()
 
 org_id = os.getenv('ORG_ID')
-access_token = os.getenv('ACCESS_TOKEN')
+api_id = os.getenv('API_ID')
+api_key = os.getenv('API_KEY')
 
-pureml.login(org_id=org_id, access_token=access_token)
+if api_id is not None and api_key is not None and org_id is not None:
+    pureml.login(org_id=org_id, api_id=api_id, api_key=api_key)
 
 predictor = Predictor()
 predictor.load_models()

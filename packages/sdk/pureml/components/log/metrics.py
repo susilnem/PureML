@@ -2,12 +2,13 @@ import json
 from urllib.parse import urljoin
 
 import requests
-from pureml.schema import BackendSchema, LogSchema, ConfigKeys
+from pureml.cli.helpers import get_auth_headers
+from pureml.schema import BackendSchema, LogSchema, ConfigKeys, ContentTypeHeader
 from pureml.utils.log_utils import merge_step_with_value
 from pureml.utils.pipeline import add_metrics_to_config
 from rich import print
 
-from . import convert_values_to_string, get_org_id, get_token
+from . import convert_values_to_string, get_org_id
 from pureml.utils.version_utils import parse_version_label
 from pureml.utils.config import reset_config
 
@@ -19,7 +20,6 @@ config_keys = ConfigKeys
 
 def post_metrics(metrics, model_name: str, model_branch: str, model_version: str):
 
-    user_token = get_token()
     org_id = get_org_id()
 
     url = "org/{}/model/{}/branch/{}/version/{}/log".format(
@@ -27,11 +27,7 @@ def post_metrics(metrics, model_name: str, model_branch: str, model_version: str
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = {
-        "accept": "application/json",
-        "Content-Type": "*/*",
-        "Authorization": "Bearer {}".format(user_token),
-    }
+    headers = get_auth_headers(content_type=ContentTypeHeader.ALL)
 
     metrics = json.dumps(metrics)
     data = {"data": metrics, "key": post_key_predict}
@@ -102,7 +98,6 @@ def add(
 
 def details(label: str):
     model_name, model_branch, model_version = parse_version_label(label)
-    user_token = get_token()
     org_id = get_org_id()
 
     url = "org/{}/model/{}/branch/{}/version/{}/log".format(
@@ -110,10 +105,7 @@ def details(label: str):
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = {
-        "accept": "application/json",
-        "Authorization": "Bearer {}".format(user_token),
-    }
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_FORM_URL_ENCODED)
 
     response = requests.get(url, headers=headers)
 

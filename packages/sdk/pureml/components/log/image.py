@@ -13,9 +13,11 @@ import typing
 
 from urllib.parse import urljoin
 
+from pureml.cli.helpers import get_auth_headers
+
 from . import get_token, get_org_id
 
-from pureml.schema import PathSchema, BackendSchema
+from pureml.schema import PathSchema, BackendSchema, ContentTypeHeader
 from joblib import Parallel, delayed
 
 path_schema = PathSchema().get_instance()
@@ -38,7 +40,6 @@ def details(
 
     """
 
-    user_token = get_token()
     org_id = get_org_id()
 
     url = "org/{}/model/{}/branch/{}/version/{}/log".format(
@@ -46,10 +47,7 @@ def details(
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": "Bearer {}".format(user_token),
-    }
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_FORM_URL_ENCODED)
 
     response = requests.get(url, headers=headers)
 
@@ -94,7 +92,6 @@ def add(
 
     """
 
-    user_token = get_token()
     org_id = get_org_id()
 
     url = "org/{}/model/{}/branch/{}/version/{}/log".format(
@@ -103,7 +100,7 @@ def add(
 
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = {"Authorization": "Bearer {}".format(user_token)}
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_FORM_URL_ENCODED)
 
     files = {}
     for file_name, file_path in image.items():
@@ -111,7 +108,7 @@ def add(
         if os.path.isfile(file_path):
             files[file_name] = open(file_path, "rb")
         else:
-            print("[bold red] image", file_name, "doesnot exist at the given path")
+            print("[bold red] image", file_name, "does not exist at the given path")
 
     data = {"name_path_mapping": image}
 
@@ -147,7 +144,6 @@ def fetch(
 
     """
 
-    user_token = get_token()
     org_id = get_org_id()
 
     def fetch_image(image_details: dict):
@@ -160,10 +156,7 @@ def fetch(
 
         name_fetched = image_details["image"]
 
-        headers = {
-            "Content-Type": "application/x-www-form-urlencoded",
-            "Authorization": "Bearer {}".format(user_token),
-        }
+        headers = get_auth_headers(content_type=ContentTypeHeader.APP_FORM_URL_ENCODED)
 
         print("image url", url)
 

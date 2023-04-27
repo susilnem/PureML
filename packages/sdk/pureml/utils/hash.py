@@ -7,7 +7,7 @@ import json
 import inspect
 import re
 from datetime import datetime
-from pureml.components import get_org_id, get_token
+from pureml.components import get_org_id
 
 
 def file_reader_chunk(file_obj, chunk_size=1024):
@@ -22,7 +22,6 @@ def file_reader_chunk(file_obj, chunk_size=1024):
 def generate_hash_unique(name, branch, hash=hashlib.md5):
 
     org_id = get_org_id()
-    access_token = get_token()
 
     time_current = str(datetime.now())
 
@@ -31,7 +30,7 @@ def generate_hash_unique(name, branch, hash=hashlib.md5):
     )
 
     hash_content = "puremlHash".join(
-        [org_id, access_token, name, branch, time_current, string_random]
+        [org_id, name, branch, time_current, string_random]
     )
 
     # print('hash content', hash_content)

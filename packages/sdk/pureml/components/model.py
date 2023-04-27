@@ -4,8 +4,16 @@ from rich import print
 import os
 import json
 
-from . import get_token, get_org_id
-from pureml.schema import ModelSchema, StorageSchema, ConfigKeys
+from pureml.cli.helpers import get_auth_headers
+
+from . import get_org_id
+from pureml.schema import (
+    ModelSchema,
+    StorageSchema,
+    ConfigKeys,
+    ContentTypeHeader,
+    AcceptHeader,
+)
 from pureml import save_model, load_model
 from urllib.parse import urljoin
 import joblib
@@ -22,17 +30,13 @@ storage = StorageSchema().get_instance()
 def init_branch(label):
     name, branch, _ = parse_version_label(label)
 
-    user_token = get_token()
     org_id = get_org_id()
     model_schema = ModelSchema()
 
     url = "org/{}/model/{}/branch/create".format(org_id, name)
     url = urljoin(model_schema.backend.BASE_URL, url)
 
-    headers = {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer {}".format(user_token),
-    }
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_JSON)
 
     data = {"model_name": name, "branch_name": branch}
 
@@ -55,14 +59,13 @@ def check_model_hash(hash: str, label: str):
 
     name, branch, _ = parse_version_label(label)
 
-    user_token = get_token()
     org_id = get_org_id()
     model_schema = ModelSchema()
 
     url = "org/{}/model/{}/branch/{}/hash-status".format(org_id, name, branch)
     url = urljoin(model_schema.backend.BASE_URL, url)
 
-    headers = {"Authorization": "Bearer {}".format(user_token)}
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_FORM_URL_ENCODED)
 
     data = {"hash": hash, "branch": branch}
 
@@ -81,17 +84,13 @@ def check_model_hash(hash: str, label: str):
 def branch_details(label: str):
     name, branch, _ = parse_version_label(label)
 
-    user_token = get_token()
     org_id = get_org_id()
     model_schema = ModelSchema()
 
     url = "org/{}/model/{}/branch/{}".format(org_id, name, branch)
     url = urljoin(model_schema.backend.BASE_URL, url)
 
-    headers = {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": "Bearer {}".format(user_token),
-    }
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_FORM_URL_ENCODED)
 
     response = requests.get(url, headers=headers)
     # print(response.url)
@@ -123,17 +122,13 @@ def branch_status(label: str):
 def branch_delete(label: str) -> str:
     name, branch, _ = parse_version_label(label)
 
-    user_token = get_token()
     org_id = get_org_id()
     model_schema = ModelSchema()
 
     url = "org/{}/model/{}/branch/{}/delete".format(org_id, name, branch)
     url = urljoin(model_schema.backend.BASE_URL, url)
 
-    headers = {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": "Bearer {}".format(user_token),
-    }
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_FORM_URL_ENCODED)
 
     response = requests.delete(url, headers=headers)
 
@@ -150,17 +145,13 @@ def branch_list(label: str) -> str:
 
     name, _, _ = parse_version_label(label)
 
-    user_token = get_token()
     org_id = get_org_id()
     model_schema = ModelSchema()
 
     url = "org/{}/model/{}/branch".format(org_id, name)
     url = urljoin(model_schema.backend.BASE_URL, url)
 
-    headers = {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": "Bearer {}".format(user_token),
-    }
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_FORM_URL_ENCODED)
 
     response = requests.get(url, headers=headers)
 
@@ -185,17 +176,13 @@ def list():
 
     """
 
-    user_token = get_token()
     org_id = get_org_id()
     model_schema = ModelSchema()
 
     url = "org/{}/model/all".format(org_id)
     url = urljoin(model_schema.backend.BASE_URL, url)
 
-    headers = {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": "Bearer {}".format(user_token),
-    }
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_FORM_URL_ENCODED)
 
     response = requests.get(url, headers=headers)
 
@@ -217,7 +204,6 @@ def init(label: str, readme: str = None):
 
     name, branch, _ = parse_version_label(label)
 
-    user_token = get_token()
     org_id = get_org_id()
     model_schema = ModelSchema()
 
@@ -232,10 +218,7 @@ def init(label: str, readme: str = None):
     url = "org/{}/model/{}/create".format(org_id, name)
     url = urljoin(model_schema.backend.BASE_URL, url)
 
-    headers = {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer {}".format(user_token),
-    }
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_JSON)
 
     data = {
         "name": name,
@@ -268,7 +251,6 @@ def register(
 
     name, branch, _ = parse_version_label(label)
 
-    user_token = get_token()
     org_id = get_org_id()
     model_schema = ModelSchema()
 
@@ -312,7 +294,7 @@ def register(
         url = "org/{}/model/{}/branch/{}/register".format(org_id, name, branch)
         url = urljoin(model_schema.backend.BASE_URL, url)
 
-        headers = {"Authorization": "Bearer {}".format(user_token)}
+        headers = get_auth_headers(content_type=None, accept=AcceptHeader.APP_JSON)
 
         files = {"file": (model_file_name, open(model_path, "rb"))}
 
@@ -325,12 +307,15 @@ def register(
         }
 
         response = requests.post(url, files=files, data=data, headers=headers)
+        # print(response.request.headers)
 
         if response.ok:
             print(f"[bold green]Model has been registered!")
 
             model_version = response.json()["data"][0]["version"]
             print("Model Version: ", model_version)
+            model_label = ":".join([label, model_version])
+            print("Model label: ", model_label)
 
             # reset_config(key=config_keys.model.value)
 
@@ -338,6 +323,7 @@ def register(
 
         else:
             print(f"[bold red]Model has not been registered!")
+            print(response.text)
 
         return False, model_hash, None
 
@@ -371,17 +357,16 @@ def details(label: str):
 
     name, _, _ = parse_version_label(label)
 
-    user_token = get_token()
     org_id = get_org_id()
     model_schema = ModelSchema()
 
     url = "org/{}/model/{}".format(org_id, name)
     url = urljoin(model_schema.backend.BASE_URL, url)
 
-    headers = {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": "Bearer {}".format(user_token),
-    }
+    headers = get_auth_headers(
+        content_type=ContentTypeHeader.APP_FORM_URL_ENCODED,
+        accept=AcceptHeader.APP_JSON,
+    )
 
     response = requests.get(url, headers=headers)
     # print(response.url)
@@ -417,17 +402,13 @@ def version_details(label: str):
 
     name, branch, version = parse_version_label(label)
 
-    user_token = get_token()
     org_id = get_org_id()
     model_schema = ModelSchema()
 
     url = "org/{}/model/{}/branch/{}/version/{}".format(org_id, name, branch, version)
     url = urljoin(model_schema.backend.BASE_URL, url)
 
-    headers = {
-        "accept": "application/json",
-        "Authorization": "Bearer {}".format(user_token),
-    }
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_FORM_URL_ENCODED)
 
     response = requests.get(url, headers=headers)
 
@@ -462,7 +443,6 @@ def fetch(label: str):
 
     name, branch, version = parse_version_label(label)
 
-    user_token = get_token()
     org_id = get_org_id()
 
     model_details = version_details(label=label)
@@ -484,10 +464,7 @@ def fetch(label: str):
 
     model_url = model_details["path"]
 
-    headers = {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": "Bearer {}".format(user_token),
-    }
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_FORM_URL_ENCODED)
 
     response = requests.get(model_url)
 
@@ -529,7 +506,7 @@ def fetch(label: str):
 #     url = urljoin(model_schema.backend.BASE_URL, url)
 
 #     headers = {
-#         "Content-Type": "application/x-www-form-urlencoded",
+#         "Content-Type": ContentTypeHeader.APP_FORM_URL_ENCODED.value,
 #         "Authorization": "Bearer {}".format(user_token),
 #     }
 

@@ -1,5 +1,4 @@
 from pureml.components.auth import login
-from pureml.components import get_token
 from pureml.utils.constants import PATH_USER_TOKEN
 import shutil
 import pytest

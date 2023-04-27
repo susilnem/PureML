@@ -10,7 +10,7 @@ from pureml.utils.version_utils import parse_version_label
 from pureml.schema import PathSchema, BackendSchema, LogSchema
 import requests
 from urllib.parse import urljoin
-from . import get_org_id, get_token
+from . import get_org_id
 
 path_schema = PathSchema().get_instance()
 backend_schema = BackendSchema().get_instance()

@@ -28,7 +28,7 @@ class YAMLFile():
 
 class PureMLConfigYML():
     """
-    PureMLConfigYML is a class that is used to generate the configuration file `puremlconfig.yml`
+    PureMLConfigYML is a class that is used to generate the configuration file `puremlconfig.yaml`
     It is capable of reading and writing the configuration file
     """
     def __init__(self, path: Path):
