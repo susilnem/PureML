@@ -9,14 +9,12 @@ from pureml.schema import BackendSchema
 backend_schema = BackendSchema().get_instance()
 
 
-def login(org_id: str, api_id: str, api_key: str) -> str:
+def login(org_id: str, api_token: str) -> str:
     """The function takes in a user API token and logs in a user for a session.
 
     Parameters
     ----------
-    api_id: str
-        API Id of the token to be used for login (format: 12345678-1234-1234-1234-123456789012)
-    api_key: str
+    api_token: str
         API Key of the token to be used for login
 
     """
@@ -25,17 +23,15 @@ def login(org_id: str, api_id: str, api_key: str) -> str:
     url = urljoin(backend_schema.BASE_URL, url_path_1)
 
     if (
-        api_id is None
-        or api_key is None
+        api_token is None
         or org_id is None
-        or api_id == ""
-        or api_key == ""
+        or api_token == ""
         or org_id == ""
     ):
         print("[red]Invalid credentials for login")
         return
 
-    headers = {"X-Api-Id": api_id, "X-Api-Key": api_key}
+    headers = {"X-Api-Key": api_token}
 
     response = requests.get(url, headers=headers)
 
@@ -50,7 +46,7 @@ def login(org_id: str, api_id: str, api_key: str) -> str:
 
         if response_org_id == org_id:
             print("[green]Valid Org Id and API token. Logged in successfully")
-            save_auth(org_id=org_id, api_id=api_id, api_key=api_key)
+            save_auth(org_id=org_id, api_token=api_token)
 
         else:
             print("[orange]Valid Org Id and API token. Obtained different organization")
