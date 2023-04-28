@@ -35,6 +35,16 @@ def validate_user_authentication(ctx: typer.Context):
     return
 
 
+@app.command()
+def version():
+    """
+    Get PureML version
+    """
+    from pureml import __version__
+
+    print(f"PureML SDK version: {__version__}")
+
+
 # init the config file
 @app.command()
 def init(

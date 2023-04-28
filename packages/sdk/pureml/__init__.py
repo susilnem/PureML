@@ -26,4 +26,4 @@ from .schema import Input, Output
 from .predictor.predictor import BasePredictor
 
 
-__version__ = "0.3.6"
+__version__ = "0.3.7"
