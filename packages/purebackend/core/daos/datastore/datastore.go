@@ -1241,7 +1241,7 @@ func (ds *Datastore) DeleteToken(tokenUUID uuid.UUID) error {
 			UUID: tokenUUID,
 		},
 	}
-	err := ds.DB.Delete(&token).Error
+	err := ds.DB.Unscoped().Delete(&token).Error
 	if err != nil {
 		return err
 	}
