@@ -1146,9 +1146,12 @@ func (ds *Datastore) GetTokens(userUUID uuid.UUID) ([]authmodels.TokenResponse, 
 
 func (ds *Datastore) GetTokenByName(userUUID uuid.UUID, tokenName string) (*authmodels.TokenResponse, error) {
 	var token authdbmodels.Tokens
-	err := ds.DB.Model(&authdbmodels.Tokens{}).Where("user_uuid = ? AND name = ?", userUUID, tokenName).First(&token).Error
-	if err != nil {
-		return nil, err
+	res := ds.DB.Model(&authdbmodels.Tokens{}).Where("user_uuid = ? AND name = ?", userUUID, tokenName).Find(&token)
+	if res.Error != nil {
+		return nil, res.Error
+	}
+	if res.RowsAffected == 0 {
+		return nil, nil
 	}
 	return &authmodels.TokenResponse{
 		UUID:       token.UUID,
