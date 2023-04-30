@@ -13,5 +13,8 @@ pnpm run dev
 
 ## Installed Packages
 
-- [ ] TailwindCSS
-- [ ] DaisyUI
+- [x] TailwindCSS
+- [x] DaisyUI
+- [x] Tailwind forms
+- [x] typography
+- [x] Svelvet
