@@ -2,7 +2,7 @@
 
 <h align="center">
 
-# Opensource private hub for your AI
+# An open source private hub for all your Data & ML
 
 </h>
 
