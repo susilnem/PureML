@@ -1,0 +1,109 @@
+/* Write your global styles here, in PostCSS syntax */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  font-size: 14px;
+  background-color: #f8fafc;
+}
+
+:root {
+  --color-text: #020617;
+  color: var(--color-text);
+  font-weight: 400;
+}
+
+
+/* ################ Scrollbar ################ */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: none;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 12px;
+}
+
+/* ################ Button ################ */
+
+.btn {
+  height: 40px !important;
+}
+
+.btn-secondary:hover,
+.btn-secondary.btn-active {
+  background-color: #f1f5f9 !important;
+}
+
+/* ################ Input ################ */
+
+input[type="checkbox"] {
+  box-shadow: none;
+  --tw-ring-color: transparent !important;
+  width: 1rem;
+  height: 1rem;
+  background-color: transparent;
+}
+
+input[type="password"],
+[type="text"],
+[type="email"] {
+  box-shadow: none;
+  --tw-ring-color: #475569;
+  border-color: #e2e8f0;
+  font-size: 14px;
+  font-weight: 400;
+  height: 40px;
+  background-color: transparent;
+}
+
+input[type="text"]:hover,
+[type="password"]:hover,
+[type="email"]:hover {
+  border-color: #94a3b8;
+}
+
+input[type="text"]:focus,
+[type="password"]:focus,
+[type="email"]:focus {
+  box-shadow: none;
+  outline: none;
+  --tw-ring-color: #475569;
+  border-color: #0e4ddd;
+  border-width: 2px;
+  background-color: transparent;
+}
+
+.input[disabled] {
+  color: #020617;
+}
+
+input:disabled {
+  background-color: #ffffff !important;
+}
+
+.input-icons i {
+  position: absolute;
+  margin-left: -24px;
+  margin-top: 6px;
+}
+
+.input-icons {
+  width: 100%;
+}
+
+.input-field {
+  width: 24rem;
+  padding: 10px;
+}
