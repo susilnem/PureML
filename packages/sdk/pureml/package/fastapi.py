@@ -7,6 +7,7 @@ from pureml.utils.package import process_input, process_output
 from pureml.utils.version_utils import parse_version_label
 from pureml import predict, pip_requirement, resources
 from pureml.utils.resources import zip_content, unzip_content
+import sys
 
 
 prediction_schema = PredictSchema()
@@ -196,11 +197,17 @@ def run(label, predict_path=None, requirements_path=None):
         label, predict_path=predict_path, requirements_path=requirements_path
     )
 
-    run_command = "python '{api_path}'".format(
-        api_path=fastapi_schema.PATH_FASTAPI_FILE
-    )
+    interpreter_path = str(sys.executable)
 
-    os.system(run_command)
+    if os.path.exists(interpreter_path):
+
+        run_command = "{interpreter_path} '{api_path}'".format(
+            interpreter_path=interpreter_path, api_path=fastapi_schema.PATH_FASTAPI_FILE
+        )
+
+        os.system(run_command)
+    else:
+        print("Interpreter not found at", interpreter_path)
 
     # app = FastAPI()
 
