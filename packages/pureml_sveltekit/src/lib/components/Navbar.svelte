@@ -57,9 +57,9 @@
         {#if $$restProps.intent === "loggedIn"}
           <AvatarIcon>{orgAvatarName}</AvatarIcon>
         {/if}
-        <div class="px-2 font-medium text-slate-600">
+        <a href="/org/pureml" class="px-2 font-medium text-slate-600">
           {orgName}
-        </div>
+        </a>
         {#if $$restProps.intent === "loggedIn"}
           <Dropdown intent="start">
             <p slot="trigger"><ChevronDown class="text-slate-400 w-4" /></p>
@@ -135,9 +135,9 @@
           {#if $$restProps.intent === "loggedIn"}
             <AvatarIcon intent="primary">{orgAvatarName}</AvatarIcon>
           {/if}
-          <div class="px-2 text-slate-600 font-medium">
+          <a href="/org/pureml" class="px-2 text-slate-600 font-medium">
             {orgName}
-          </div>
+          </a>
           {#if $$restProps.intent === "loggedIn"}
             <Dropdown intent="start">
               <p slot="trigger"><ChevronDown class="text-slate-400 w-4" /></p>

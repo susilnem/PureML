@@ -7,9 +7,8 @@
     variants: {
       intent: {
         primary: "bg-blue-200 w-6",
-        profile: "w-6",
-        org: "bg-blue-200 w-9 h-9",
-        avatar: "bg-blue-200 w-8 h-8 text-base",
+        large: "bg-blue-200 w-9 h-9",
+        unfilled: "w-full h-full",
       },
     },
     defaultVariants: {

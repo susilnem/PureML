@@ -1,5 +1,9 @@
 <script>
+  import Navbar from "$lib/components/Navbar.svelte";
   import "../app.postcss";
 </script>
 
-<slot />
+<div class="h-screen overflow-hidden">
+  <Navbar intent="loggedIn" user="K" orgAvatarName="K" orgName="Private" />
+  <slot />
+</div>

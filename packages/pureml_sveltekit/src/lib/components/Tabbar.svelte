@@ -1,16 +1,26 @@
 <script lang="ts">
+  import { page } from "$app/stores";
   import clsx from "clsx";
   import { tv } from "tailwind-variants";
 
   const tabStyles = tv({
-    base: "pt-6 text-zinc-400 flex sticky z-10 pl-12",
+    base: "sticky text-zinc-400",
     variants: {
       intent: {
+        primary: "pt-6 flex z-10 pl-6",
+        secondary: "pt-6 flex z-10 pl-6",
+        tertiary: "font-medium flex bg-slate-50 px-12",
+      },
+      content: {
         primaryModelTab: "bg-slate-50",
         primaryDatasetTab: "bg-slate-50",
         primarySettingTab: "top-[3.3rem]",
         modelTab: "pb-6",
         datasetTab: "pb-6",
+        modelReviewTab: "pt-8",
+        datasetReviewTab: "pt-8",
+        modelReviewMetricsTab: "pt-8",
+        datasetReviewLineageTab: "pt-8",
       },
       fullWidth: {
         true: "w-full",
@@ -18,63 +28,62 @@
       },
     },
     defaultVariants: {
-      intent: "primaryModelTab",
+      intent: "primary",
       fullWidth: true,
     },
   });
 
-  function primaryLinkCss(currentPage: boolean) {
-    return clsx(
-      currentPage ? "text-slate-600 font-medium" : "text-slate-500",
-      "flex justify-center items-center hover:text-slate-600"
-    );
-  }
+  const orgId = $page.params.orgId;
+  const modelId = $page.params.modelId;
+  const datasetId = $page.params.datasetId;
+  const reviewId = $page.params.reviewId;
 
-  export let tabPage: string;
+  export let tabType: string;
+  export let tabContent: string;
   export let tab: string;
   let tabItems: any = [];
 
-  tabPage = $$props.tabPage;
+  tabContent = $$props.tabContent;
 
-  if (tabPage === "primaryModel") {
+  if (tabContent === "primaryModel") {
     tabItems = [
       {
         id: "modelCard",
         name: "Model Card",
-        hyperlink: `/org`,
+        hyperlink: `/org/${orgId}/models/${modelId}`,
       },
       {
         id: "versions",
         name: "Versions",
-        hyperlink: `/org/versions/main/logs`,
+        hyperlink: `/org/${orgId}/models/${modelId}/versions/main/logs`,
       },
       {
         id: "review",
         name: "Review",
-        hyperlink: `/org/review`,
+        hyperlink: `/org/${orgId}/models/${modelId}/review`,
       },
     ];
   }
-  if (tabPage === "primaryDataset") {
+  if (tabContent === "primaryDataset") {
     tabItems = [
       {
         id: "datasetCard",
         name: "Dataset Card",
-        hyperlink: `/org`,
+        hyperlink: `/org/${orgId}/datasets/${datasetId}`,
       },
       {
         id: "versions",
         name: "Versions",
-        hyperlink: `/org/versions/main/datalineage`,
+        hyperlink: `/org/${orgId}/datasets/${datasetId}/versions/main/datalineage`,
       },
       {
         id: "review",
         name: "Review",
-        hyperlink: `/org/review`,
+        hyperlink: `/org/${orgId}/datasets/${datasetId}/review`,
       },
     ];
   }
-  if (tabPage === "primarySettings") {
+  if (tabContent === "primarySettings") {
     tabItems = [
       {
         id: "profile",
@@ -98,12 +107,12 @@
       },
     ];
   }
-  if (tabPage === "modelTabs") {
+  if (tabContent === "modelTab") {
     tabItems = [
       {
         id: "userlogs",
         name: "User Logs",
-        hyperlink: `/org/versions/main/logs`,
+        hyperlink: `/org/${orgId}/models/${modelId}/versions/main/logs`,
       },
       // {
       //   id: "graphs",
@@ -112,12 +121,12 @@
       // },
     ];
   }
-  if (tabPage === "datasetTabs") {
+  if (tabContent === "datasetTab") {
     tabItems = [
       {
         id: "datalineage",
         name: "Data Lineage",
-        hyperlink: `/org/versions/main/datalineage`,
+        hyperlink: `/org/${orgId}/datasets/${datasetId}/versions/main/datalineage`,
       },
       // {
       //   id: "code",
@@ -126,28 +135,130 @@
       // },
     ];
   }
+  if (tabContent === "modelReviewTab") {
+    tabItems = [
+      {
+        id: "newcommits",
+        name: "New Commits",
+        hyperlink: `/org/${orgId}/models/${modelId}/review`,
+      },
+      {
+        id: "approved",
+        name: "Approved",
+        hyperlink: `/org/${orgId}/models/${modelId}/review/approved`,
+      },
+      {
+        id: "rejected",
+        name: "Rejected",
+        hyperlink: `/org/${orgId}/models/${modelId}/review/rejected`,
+      },
+    ];
+  }
+  if (tabContent === "datasetReviewTab") {
+    tabItems = [
+      {
+        id: "newcommits",
+        name: "New Commits",
+        hyperlink: `/org/${orgId}/datasets/${datasetId}/review`,
+      },
+      {
+        id: "approved",
+        name: "Approved",
+        hyperlink: `/org/${orgId}/datasets/${datasetId}/review/approved`,
+      },
+      {
+        id: "rejected",
+        name: "Rejected",
+        hyperlink: `/org/${orgId}/datasets/${datasetId}/review/rejected`,
+      },
+    ];
+  }
+  if (tabContent === "modelReviewMetricsTab") {
+    tabItems = [
+      {
+        id: "metrics",
+        name: "Metrics",
+        hyperlink: `/org/${orgId}/models/${modelId}/review/${reviewId}/logs`,
+      },
+      // {
+      //   id: "graphs",
+      //   name: "Graphs",
+      //   hyperlink: `/org/models/review/${reviewId}/graphs`,
+      // },
+    ];
+  }
+  if (tabContent === "datasetReviewLineageTabs") {
+    tabItems = [
+      {
+        id: "datalineage",
+        name: "Data Lineage",
+        hyperlink: `/org/${orgId}/datasets/${datasetId}/review/${reviewId}/datalineage`,
+      },
+      // {
+      //   id: "graphs",
+      //   name: "Graphs",
+      //   hyperlink: `/org/datasets/review/${reviewId}/graphs`,
+      // },
+    ];
+  }
 </script>
 
-<div class={tabStyles({ ...$$restProps })}>
-  <div class="flex">
-    {#each tabItems as item}
-      <div class="pl-6">
-        {#if tab === item.id}
+{#if tabType === "primary"}
+  <div class={tabStyles({ ...$$restProps })}>
+    <div class="flex">
+      {#each tabItems as item}
+        <div class="pl-6">
           <div
-            class="pb-4 hover:text-slate-850 text-brand-200 border-b-2 border-brand-200 font-medium"
+            class={`${
+              tab === item.id
+                ? "text-brand-200 border-b-2 border-brand-200 font-medium"
+                : "text-slate-500"
+            } pb-4 hover:text-slate-850`}
           >
             <a href={item.hyperlink}>
               <span>{item.name}</span>
             </a>
           </div>
-        {:else}
-          <div class="pb-4 hover:text-slate-850 text-slate-500">
+        </div>
+      {/each}
+    </div>
+  </div>
+{:else if tabType === "secondary"}
+  <div class={tabStyles({ ...$$restProps })}>
+    <div class="flex">
+      {#each tabItems as item}
+        <div class="pl-6">
+          <div
+            class={`${
+              tab === item.id ? "bg-slate-200 rounded text-slate-600" : ""
+            } px-4 py-2`}
+          >
             <a href={item.hyperlink}>
               <span>{item.name}</span>
             </a>
           </div>
-        {/if}
-      </div>
-    {/each}
+        </div>
+      {/each}
+    </div>
   </div>
-</div>
+{:else}
+  <div class={tabStyles({ ...$$restProps })}>
+    <div class="flex">
+      {#each tabItems as item}
+        <div class="pl-6">
+          <div
+            class={`${
+              tab === item.id
+                ? "text-slate-600 rounded-lg border border-brand-200"
+                : "text-slate-600"
+            } px-4 py-2`}
+          >
+            <a href={item.hyperlink}>
+              <span>{item.name}</span>
+            </a>
+          </div>
+        </div>
+      {/each}
+    </div>
+  </div>
+{/if}

@@ -20,7 +20,7 @@
       <form method="post" class="text-slate-600 flex flex-col text-left">
         <div class="flex flex-col gap-y-12">
           <div class="flex flex-col gap-y-6">
-            <label for="oldpassword" class="font-medium">
+            <label for="oldpassword" class="labelInput font-medium">
               <div class="text-slate-600 text-left">Enter Old password</div>
               <Input
                 type="password"
@@ -29,7 +29,7 @@
                 fullWidth={false}
               />
             </label>
-            <label for="newpassword" class="font-medium">
+            <label for="newpassword" class="labelInput font-medium">
               <div class="text-slate-600 text-left">Enter New Password</div>
               <Input
                 type="password"

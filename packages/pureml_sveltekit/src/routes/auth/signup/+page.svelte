@@ -13,19 +13,19 @@
     <form method="post" class="text-slate-600 flex flex-col text-left">
       <div class="flex flex-col gap-y-12">
         <div class="flex flex-col gap-y-6">
-          <label for="name" class="font-medium">
+          <label for="name" class="labelInput font-medium">
             <div class="text-slate-600 text-left">Name</div>
             <Input type="text" required intent="primary" fullWidth={false} />
           </label>
-          <label for="username" class="font-medium">
+          <label for="username" class="labelInput font-medium">
             <div class="text-slate-600 text-left">Username</div>
             <Input type="text" required intent="primary" fullWidth={false} />
           </label>
-          <label for="email" class="font-medium">
+          <label for="email" class="labelInput font-medium">
             <div class="text-slate-600 text-left">Email</div>
             <Input type="email" required intent="primary" fullWidth={false} />
           </label>
-          <label for="password" class="font-medium">
+          <label for="password" class="labelInput font-medium">
             <div class="text-slate-600 text-left">Password</div>
             <Input
               type="password"

@@ -11,13 +11,13 @@
     </div>
     <form method="post" class="text-slate-600 flex flex-col text-left">
       <div class="flex flex-col gap-y-12">
-        <label for="email" class="font-medium">
+        <label for="email" class="labelInput font-medium">
           <div class="text-slate-600 text-left">Email</div>
           <Input type="email" required intent="primary" fullWidth={false} />
         </label>
         <Button intent="primary">Send Link</Button>
       </div>
-      <span class="w-[24rem] text-slate-600 pt-6">
+      <span class="w-[24rem] text-slate-800 pt-6">
         Reset password link will be sent to your mail ID given above. Click link
         to change or reset password.
       </span>

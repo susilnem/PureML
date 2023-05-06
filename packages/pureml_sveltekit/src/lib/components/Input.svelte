@@ -3,7 +3,7 @@
   import { tv } from "tailwind-variants";
 
   const inputStyles = tv({
-    base: "focus:outline-0 focus:outline-offset-0 focus:ring-0",
+    base: "focus:outline-0 focus:outline-offset-0 focus:ring-0 bg-white",
     variants: {
       intent: {
         primary: "input input-primary input-sm text-slate-600",
