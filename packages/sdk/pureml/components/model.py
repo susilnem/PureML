@@ -310,14 +310,24 @@ def register(
         # print(response.request.headers)
 
         if response.ok:
-            print(f"[bold green]Model has been registered!")
 
-            model_version = response.json()["data"][0]["version"]
-            print("Model Version: ", model_version)
-            model_label = ":".join([label, model_version])
-            print("Model label: ", model_label)
+            model_version = None
 
-            # reset_config(key=config_keys.model.value)
+            # print(response.json())
+            try:
+                print(f"[bold green]Model has been registered!")
+
+                model_version = response.json()["data"][0]["version"]
+                print("Model Version: ", model_version)
+                model_label = ":".join([label, model_version])
+                print("Model label: ", model_label)
+
+                # reset_config(key=config_keys.model.value)
+            except Exception as e:
+                print(
+                    "[bold red] Incorrect json response. Model has not been registered"
+                )
+                print(e)
 
             return True, model_hash, model_version
 

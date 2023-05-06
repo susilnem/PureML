@@ -344,11 +344,13 @@ def register(dataset, label: str, lineage, is_empty: bool = False) -> str:
 
         if response.ok:
 
+            dataset_version = None
+
             # print(response.json())
             try:
                 dataset_version = response.json()["data"][0]["version"]
                 print("Version: ", dataset_version)
-                dataset_label = ":".join([label, dataset_label])
+                dataset_label = ":".join([label, dataset_version])
                 print("Dataset label: ", dataset_label)
 
                 if is_empty:
@@ -363,7 +365,6 @@ def register(dataset, label: str, lineage, is_empty: bool = False) -> str:
                     "[bold red] Incorrect json response. Dataset has not been registered"
                 )
                 print(e)
-                dataset_version = None
 
             return True, dataset_hash, dataset_version
         else:
