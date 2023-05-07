@@ -1,0 +1,41 @@
+{
+  "name": "pureml-sveltekit",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-auto": "^2.0.0",
+    "@sveltejs/kit": "^1.5.0",
+    "@tailwindcss/typography": "^0.5.9",
+    "@types/cookie": "^0.5.1",
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.23",
+    "postcss-load-config": "^4.0.1",
+    "prettier": "^2.8.8",
+    "prettier-plugin-tailwindcss": "^0.2.8",
+    "svelte": "^3.54.0",
+    "svelte-check": "^3.0.1",
+    "tailwindcss": "^3.3.2",
+    "tslib": "^2.4.1",
+    "typescript": "^5.0.0",
+    "vite": "^4.3.0"
+  },
+  "type": "module",
+  "dependencies": {
+    "@sveltejs/adapter-static": "^2.0.2",
+    "@tailwindcss/forms": "^0.5.3",
+    "clsx": "^1.2.1",
+    "daisyui": "^2.51.6",
+    "lucide-svelte": "^0.179.0",
+    "svelte-preprocess": "^5.0.3",
+    "svelte-routing": "^1.6.0",
+    "svelvet": "^7.0.34",
+    "tailwind-variants": "^0.1.3"
+  }
+}

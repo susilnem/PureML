@@ -2,7 +2,7 @@
 
 <h align="center">
 
-# The next-gen developer platform for Production ML.
+# An open source private hub for all your Data & ML
 
 </h>
 
