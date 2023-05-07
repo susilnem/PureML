@@ -200,7 +200,7 @@ def run(label, predict_path=None, requirements_path=None):
 
     if os.path.exists(interpreter_path):
 
-        run_command = "{interpreter_path} '{api_path}'".format(
+        run_command = "'{interpreter_path}' '{api_path}'".format(
             interpreter_path=interpreter_path, api_path=fastapi_schema.PATH_FASTAPI_FILE
         )
 
