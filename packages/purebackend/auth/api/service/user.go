@@ -1306,13 +1306,36 @@ func (api *Api) GetTokens(request *models.Request) *models.Response {
 //	@Produce		json
 //	@Success		200	{object}	map[string]interface{}
 //	@Router			/user/create-token [post]
+//	@Param			token	body	models.CreateTokenRequest	true	"Token details"
 func (api *Api) CreateToken(request *models.Request) *models.Response {
+	request.ParseJsonBody()
 	userUUID := request.GetUserUUID()
+
+	tokenName := request.GetParsedBodyAttribute("name")
+	var tokenNameData string
+	if tokenName == nil {
+		tokenNameData = ""
+	} else {
+		tokenNameData = tokenName.(string)
+	}
+	if tokenNameData == "" {
+		return models.NewErrorResponse(http.StatusBadRequest, "Token name is required")
+	}
+
+	// Check token name is unique
+	dbApiToken, err := api.app.Dao().GetTokenByName(userUUID, tokenNameData)
+	if err != nil {
+		return models.NewServerErrorResponse(err)
+	}
+	if dbApiToken != nil {
+		return models.NewErrorResponse(http.StatusBadRequest, "Token name already exists")
+	}
+
 	tokenUUID := uuid.NewV4()
 	tokenSecretHMAC := hmac.New(sha256.New, []byte(api.app.Settings().APITokenSecretKey))
 	tokenSecretHMAC.Write([]byte(tokenUUID.String()))
 	tokenSecret := hex.EncodeToString(tokenSecretHMAC.Sum(nil))
-	apiToken, err := api.app.Dao().CreateToken(userUUID, tokenUUID, tokenSecret)
+	apiToken, err := api.app.Dao().CreateToken(userUUID, tokenUUID, tokenNameData, tokenSecret)
 	if err != nil {
 		return models.NewServerErrorResponse(err)
 	}

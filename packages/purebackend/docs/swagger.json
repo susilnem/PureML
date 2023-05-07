@@ -3859,6 +3859,17 @@
                     "User"
                 ],
                 "summary": "Create API Token.",
+                "parameters": [
+                    {
+                        "description": "Token details",
+                        "name": "token",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.CreateTokenRequest"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -4476,6 +4487,14 @@
                     "type": "string"
                 },
                 "device_location": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.CreateTokenRequest": {
+            "type": "object",
+            "properties": {
+                "name": {
                     "type": "string"
                 }
             }

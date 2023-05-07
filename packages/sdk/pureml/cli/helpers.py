@@ -13,8 +13,7 @@ def save_auth(
     org_id: str = None,
     access_token: str = None,
     email: str = None,
-    api_id: str = None,
-    api_key: str = None,
+    api_token: str = None,
 ):
     token_path = path_schema.PATH_USER_TOKEN
 
@@ -30,10 +29,8 @@ def save_auth(
             token["org_id"] = org_id
         if access_token is not None:
             token["accessToken"] = access_token
-        if api_id is not None:
-            token["api_id"] = api_id
-        if api_key is not None:
-            token["api_key"] = api_key
+        if api_token is not None:
+            token["api_token"] = api_token
         if email is not None:
             if "email" in token and token["email"] != email:
                 token["org_id"] = ""
@@ -43,8 +40,7 @@ def save_auth(
             "org_id": org_id,
             "accessToken": access_token,
             "email": email,
-            "api_id": api_id,
-            "api_key": api_key,
+            "api_token": api_token,
         }
         if org_id is None:
             token["org_id"] = ""
@@ -82,7 +78,6 @@ def get_auth_headers(
             return headers
 
         if api_token is not None:
-            headers["X-Api-Id"] = api_token["api_id"]
-            headers["X-Api-Key"] = api_token["api_key"]
+            headers["X-Api-Key"] = api_token["api_token"]
 
             return headers

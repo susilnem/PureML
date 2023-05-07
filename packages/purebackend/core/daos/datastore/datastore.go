@@ -1136,6 +1136,7 @@ func (ds *Datastore) GetTokens(userUUID uuid.UUID) ([]authmodels.TokenResponse, 
 	for _, token := range tokens {
 		tokenResponses = append(tokenResponses, authmodels.TokenResponse{
 			UUID:       token.UUID,
+			Name:       token.Name,
 			LastUsedAt: token.LastUsedAt,
 			CreatedAt:  token.CreatedAt,
 		})
@@ -1143,7 +1144,24 @@ func (ds *Datastore) GetTokens(userUUID uuid.UUID) ([]authmodels.TokenResponse, 
 	return tokenResponses, nil
 }
 
-func (ds *Datastore) CreateToken(userUUID uuid.UUID, tokenUUID uuid.UUID, tokenSecret string) (*authmodels.CreateTokenResponse, error) {
+func (ds *Datastore) GetTokenByName(userUUID uuid.UUID, tokenName string) (*authmodels.TokenResponse, error) {
+	var token authdbmodels.Tokens
+	res := ds.DB.Model(&authdbmodels.Tokens{}).Where("user_uuid = ? AND name = ?", userUUID, tokenName).Find(&token)
+	if res.Error != nil {
+		return nil, res.Error
+	}
+	if res.RowsAffected == 0 {
+		return nil, nil
+	}
+	return &authmodels.TokenResponse{
+		UUID:       token.UUID,
+		Name:       token.Name,
+		LastUsedAt: token.LastUsedAt,
+		CreatedAt:  token.CreatedAt,
+	}, nil
+}
+
+func (ds *Datastore) CreateToken(userUUID uuid.UUID, tokenUUID uuid.UUID, tokenName string, tokenSecret string) (*authmodels.CreateTokenResponse, error) {
 	token := authdbmodels.Tokens{
 		BaseModel: commondbmodels.BaseModel{
 			UUID: tokenUUID,
@@ -1153,14 +1171,16 @@ func (ds *Datastore) CreateToken(userUUID uuid.UUID, tokenUUID uuid.UUID, tokenS
 				UUID: userUUID,
 			},
 		},
+		Name: tokenName,
 	}
 	err := ds.DB.Create(&token).Error
 	if err != nil {
 		return nil, err
 	}
+	tokenSecretConcatnated := strings.Join([]string{tokenUUID.String(), tokenSecret}, ".")
 	return &authmodels.CreateTokenResponse{
 		UUID:           token.UUID,
-		APITokenSecret: tokenSecret,
+		APITokenSecret: tokenSecretConcatnated,
 		LastUsedAt:     token.LastUsedAt,
 		CreatedAt:      token.CreatedAt,
 	}, nil
@@ -1221,7 +1241,7 @@ func (ds *Datastore) DeleteToken(tokenUUID uuid.UUID) error {
 			UUID: tokenUUID,
 		},
 	}
-	err := ds.DB.Delete(&token).Error
+	err := ds.DB.Unscoped().Delete(&token).Error
 	if err != nil {
 		return err
 	}
