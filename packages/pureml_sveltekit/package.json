@@ -34,7 +34,6 @@
     "daisyui": "^2.51.6",
     "lucide-svelte": "^0.179.0",
     "svelte-preprocess": "^5.0.3",
-    "svelte-routing": "^1.6.0",
     "svelvet": "^7.0.34",
     "tailwind-variants": "^0.1.3"
   }

@@ -10,7 +10,7 @@
     <div class="flex justify-center items-center pb-16">
       <img src={logo} alt="Logo" class="w-36" />
     </div>
-    <form method="post" class="text-slate-600 flex flex-col text-left">
+    <form method="post" action="/" class="text-slate-600 flex flex-col text-left">
       <div class="flex flex-col gap-y-12">
         <div class="flex flex-col gap-y-6">
           <label for="name" class="labelInput font-medium">
