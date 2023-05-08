@@ -1,8 +1,22 @@
-<script>
+<script lang="ts">
   import Button from "$lib/components/Button.svelte";
   import Input from "$lib/components/Input.svelte";
   import Link from "$lib/components/Link.svelte";
   import logo from "$lib/logos/PureMLLogoText.svg";
+  import toast from "svelte-french-toast";
+  import { browser } from "$app/environment";
+
+  /** @type {import('./$types').ActionData} */
+  export let form;
+
+  if (form) {
+    if (form.status === 200 || form.status === 202) {
+      if (browser) {
+        window.location.href = "/models";
+      }
+      toast.success("Successfully signed in. Yayy!");
+    } else toast.error(form?.message);
+  }
 </script>
 
 <div class="flex justify-center">
@@ -10,17 +24,24 @@
     <div class="flex justify-center items-center pb-16">
       <img src={logo} alt="Logo" class="w-36" />
     </div>
-    <form method="post" action="/" class="text-slate-600 flex flex-col text-left">
+    <form method="POST" class="text-slate-600 flex flex-col text-left">
       <div class="flex flex-col gap-y-12">
         <div class="flex flex-col gap-y-6">
           <label for="email" class="labelInput font-medium">
             <div class="text-slate-600 text-left">Email</div>
-            <Input type="email" required intent="primary" fullWidth={false} />
+            <Input
+              type="email"
+              name="email"
+              required
+              intent="primary"
+              fullWidth={false}
+            />
           </label>
           <label for="password" class="labelInput font-medium">
             <div class="text-slate-600 text-left">Password</div>
             <Input
               type="password"
+              name="password"
               required
               intent="primary"
               fullWidth={false}

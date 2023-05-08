@@ -6,6 +6,7 @@
   import { page } from "$app/stores";
   import AvatarIcon from "$lib/components/Avatar.svelte";
   import Dropdown from "$lib/components/Dropdown.svelte";
+  import { redirect } from "@sveltejs/kit";
 
   function linkCss(currentPage: boolean) {
     return clsx(
@@ -46,7 +47,7 @@
     { link: "/profile", title: "Profile" },
     { link: "/settings", title: "Settings" },
     // { link: "/contactus", title: "Contact Us" },
-    { link: "/logout", title: "Sign Out" },
+    { link: "/auth/signout", title: "Sign Out" },
   ];
 </script>
 
