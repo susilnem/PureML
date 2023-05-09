@@ -1,15 +1,9 @@
 <script>
   import Breadcrumbs from "$lib/components/Breadcrumbs.svelte";
   import Tabbar from "$lib/components/Tabbar.svelte";
-  import {
-    Box,
-    FileCheck,
-    Copy,
-    Clock,
-    Edit,
-    Globe,
-    Database,
-  } from "lucide-svelte";
+  import { FileCheck, Copy, Clock, Edit, Globe, Database } from "lucide-svelte";
+
+  export let data;
 
   function copy() {
     navigator.clipboard.writeText("text");
@@ -96,9 +90,13 @@
                   )}
                 </>
               )} -->
+        <div class="prose">
+          {data.datasetDetails[0].readme.latest_version.content ||
+            "No readme added yet."}
+        </div>
       </div>
       <div
-        class="px-6 pt-8 w-1/4 max-w-[400px] bg-slate-50 border-l-2 border-slate-100"
+        class="px-6 pt-8 w-1/4 max-w-1/5 bg-slate-50 border-l-2 border-slate-100"
       >
         <div class="text-slate-800 font-medium text-base">Dataset details</div>
         <div class="pt-2 text-sm text-slate-400">
@@ -108,8 +106,7 @@
             </span>
             <span class="w-1/2 pl-2">Name</span>
             <span class="w-1/2 pl-2 text-slate-600 font-medium">
-              <!-- {`${datasetDetails[0].name}` || "Model Name"} -->
-              Dataset Name
+              {`${data.datasetDetails[0].name}` || "Model Name"}
             </span>
           </div>
           <div class="flex justify-between items-center py-1">
@@ -121,8 +118,7 @@
               class="w-[48%] text-slate-600 font-medium flex justify-between"
             >
               <div class="w-4/5 pl-2 overflow-hidden truncate">
-                <!-- {`${datasetDetails[0].uuid}` || "Model Id"} -->
-                Dataset ID
+                {`${data.datasetDetails[0].uuid}` || "Model Id"}
               </div>
               <Copy
                 class="text-slate-400 hover:text-slate-600 w-4 cursor-pointer"
@@ -136,8 +132,7 @@
             </span>
             <span class="w-1/2 pl-2">Created By</span>
             <span class="w-1/2 pl-2 text-slate-600 font-medium">
-              <!-- {`${datasetDetails[0].created_by.name}` || "Created By"} -->
-              Created by
+              {`${data.datasetDetails[0].created_by.name}` || "Created By"}
             </span>
           </div>
           <div class="flex justify-between items-center py-1">
@@ -146,8 +141,7 @@
             </span>
             <span class="w-1/2 pl-2">Last updated by</span>
             <span class="w-1/2 pl-2 text-slate-600 font-medium">
-              <!-- {datasetDetails[0].updated_by.name || "User X"} -->
-              User X
+              {data.datasetDetails[0].updated_by.name || "User X"}
             </span>
           </div>
           <div class="flex justify-between items-center py-1">
@@ -156,8 +150,7 @@
             </span>
             <span class="w-1/2 pl-2">Public</span>
             <span class="w-1/2 pl-2 text-slate-600 font-medium">
-              <!-- {`${datasetDetails[0].is_public ? "Yes" : "No"}`} -->
-              No
+              {`${data.datasetDetails[0].is_public ? "Yes" : "No"}`}
             </span>
           </div>
         </div>

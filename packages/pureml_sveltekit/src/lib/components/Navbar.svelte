@@ -6,7 +6,7 @@
   import { page } from "$app/stores";
   import AvatarIcon from "$lib/components/Avatar.svelte";
   import Dropdown from "$lib/components/Dropdown.svelte";
-  import { redirect } from "@sveltejs/kit";
+  import logo from "$lib/logos/PureMLLogoText.svg";
 
   function linkCss(currentPage: boolean) {
     return clsx(
@@ -34,7 +34,6 @@
 
   export let open = false;
   export let user: string;
-  export let orgName: string;
   export let orgAvatarName: string;
 
   export let orgItems = [
@@ -54,14 +53,14 @@
 {#if open}
   <ul class="bg-white rounded-b-2xl border-b border-slate-200">
     <div class="flex justify-between px-12 py-4 items-center">
-      <li class="flex justify-center items-center pr-12">
-        {#if $$restProps.intent === "loggedIn"}
+      {#if $$restProps.intent === "loggedOut"}
+        <li><img src={logo} alt="Logo" class="h-8" /></li>
+      {:else}
+        <li class="flex justify-center items-center pr-12">
           <AvatarIcon>{orgAvatarName}</AvatarIcon>
-        {/if}
-        <a href="/org/pureml" class="px-2 font-medium text-slate-600">
-          {orgName}
-        </a>
-        {#if $$restProps.intent === "loggedIn"}
+          <div class="px-2 font-medium text-slate-600">
+            <slot name="orgName" />
+          </div>
           <Dropdown intent="start">
             <p slot="trigger"><ChevronDown class="text-slate-400 w-4" /></p>
             <p slot="items">
@@ -76,8 +75,8 @@
               {/each}
             </p>
           </Dropdown>
-        {/if}
-      </li>
+        </li>
+      {/if}
       <button
         on:click={() => {
           open = !open;
@@ -132,14 +131,14 @@
   <div class="flex justify-center bg-slate-50 border-b border-slate-100">
     <div class={navbarStyles({ ...$$restProps })}>
       <ul class="flex w-full justify-between">
-        <li class="flex justify-center items-center pr-12">
-          {#if $$restProps.intent === "loggedIn"}
+        {#if $$restProps.intent === "loggedOut"}
+          <li><img src={logo} alt="Logo" class="h-8" /></li>
+        {:else}
+          <li class="flex justify-center items-center pr-12">
             <AvatarIcon intent="primary">{orgAvatarName}</AvatarIcon>
-          {/if}
-          <a href="/org/pureml" class="px-2 text-slate-600 font-medium">
-            {orgName}
-          </a>
-          {#if $$restProps.intent === "loggedIn"}
+            <div class="px-2 text-slate-600 font-medium">
+              <slot name="orgName" />
+            </div>
             <Dropdown intent="start">
               <p slot="trigger"><ChevronDown class="text-slate-400 w-4" /></p>
               <p slot="items">
@@ -154,8 +153,9 @@
                 {/each}
               </p>
             </Dropdown>
-          {/if}
-        </li>
+          </li>
+        {/if}
+
         <button
           on:click={() => {
             open = !open;

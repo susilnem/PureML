@@ -3,6 +3,8 @@
   import Tabbar from "$lib/components/Tabbar.svelte";
   import { Box, FileCheck, Copy, Clock, Edit, Globe } from "lucide-svelte";
 
+  export let data;
+
   function copy() {
     navigator.clipboard.writeText("text");
     // toast.success("Copied to clipboard!");
@@ -14,7 +16,12 @@
 >
   <div class="flex justify-between px-12 2xl:pr-0 w-full max-w-screen-2xl">
     <Breadcrumbs />
-    <Tabbar tabType="primary" tabContent="primaryModel" tab="modelCard" fullWidth={false} />
+    <Tabbar
+      tabType="primary"
+      tabContent="primaryModel"
+      tab="modelCard"
+      fullWidth={false}
+    />
   </div>
 </div>
 <div class="flex justify-center w-full">
@@ -83,9 +90,13 @@
                   )}
                 </>
               )} -->
+        <div class="prose">
+          {data.modelDetails[0].readme.latest_version.content ||
+            "No readme added yet."}
+        </div>
       </div>
       <div
-        class="px-6 pt-8 w-1/4 max-w-[400px] bg-slate-50 border-l-2 border-slate-100"
+        class="px-6 pt-8 w-1/4 max-w-1/5 bg-slate-50 border-l-2 border-slate-100"
       >
         <div class="text-slate-800 font-medium text-base">Model details</div>
         <div class="pt-2 text-sm text-slate-400">
@@ -93,23 +104,21 @@
             <span class="w-1/7 flex items-center">
               <Box class="w-4" />
             </span>
-            <span class="w-1/2 pl-2">Name</span>
+            <span class="w-1/2 pl-2">Model Name</span>
             <span class="w-1/2 pl-2 text-slate-600 font-medium">
-              <!-- {`${modelDetails[0].name}` || "Model Name"} -->
-              Churn
+              {`${data.modelDetails[0].name}` || "Model Name"}
             </span>
           </div>
           <div class="flex justify-between items-center py-1">
             <span class="w-1/7 flex items-center">
               <FileCheck class="w-4" />
             </span>
-            <span class="w-1/2 pl-2">Model Id</span>
+            <span class="w-1/2 pl-2">Model ID</span>
             <span
               class="w-[48%] text-slate-600 font-medium flex justify-between"
             >
               <div class="w-4/5 pl-2 overflow-hidden truncate">
-                <!-- {`${modelDetails[0].uuid}` || "Model Id"} -->
-                123456789
+                {`${data.modelDetails[0].uuid}` || "Model UUID"}
               </div>
               <Copy
                 class="text-slate-400 hover:text-slate-600 w-4 cursor-pointer"
@@ -123,8 +132,7 @@
             </span>
             <span class="w-1/2 pl-2">Created By</span>
             <span class="w-1/2 pl-2 text-slate-600 font-medium">
-              <!-- {`${modelDetails[0].created_by.name}` || "Created By"} -->
-              Person
+              {`${data.modelDetails[0].created_by.name}` || "Created By"}
             </span>
           </div>
           <div class="flex justify-between items-center py-1">
@@ -133,8 +141,7 @@
             </span>
             <span class="w-1/2 pl-2">Last updated by</span>
             <span class="w-1/2 pl-2 text-slate-600 font-medium">
-              <!-- {modelDetails[0].updated_by.name || "User X"} -->
-              Person
+              {data.modelDetails[0].updated_by.name || "User X"}
             </span>
           </div>
           <div class="flex justify-between items-center py-1">
@@ -143,8 +150,7 @@
             </span>
             <span class="w-1/2 pl-2">Public</span>
             <span class="w-1/2 pl-2 text-slate-600 font-medium">
-              <!-- {`${modelDetails[0].is_public ? "Yes" : "No"}`} -->
-              Yes
+              {`${data.modelDetails[0].is_public ? "Yes" : "No"}`}
             </span>
           </div>
         </div>

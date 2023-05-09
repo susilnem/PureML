@@ -4,7 +4,6 @@ import { BACKEND_URL } from "$env/static/private";
 
 // ###########################################################################
 const makeUrl = (path: string): string => `${BACKEND_URL}${path}`;
-console.log("makeUrl=", makeUrl);
 // ###########################################################################
 
 // ############################## contactus api ##############################

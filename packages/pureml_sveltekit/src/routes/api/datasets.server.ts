@@ -1,6 +1,6 @@
-const backendUrl = process.env.BACKEND_URL;
+import { BACKEND_URL } from "$env/static/private";
 
-const makeUrl = (path: string): string => `${backendUrl}${path}`;
+const makeUrl = (path: string): string => `${BACKEND_URL}${path}`;
 
 // ###########################################################################
 

@@ -22,7 +22,10 @@
       />
       <input hidden readOnly name="toBranch" value="review.to_branch.name" />
       <input hidden readOnly name="modelName" value="review.model.name" />
-      <button type="submit" class="pb-6 w-full">
+      <a
+        href="/org/pureml/models/churn/review/123/rejected"
+        class="pb-6 w-full"
+      >
         <div
           class="hover:bg-slate-100 rounded-2xl flex justify-between items-center p-4"
         >
@@ -49,8 +52,11 @@
             </div>
           </div>
         </div>
-      </button>
-      <button type="submit" class="pb-6 w-full">
+      </a>
+      <a
+        href="/org/pureml/models/churn/review/123/rejected"
+        class="pb-6 w-full"
+      >
         <div
           class="hover:bg-slate-100 rounded-2xl flex justify-between items-center p-4"
         >
@@ -77,7 +83,7 @@
             </div>
           </div>
         </div>
-      </button>
+      </a>
     </form>
   </div>
 </div>

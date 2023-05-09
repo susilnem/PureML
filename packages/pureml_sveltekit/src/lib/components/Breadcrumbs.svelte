@@ -11,7 +11,7 @@
   {#each urlitems as item, index}
     <li>
       <a
-        href={`/${url.slice(0, index + 2).join("/")}`}
+        href={`/${url.slice(0, index + 3).join("/")}`}
         class={item === urlitems[urlitems.length - 1]
           ? "font-medium text-slate-600 w-full"
           : "text-slate-400 hover:text-slate-600 w-full"}

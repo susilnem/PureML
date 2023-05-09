@@ -1,6 +1,7 @@
 /** @type {import('./$types').Actions}  */
 
 import { fetchSignIn } from "../../api/auth.server";
+import { fetchAllOrgs } from "../../api/org.server";
 
 export const actions = {
   default: async ({ cookies, request }: any) => {
@@ -10,7 +11,17 @@ export const actions = {
     const data = await fetchSignIn(email, password);
 
     if (data.status === 202 || data.status === 200) {
-      cookies.set("accessToken", data.data[0].accessToken, {
+      const accesstoken = data.data[0].accessToken;
+      cookies.set("accessToken", accesstoken, {
+        path: "/",
+        sameSite: "strict",
+      });
+      const org = await fetchAllOrgs(accesstoken);
+      cookies.set("orgId", org[0].org.uuid, {
+        path: "/",
+        sameSite: "strict",
+      });
+      cookies.set("orgName", org[0].org.name, {
         path: "/",
         sameSite: "strict",
       });
@@ -22,9 +33,6 @@ export const actions = {
     //   const verifySessionId = sessionId.searchParams.get("sessionid");
     //   const accessToken = data.data[0].accessToken;
     //   session.set("accessToken", accessToken);
-    //   const org = await fetchAllOrgs(accessToken);
-    //   session.set("orgId", org[0].org.uuid);
-    //   session.set("orgName", org[0].org.name);
     //   if (!verifySessionId && data.message === "User logged in") {
     //     return json(data, {
     //       headers: {

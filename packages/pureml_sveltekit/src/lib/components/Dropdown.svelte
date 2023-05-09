@@ -3,7 +3,7 @@
 
   const dropdownStyles = tv({
     slots: {
-      base: "focus:outline-none z-50",
+      base: "focus:outline-none z-50 cursor-pointer",
       content:
         "dropdown-content bg-white shadow w-52 text-sm text-slate-600 rounded z-50 mt-2",
     },
