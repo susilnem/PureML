@@ -4,7 +4,7 @@
   import Button from "$lib/components/Button.svelte";
   import clsx from "clsx";
   import { page } from "$app/stores";
-  import AvatarIcon from "$lib/components/Avatar.svelte";
+  import Avatar from "$lib/components/Avatar.svelte";
   import Dropdown from "$lib/components/Dropdown.svelte";
   import logo from "$lib/logos/PureMLLogoText.svg";
 
@@ -57,7 +57,7 @@
         <li><img src={logo} alt="Logo" class="h-8" /></li>
       {:else}
         <li class="flex justify-center items-center pr-12">
-          <AvatarIcon>{orgAvatarName}</AvatarIcon>
+          <Avatar>{orgAvatarName || "U"}</Avatar>
           <div class="px-2 font-medium text-slate-600">
             <slot name="orgName" />
           </div>
@@ -68,7 +68,7 @@
                 <li
                   class="flex px-3 py-2 text-sm justify-left items-center rounded outline-none hover:bg-slate-100 cursor-pointer"
                 >
-                  <a href={item.link}>
+                  <a href={item.link} class="w-full">
                     {item.title}
                   </a>
                 </li>
@@ -109,13 +109,13 @@
       {:else}
         <li class="w-full flex items-center">
           <Dropdown intent="start">
-            <p slot="trigger"><AvatarIcon>{user}</AvatarIcon></p>
+            <p slot="trigger"><Avatar>{user || "U"}</Avatar></p>
             <p slot="items">
               {#each profileItems as item}
                 <li
                   class="flex px-3 py-2 text-sm justify-left items-center rounded outline-none hover:bg-slate-100 cursor-pointer"
                 >
-                  <a href={item.link}>
+                  <a href={item.link} class="w-full">
                     {item.title}
                   </a>
                 </li>
@@ -135,7 +135,7 @@
           <li><img src={logo} alt="Logo" class="h-8" /></li>
         {:else}
           <li class="flex justify-center items-center pr-12">
-            <AvatarIcon intent="primary">{orgAvatarName}</AvatarIcon>
+            <Avatar intent="primary">{orgAvatarName || "U"}</Avatar>
             <div class="px-2 text-slate-600 font-medium">
               <slot name="orgName" />
             </div>
@@ -146,7 +146,7 @@
                   <li
                     class="flex px-3 py-2 text-sm justify-left items-center rounded outline-none hover:bg-slate-100 cursor-pointer"
                   >
-                    <a href={item.link}>
+                    <a href={item.link} class="w-full">
                       {item.title}
                     </a>
                   </li>
@@ -214,13 +214,13 @@
         {:else}
           <li class="w-full flex justify-center items-center pl-5">
             <Dropdown intent="end">
-              <AvatarIcon>{user}</AvatarIcon>
+              <Avatar>{user || "U"}</Avatar>
               <p slot="items">
                 {#each profileItems as item}
                   <li
                     class="flex px-3 py-2 text-sm justify-left items-center rounded outline-none hover:bg-slate-100 cursor-pointer"
                   >
-                    <a href={item.link}>
+                    <a href={item.link} class="w-full">
                       {item.title}
                     </a>
                   </li>

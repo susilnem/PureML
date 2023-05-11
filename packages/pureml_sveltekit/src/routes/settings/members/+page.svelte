@@ -1,5 +1,19 @@
 <script>
   import Tabbar from "$lib/components/Tabbar.svelte";
+  import Select from "$lib/components/Select.svelte";
+  import { ListboxOption } from "@rgossiaux/svelte-headlessui";
+  import Avatar from "$lib/components/Avatar.svelte";
+  import Modal from "$lib/components/Modal.svelte";
+  import Input from "$lib/components/Input.svelte";
+  import Button from "$lib/components/Button.svelte";
+  import { PlusCircle } from "lucide-svelte";
+
+  export let data;
+
+  const listRoles = [
+    { id: 1, name: "Owner" },
+    { id: 2, name: "Member" },
+  ];
 </script>
 
 <div class="flex justify-center w-full border-b-2 border-slate-100">
@@ -8,63 +22,47 @@
   </div>
 </div>
 <div class="flex justify-center w-full">
-  <div
-    class="bg-slate-50 flex flex-col h-screen overflow-hidden w-full 2xl:max-w-screen-2xl"
-  >
+  <div class="bg-slate-50 flex flex-col h-screen w-full 2xl:max-w-screen-2xl">
     <div class="pt-8 px-12">
       <div class="flex justify-between pb-10">
         <div class="font-medium">Organization Members</div>
-        <!-- <Modal
-                btnName={
-                  <Button intent="primary" fullWidth={false}>
-                    <PlusCircle class="text-white w-4" />
-                    <div class="pl-2">Add member</div>
-                  </Button>
-                }
-                title="Add Member"
-              >
-                <Form method="post" reloadDocument class="w-full">
-                  <div>
-                    <input
-                      class="hidden"
-                      type="text"
-                      name="orgid"
-                      defaultValue={data[0].uuid}
-                    />
-                    <label htmlFor="addEmail" class="text-sm pb-1">
-                      Email
-                      <Input
-                        intent="valuePrimary"
-                        type="text"
-                        name="addEmail"
-                        fullWidth={false}
-                        defaultValue=""
-                        aria-label="addEmail"
-                        data-testid="addEmail"
-                        required
-                      />
-                    </label>
-                  </div>
-                  <div class="pt-12 grid justify-items-end w-full">
-                    <div class="flex justify-end w-1/2">
-                      <Button
-                        intent="primary"
-                        type="submit"
-                        class="pl-2"
-                        fullWidth={false}
-                      >
-                        Add
-                      </Button>
-                    </div>
-                  </div>
-                </Form>
-              </Modal> -->
+        <Modal title="Add Member">
+          <p slot="btnName">
+            <Button intent="primary" fullWidth={false}>
+              <PlusCircle class="text-white w-4" />
+              <div class="pl-2">Add member</div>
+            </Button>
+          </p>
+          <form method="post" class="w-full">
+            <div>
+              <input class="hidden" type="text" name="orgid" />
+              <!-- value={data[0].uuid} -->
+              <label for="addEmail" class="text-sm pb-1">
+                Email
+                <Input
+                  intent="valuePrimary"
+                  type="text"
+                  name="addEmail"
+                  fullWidth={false}
+                  defaultValue=""
+                  aria-label="addEmail"
+                  data-testid="addEmail"
+                  required
+                />
+              </label>
+            </div>
+            <div class="pt-12 grid justify-items-end w-full">
+              <div class="flex justify-end w-1/2">
+                <Button intent="primary" fullWidth={false}>Add</Button>
+              </div>
+            </div>
+          </form>
+        </Modal>
       </div>
       <div class="overflow-auto h-[57vh] rounded-tl-lg rounded-tr-lg">
         <table class="table w-full">
           <thead>
             <tr class="border-b border-slate-200">
-              <!-- <th>{""}</th> -->
               <th>Name</th>
               <th>Email</th>
               <th>Role</th>
@@ -72,52 +70,40 @@
             </tr>
           </thead>
           <tbody>
-            <!-- {data[0].members ? (
-                    <>
-                      {data[0].members.map((member: any, index: number) => (
-                        <tr key={index} class="hover:bg-slate-100">
-                          {/* <th class="w-4">
+            {#if data.orgDetails[0].members}
+              {#each data.orgDetails[0].members as member}
+                <tr class="hover:bg-slate-100">
+                  <!-- <th class="w-4">
                         <input type="checkbox" class="checkbox" />
-                      </th> */}
-                          <td class="lg:w-96 2xl:w-[56rem]">
-                            <div class="flex items-center space-x-3">
-                              <div class="mask w-12 flex items-center">
-                                <AvatarIcon intent="org">
-                                  {member.name.charAt(0).toUpperCase() || "U"}
-                                </AvatarIcon>
-                              </div>
-                              <div>
-                                <div class="text-slate-600">
-                                  {member.name || "Name"}
-                                </div>
-                                <div class="text-sm text-slate-400">
-                                  {member.handle || "username"}
-                                </div>
-                              </div>
-                            </div>
-                          </td>
-                          <td class="lg:w-96 2xl:w-[56rem]">
-                            {member.email || "abc@gmail.com"}
-                          </td>
-                          <td>
-                            <Form
-                              method="post"
-                              reloadDocument
-                              onChange={roleChange}
-                            >
-                              <input
-                                class="hidden"
-                                type="text"
-                                name="orgid"
-                                defaultValue={data[0].uuid}
-                              />
-                              <input
-                                class="hidden"
-                                type="text"
-                                name="roleEmail"
-                                defaultValue={member.email}
-                              />
-                              <SelectPrimitive.Root name="role">
+                      </th> -->
+                  <td class="lg:w-96 2xl:w-[56rem]">
+                    <div class="flex items-center space-x-3">
+                      <div class="mask w-12 flex items-center">
+                        <Avatar intent="large">
+                          {member.name.charAt(0).toUpperCase() || "U"}
+                        </Avatar>
+                      </div>
+                      <div>
+                        <div class="text-slate-600">
+                          {member.name || "Name"}
+                        </div>
+                        <div class="text-sm text-slate-400">
+                          {member.handle || "username"}
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="lg:w-96 2xl:w-[56rem]">
+                    {member.email || "abc@gmail.com"}
+                  </td>
+                  <td>
+                    <form method="post">
+                      <!-- onChange={roleChange} -->
+                      <input class="hidden" type="text" name="orgid" />
+                      <!-- value={data[0].uuid} -->
+                      <input class="hidden" type="text" name="roleEmail" />
+                      <!-- value={member.email} -->
+                      <!-- <SelectPrimitive.Root name="role">
                                 <SelectPrimitive.Trigger
                                   asChild
                                   aria-label="Role"
@@ -155,19 +141,28 @@
                                     </SelectPrimitive.Group>
                                   </SelectPrimitive.Viewport>
                                 </SelectPrimitive.Content>
-                              </SelectPrimitive.Root>
-                            </Form>
-                          </td>
-                          <th class="lg:w-96">
-                            <Modal
+                              </SelectPrimitive.Root> -->
+                      <Select intent="primary" name="members" title="Role"
+                        >{#each listRoles as role (role.id)}
+                          <ListboxOption
+                            value={role}
+                            class="p-2 border border-slate-200 hover:bg-slate-200"
+                          >
+                            {role.name}
+                          </ListboxOption>
+                        {/each}</Select
+                      >
+                    </form>
+                  </td>
+                  <th class="lg:w-96">
+                    <!-- <Modal
                               btnName={
                                 <button class="font-normal">Remove</button>
                               }
                               title="Remove member"
                             >
-                              <Form
+                              <form
                                 method="post"
-                                reloadDocument
                                 class="w-full"
                               >
                                 <input
@@ -197,15 +192,15 @@
                                     </Button>
                                   </div>
                                 </div>
-                              </Form>
-                            </Modal>
-                          </th>
-                        </tr>
-                      ))}
-                    </>
-                  ) : (
-                    <div>No members found</div>
-                  )} -->
+                              </form>
+                            </Modal> -->
+                    Remove
+                  </th>
+                </tr>
+              {/each}
+            {:else}
+              <div>No members found</div>
+            {/if}
           </tbody>
         </table>
       </div>

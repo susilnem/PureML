@@ -1,5 +1,4 @@
 <script>
-  import Breadcrumbs from "$lib/components/Breadcrumbs.svelte";
   import Tabbar from "$lib/components/Tabbar.svelte";
   import {
     ChevronDown,

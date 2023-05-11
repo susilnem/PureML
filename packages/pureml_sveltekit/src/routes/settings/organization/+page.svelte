@@ -3,10 +3,24 @@
   import Input from "$lib/components/Input.svelte";
   import Tabbar from "$lib/components/Tabbar.svelte";
   import { Copy } from "lucide-svelte";
+  import toast from "svelte-french-toast";
 
   function copyOrgId() {
     navigator.clipboard.writeText("text");
     // toast.success("Copied to clipboard!");
+  }
+
+  export let data;
+  /** @type {import('./$types').ActionData} */
+  export let form;
+
+  if (form) {
+    if (form.status === 200 || form.status === 202) {
+      toast.success("Organization Details Updated");
+    } else
+      toast.error(
+        "Can't update organization details at the moment. Please try later."
+      );
   }
 </script>
 
@@ -20,7 +34,7 @@
     class="bg-slate-50 flex flex-col h-screen overflow-hidden w-full 2xl:max-w-screen-2xl"
   >
     <form
-      method="post"
+      method="POST"
       class="py-8 px-12 w-full h-[80%] overflow-auto text-slate-600"
     >
       <div class="pb-4">
@@ -31,7 +45,7 @@
             type="text"
             name="orgname"
             fullWidth={false}
-            defaultValue="orgData[0].name"
+            defaultValue={data.orgDetails[0].name}
             aria-label="orgname"
             data-testid="orgname"
             required
@@ -46,7 +60,7 @@
             type="text"
             name="orgdesc"
             fullWidth={false}
-            defaultValue="Enter email..."
+            defaultValue={data.orgDetails[0].description}
             aria-label="orgdesc"
             data-testid="orgdesc"
             required
@@ -57,12 +71,12 @@
         <label for="orgid" class="labelInput pb-1">
           <div class="text-left">Organization ID</div>
           <div class="input-icons">
-            <input class="hidden" name="orgid" value="uuid" />
+            <input class="hidden" name="orgid" value={data.orgDetails[0].uuid} />
             <input
               id="orgid"
               type="text"
               name="orgid"
-              value="Organization ID"
+              value={data.orgDetails[0].uuid}
               aria-label="orgid"
               data-testid="orgid"
               required

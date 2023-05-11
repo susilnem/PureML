@@ -2,6 +2,18 @@
   import Button from "$lib/components/Button.svelte";
   import Input from "$lib/components/Input.svelte";
   import Tabbar from "$lib/components/Tabbar.svelte";
+  import toast from "svelte-french-toast";
+
+  export let data;
+  /** @type {import('./$types').ActionData} */
+  export let form;
+
+  if (form) {
+    if (form.status === 200 || form.status === 202) {
+      toast.success("Profile Updated");
+    } else
+      toast.error("Can't update your Profile at the moment. Please try later.");
+  }
 </script>
 
 <div class="flex justify-center w-full border-b-2 border-slate-100">
@@ -14,7 +26,7 @@
     class="bg-slate-50 flex flex-col h-screen overflow-hidden w-full 2xl:max-w-screen-2xl"
   >
     <form
-      method="post"
+      method="POST"
       class="py-8 px-12 w-full h-[80%] overflow-auto text-slate-600"
     >
       <div class="pb-4">
@@ -25,7 +37,7 @@
             type="text"
             name="name"
             fullWidth={false}
-            defaultValue="Enter Name"
+            defaultValue={data.userDetails[0].name}
             required
           />
         </label>
@@ -38,7 +50,7 @@
             type="text"
             name="bio"
             fullWidth={false}
-            defaultValue="profileData[0].bio"
+            defaultValue={data.userDetails[0].bio}
             aria-label="bio"
             data-testid="bio"
             required
@@ -53,7 +65,7 @@
             type="text"
             name="email"
             fullWidth={false}
-            defaultValue="profileData[0].email"
+            defaultValue={data.userDetails[0].email}
             aria-label="email"
             data-testid="email"
             required
@@ -69,10 +81,11 @@
             type="text"
             name="username"
             fullWidth={false}
-            defaultValue="profileData[0].handle"
+            defaultValue={data.userDetails[0].handle}
             aria-label="username"
             data-testid="username"
             required
+            disabled
           />
         </label>
       </div>

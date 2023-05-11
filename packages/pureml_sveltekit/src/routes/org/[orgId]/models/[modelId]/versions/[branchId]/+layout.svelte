@@ -1,6 +1,35 @@
-<script>
+<script lang="ts">
+  import { page } from "$app/stores";
   import Breadcrumbs from "$lib/components/Breadcrumbs.svelte";
   import Tabbar from "$lib/components/Tabbar.svelte";
+  import Select from "$lib/components/Select.svelte";
+  import { ListboxOption } from "@rgossiaux/svelte-headlessui";
+  import Avatar from "$lib/components/Avatar.svelte";
+
+  export let data;
+
+  // let ver1 = "";
+  // let setVer1 = "";
+  // let ver2 = "";
+  // let setVer2 = "";
+  // // const [submitReviewVersion, setSubmitReviewVersion] = useState("");
+  // let branch = "main";
+  // let setBranch = "";
+  // let dataVersion = {};
+  // let setDataVersion = {};
+  // // const [ver1Logs, setVer1Logs] = useState<{ [key: string]: string }>({});
+  // // const [ver2Logs, setVer2Logs] = useState<{ [key: string]: string }>({});
+  // // const [commonMetrics, setCommonMetrics] = useState<string[]>([]);
+  let versionData = data.versions;
+  // let setVersionData = data.versions;
+
+  // setVer1(versionData.at(0).version);
+  // setVer2("");
+
+  function branchChange(event: any) {
+    // setBranch(event.target.value);
+    // submit(event.currentTarget, { replace: true });
+  }
 </script>
 
 <div
@@ -27,8 +56,7 @@
       <aside
         class="bg-slate-50 border-l-2 border-slate-100 h-full w-1/4 max-w-[400px] py-8 px-12 z-10"
       >
-        <form method="post" class="flex justify-end">
-          <!-- onChange={branchChange} -->
+        <form method="post" class="flex justify-end" on:change={branchChange}>
           <input name="_action" value="changeBranch" type="hidden" />
           <!-- <Select
                   intent="primary"
@@ -50,56 +78,63 @@
                     </SelectPrimitive.Item>
                   ))}
                 </Select> -->
+          <Select
+            intent="primary"
+            fullWidth={false}
+            name="branch"
+            title={$page.params.branchId}
+            >{#each data.allBranches as branch}
+              <ListboxOption
+                value={branch.value}
+                class="flex items-center justify-between px-4 py-2 rounded-md text-base text-slate-600 font-medium cursor-pointer hover:bg-slate-100 hover:border-none focus:outline-none"
+              >
+                {branch.label}
+              </ListboxOption>
+            {/each}</Select
+          >
         </form>
-        <!-- {versionData ? (
-                <ul class="h-3/4 space-y-2 mt-8 overflow-auto">
-                  {versionData.map((version: any) => (
-                    <li
-                      class="flex items-center justify-between py-2"
-                      key={version.version}
-                    >
-                      <div class="flex items-center">
-                        <input
-                          class="checkbox checkbox-primary checkbox-sm"
-                          name={"version2"}
-                          value={version.version}
-                          type="checkbox"
-                          checked={
-                            version.version === ver1 || version.version === ver2
-                          }
-                          onChange={(e) => {
-                            if (e.target.checked) {
-                              setVer2(version.version);
-                            } else if (
-                              ver1 === version.version &&
-                              ver2 === ""
-                            ) {
-                              new Error(
-                                "You can't uncheck the present version"
-                              );
-                            } else if (ver1 === version.version) {
-                              setVer1(ver2);
-                              setVer2("");
-                            } else {
-                              setVer2("");
-                            }
-                          }}
-                        />
-                        <div class="flex items-center justify-center pl-4 text-slate-600">
-                          <AvatarIcon intent="avatar">
-                            {version.created_by.name.charAt(0).toUpperCase()}
-                          </AvatarIcon>
-                          <div>
-                            <p class="px-4 font-medium">
-                              {version.version}
-                            </p>
-                            <p class="px-4">
-                              Created by {version.created_by.name}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                      {data.params.branchId !== "main" && (
+        {#if versionData}
+          <ul class="h-3/4 space-y-2 mt-8 overflow-auto">
+            {#each versionData as version}
+              <li class="flex items-center justify-between py-2">
+                <div class="flex items-center">
+                  <input
+                    class="checkbox checkbox-primary checkbox-sm"
+                    name={"version2"}
+                    value={version.version}
+                    type="checkbox"
+                  />
+                  <!-- checked={version.version === ver1 ||
+                      version.version === ver2} -->
+                  <!-- onChange={(e) => {
+                      if (e.target.checked) {
+                        setVer2(version.version);
+                      } else if (ver1 === version.version && ver2 === "") {
+                        new Error("You can't uncheck the present version");
+                      } else if (ver1 === version.version) {
+                        setVer1(ver2);
+                        setVer2("");
+                      } else {
+                        setVer2("");
+                      }
+                    }} -->
+                  <div
+                    class="flex items-center justify-center pl-4 text-slate-600"
+                  >
+                    <Avatar intent="primary">
+                      {version.created_by.name.charAt(0).toUpperCase()}
+                    </Avatar>
+                    <div>
+                      <p class="px-4 font-medium">
+                        {version.version}
+                      </p>
+                      <p class="px-4">
+                        Created by {version.created_by.name}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <!-- {data.params.branchId !== "main" && (
                         <form
                           method="post"
                           onChange={submitReview}
@@ -131,13 +166,13 @@
                             </SelectPrimitive.Item>
                           </Select>
                         </form>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <div class="py-8">No version created yet</div>
-              )} -->
+                      )} -->
+              </li>
+            {/each}
+          </ul>
+        {:else}
+          <div class="py-8">No version created yet</div>
+        {/if}
       </aside>
     </div>
   </div>

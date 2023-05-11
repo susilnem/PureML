@@ -89,18 +89,22 @@
                   class="pt-8 flex flex-col gap-y-4 md:flex md:flex-row w-full md:gap-x-4"
                 >
                   <div class="w-full">
-                    <Card
-                      title="Models"
-                      description=""
-                      count={data.publicProfile[0]?.number_of_models || "0"}
-                    />
+                    <a href="/models">
+                      <Card
+                        title="Models"
+                        description=""
+                        count={data.publicProfile[0]?.number_of_models || "0"}
+                      /></a
+                    >
                   </div>
                   <div class="w-full">
-                    <Card
-                      title="Datasets"
-                      description=""
-                      count={data.publicProfile[0]?.number_of_datasets || "0"}
-                    />
+                    <a href="/datasets">
+                      <Card
+                        title="Datasets"
+                        description=""
+                        count={data.publicProfile[0]?.number_of_datasets || "0"}
+                      /></a
+                    >
                   </div>
                 </div>
               </div>
@@ -185,18 +189,22 @@
                   class="pt-8 flex flex-col gap-y-4 md:flex md:flex-row w-full md:gap-x-4"
                 >
                   <div class="w-full">
-                    <Card
-                      title="Models"
-                      description=""
-                      count={data.publicProfile[0]?.number_of_models || "0"}
-                    />
+                    <a href="/models">
+                      <Card
+                        title="Models"
+                        description=""
+                        count={data.publicProfile[0]?.number_of_models || "0"}
+                      /></a
+                    >
                   </div>
                   <div class="w-full">
-                    <Card
-                      title="Datasets"
-                      description=""
-                      count={data.publicProfile[0]?.number_of_datasets || "0"}
-                    />
+                    <a href="/datasets">
+                      <Card
+                        title="Datasets"
+                        description=""
+                        count={data.publicProfile[0]?.number_of_datasets || "0"}
+                      /></a
+                    >
                   </div>
                 </div>
               </div>
