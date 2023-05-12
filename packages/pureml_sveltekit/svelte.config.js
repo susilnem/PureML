@@ -15,8 +15,8 @@ const config = {
 
   kit: {
     adapter: adapter({
-      pages: "../purebackend/ui/dist",
-      assets: "../purebackend/ui/dist",
+      pages: "build",
+      assets: "build",
       fallback: null,
       precompress: false,
       strict: false,

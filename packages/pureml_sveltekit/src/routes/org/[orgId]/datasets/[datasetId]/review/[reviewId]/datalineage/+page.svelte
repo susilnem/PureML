@@ -28,7 +28,9 @@
                 <!-- {node && <Pipeline pnode={node} pedge={edge} />} -->
               </div>
               <div class="w-1/2 h-screen max-h-full">
-                <div class="text-sm text-slate-600 font-medium pb-6">ver2</div>
+                <div class="text-sm text-slate-600 font-medium pb-6">
+                  version2
+                </div>
                 <!-- {node2 && <Pipeline pnode={node2} pedge={edge2} />} -->
               </div>
             </div>
@@ -80,7 +82,7 @@
                 value="version.version"
                 type="checkbox"
               />
-              <!--    checked={version.version === ver2}
+              <!--    checked={version.version === version2}
                            onChange={(e) => {
                              setVer2(version.version);
                            }} -->

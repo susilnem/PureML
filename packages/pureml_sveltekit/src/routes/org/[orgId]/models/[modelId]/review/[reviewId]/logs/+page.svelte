@@ -48,13 +48,13 @@
                     <th
                       class="text-slate-600 font-medium text-left border p-4 w-1/5"
                     >
-                      Submitted commit ver1
+                      Submitted commit version1
                     </th>
-                    <!-- {ver2 !== "" ? ( -->
+                    <!-- {version2 !== "" ? ( -->
                     <th
                       class="text-slate-600 font-medium text-left border p-4 w-1/5"
                     >
-                      ver2
+                      version2
                     </th>
                     <!--   ) : null} -->
                   </tr>
@@ -70,10 +70,10 @@
                                             ? reviewParams[param].slice(0, 5)
                                             : "-"}
                                         </td>
-                                        {ver2 !== "" && (
+                                        {version2 !== "" && (
                                           <td class="text-slate-600 font-medium text-left border p-4">
-                                            {ver2Params[param]
-                                              ? ver2Params[param].slice(0, 5)
+                                            {version2Params[param]
+                                              ? version2Params[param].slice(0, 5)
                                               : "-"}
                                           </td>
                                         )}
@@ -134,7 +134,7 @@
                 value="version.version"
                 type="checkbox"
               />
-              <!-- checked={version.version === ver2}
+              <!-- checked={version.version === version2}
                   onChange={(e) => {
                     setVer2(version.version);
                   }} -->

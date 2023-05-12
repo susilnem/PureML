@@ -5,31 +5,120 @@
   import Select from "$lib/components/Select.svelte";
   import { ListboxOption } from "@rgossiaux/svelte-headlessui";
   import Avatar from "$lib/components/Avatar.svelte";
+  import { onMount } from "svelte";
+  import {
+    version1,
+    version2,
+    submitReviewVersion,
+    branch,
+    dataVersion,
+    version1Logs,
+    version2Logs,
+    commonMetrics,
+  } from "./stores";
+  import type { Version } from "./stores";
 
   export let data;
 
-  // let ver1 = "";
-  // let setVer1 = "";
-  // let ver2 = "";
-  // let setVer2 = "";
-  // // const [submitReviewVersion, setSubmitReviewVersion] = useState("");
-  // let branch = "main";
-  // let setBranch = "";
-  // let dataVersion = {};
-  // let setDataVersion = {};
-  // // const [ver1Logs, setVer1Logs] = useState<{ [key: string]: string }>({});
-  // // const [ver2Logs, setVer2Logs] = useState<{ [key: string]: string }>({});
-  // // const [commonMetrics, setCommonMetrics] = useState<string[]>([]);
-  let versionData = data.versions;
-  // let setVersionData = data.versions;
+  function isJson(item: string | object) {
+    let value = typeof item !== "string" ? JSON.stringify(item) : item;
+    try {
+      value = JSON.parse(value);
+    } catch (e) {
+      return false;
+    }
 
-  // setVer1(versionData.at(0).version);
-  // setVer2("");
-
-  function branchChange(event: any) {
-    // setBranch(event.target.value);
-    // submit(event.currentTarget, { replace: true });
+    return typeof value === "object" && value !== null;
   }
+
+  let versionData: Version[] = data.versions;
+  let _branch: string = $page.params.branchId;
+
+  // ##### checking version data #####
+  onMount(() => {
+    if (!versionData) return;
+    if (!versionData[0]) return;
+
+    version1.set(versionData[0].version);
+    version2.set("");
+  });
+
+  // ##### fetching & displaying latest version data #####
+  onMount(() => {
+    if (!versionData) return;
+
+    const tempDict: Record<string, Version> = {};
+    versionData.forEach((version) => {
+      tempDict[version.version] = version;
+    });
+    dataVersion.set(tempDict);
+  });
+
+  dataVersion.subscribe((_dataVersion) => {
+    const tempVersion1Data = _dataVersion[$version1];
+    if (tempVersion1Data) {
+      if (tempVersion1Data.logs === null) {
+        version1Logs.set({});
+        commonMetrics.set([]);
+        return;
+      } else {
+        const tempDictv1: Record<string, string> = {};
+        tempVersion1Data.logs.forEach((log) => {
+          if (isJson(log.data)) {
+            tempDictv1[log.key] = JSON.parse(log.data);
+            if (!$commonMetrics.includes(log.key)) {
+              commonMetrics.set([...$commonMetrics, log.key]);
+            }
+          }
+        });
+        version1Logs.set(tempDictv1);
+      }
+    }
+
+    if ($version2 === "") {
+      version2Logs.set({});
+      return;
+    }
+    const tempVersion2Data = _dataVersion[$version2];
+    if (tempVersion2Data) {
+      if (tempVersion2Data.logs === null) {
+        version2Logs.set({});
+        return;
+      } else {
+        const tempDictv2: Record<string, string> = {};
+        tempVersion2Data.logs.forEach((log) => {
+          tempDictv2[log.key] = JSON.parse(log.data);
+          if (!$commonMetrics.includes(log.key)) {
+            commonMetrics.set([...$commonMetrics, log.key]);
+          }
+        });
+        version2Logs.set(tempDictv2);
+      }
+    }
+  });
+
+  // function branchChange(event: Event, item: string) {
+  //   const branch = item;
+  //   console.log("branch=", branch);
+  //   throw redirect(
+  //     307,
+  //     `/org/${$page.params.orgId}/models/${$page.params.modelId}/versions/${branch}/logs`
+  //   );
+  // }
+
+  function onVersionChangeHandler(event: Event, version: Version) {
+    if ((event?.target as HTMLInputElement)?.checked) {
+      version2.set(version.version);
+    } else if ($version1 === version.version && $version2 === "") {
+      new Error("You can't uncheck the present version");
+    } else if ($version1 === version.version) {
+      version1.set($version2);
+      version2.set("");
+    } else {
+      version2.set("");
+    }
+  }
+
 </script>
 
 <div
@@ -56,43 +145,27 @@
       <aside
         class="bg-slate-50 border-l-2 border-slate-100 h-full w-1/4 max-w-[400px] py-8 px-12 z-10"
       >
-        <form method="post" class="flex justify-end" on:change={branchChange}>
-          <input name="_action" value="changeBranch" type="hidden" />
-          <!-- <Select
-                  intent="primary"
-                  name="branch"
-                  title={data.params.branchId}
-                >
-                  {branchData.map((branch: any, index: number) => (
-                    <SelectPrimitive.Item
-                      key={`${branch}-${index}`}
-                      value={branch.value}
-                      class="flex items-center justify-between px-4 py-2 rounded-md text-base text-slate-600 font-medium cursor-pointer  hover:bg-slate-100 hover:border-none focus:outline-none"
-                    >
-                      <SelectPrimitive.ItemText class="text-slate-600 text-base font-medium">
-                        {branch.label}
-                      </SelectPrimitive.ItemText>
-                      <SelectPrimitive.ItemIndicator>
-                        <Check class="text-slate-400 w-4" />
-                      </SelectPrimitive.ItemIndicator>
-                    </SelectPrimitive.Item>
-                  ))}
-                </Select> -->
-          <Select
-            intent="primary"
-            fullWidth={false}
-            name="branch"
-            title={$page.params.branchId}
-            >{#each data.allBranches as branch}
-              <ListboxOption
-                value={branch.value}
-                class="flex items-center justify-between px-4 py-2 rounded-md text-base text-slate-600 font-medium cursor-pointer hover:bg-slate-100 hover:border-none focus:outline-none"
+        <Select
+          intent="primary"
+          fullWidth={false}
+          name="branch"
+          title={_branch}
+        >
+          {#each data.allBranches as branch}
+            <ListboxOption
+              value={branch.value}
+              class="flex items-center justify-between px-4 py-2 rounded-md text-base text-slate-600 font-medium cursor-pointer hover:bg-slate-100 hover:border-none focus:outline-none"
+            >
+              <a
+                data-sveltekit-reload
+                href={`/org/${$page.params.orgId}/models/${$page.params.modelId}/versions/${branch.label}/logs`}
+                class="w-full"
               >
                 {branch.label}
-              </ListboxOption>
-            {/each}</Select
-          >
-        </form>
+              </a>
+            </ListboxOption>
+          {/each}</Select
+        >
         {#if versionData}
           <ul class="h-3/4 space-y-2 mt-8 overflow-auto">
             {#each versionData as version}
@@ -103,21 +176,10 @@
                     name={"version2"}
                     value={version.version}
                     type="checkbox"
+                    checked={version.version === $version1 ||
+                      version.version === $version2}
+                    on:change={(e) => onVersionChangeHandler(e, version)}
                   />
-                  <!-- checked={version.version === ver1 ||
-                      version.version === ver2} -->
-                  <!-- onChange={(e) => {
-                      if (e.target.checked) {
-                        setVer2(version.version);
-                      } else if (ver1 === version.version && ver2 === "") {
-                        new Error("You can't uncheck the present version");
-                      } else if (ver1 === version.version) {
-                        setVer1(ver2);
-                        setVer2("");
-                      } else {
-                        setVer2("");
-                      }
-                    }} -->
                   <div
                     class="flex items-center justify-center pl-4 text-slate-600"
                   >
@@ -134,39 +196,33 @@
                     </div>
                   </div>
                 </div>
-                <!-- {data.params.branchId !== "main" && (
-                        <form
-                          method="post"
-                          onChange={submitReview}
-                          class="flex justify-end"
+                <!-- {#if data.params.branchId !== "main"}
+                  <form
+                    method="post"
+                    onChange={submitReview}
+                    class="flex justify-end"
+                  >
+                    <input name="_action" value="submitReview" type="hidden" />
+                    <input name="fromBranch" value={branch} type="hidden" />
+                    <input name="toBranch" value="main" type="hidden" />
+                    <Select
+                      intent="more"
+                      name="version"
+                      title={submitReviewVersion}
+                    >
+                      <SelectPrimitive.Item
+                        value={version.version}
+                        class="flex items-center justify-between px-4 py-2 rounded-md text-base text-slate-600 font-medium cursor-pointer  hover:bg-slate-100 hover:border-none focus:outline-none"
+                      >
+                        <SelectPrimitive.ItemText
+                          class="text-slate-600 text-base font-medium"
                         >
-                          <input
-                            name="_action"
-                            value="submitReview"
-                            type="hidden"
-                          />
-                          <input
-                            name="fromBranch"
-                            value={branch}
-                            type="hidden"
-                          />
-                          <input name="toBranch" value="main" type="hidden" />
-                          <Select
-                            intent="more"
-                            name="version"
-                            title={submitReviewVersion}
-                          >
-                            <SelectPrimitive.Item
-                              value={version.version}
-                              class="flex items-center justify-between px-4 py-2 rounded-md text-base text-slate-600 font-medium cursor-pointer  hover:bg-slate-100 hover:border-none focus:outline-none"
-                            >
-                              <SelectPrimitive.ItemText class="text-slate-600 text-base font-medium">
-                                Submit For review
-                              </SelectPrimitive.ItemText>
-                            </SelectPrimitive.Item>
-                          </Select>
-                        </form>
-                      )} -->
+                          Submit For review
+                        </SelectPrimitive.ItemText>
+                      </SelectPrimitive.Item>
+                    </Select>
+                  </form>
+                {/if}} -->
               </li>
             {/each}
           </ul>

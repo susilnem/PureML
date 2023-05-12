@@ -105,7 +105,11 @@ export async function fetchModelBranch(
       Accept: "application / json",
       Authorization: `Bearer ${accessToken}`,
     },
-  }).then((res) => res.json());
+  })
+    .then((res) => res.json())
+    .catch((err) => {
+      throw err;
+    });;
   if (res.data !== null) {
     let b: Object[] = [];
     res.data.forEach((branch: any) => {

@@ -19,7 +19,6 @@
   export let title: string;
 
   export let open = false;
-  console.log(open);
 </script>
 
 <!-- The button to open modal -->

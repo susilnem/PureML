@@ -1,15 +1,18 @@
 <script>
   import ComparisionTable from "$lib/components/Comparision.svelte";
   import Tabbar from "$lib/components/Tabbar.svelte";
-  let ver1 = "0.2";
-  let ver2 = "0.12";
+  let version1 = "0.2";
+  let version2 = "0.12";
+
+  export let data;
 </script>
 
 <Tabbar tabType="secondary" tabContent="modelTab" tab="userlogs" />
-<!-- <VersionContext.Provider value={{ ver1, ver2 }}> -->
+<!-- <VersionContext.Provider value={{ version1, version2 }}> -->
 <div class="px-12 py-6">
-  <ComparisionTable {ver1} {ver2} />
-  <!-- dataVer1={ver1Logs[key]}
-            dataVer2={ver2Logs[key]} -->
+  <h1 class="text-red-600">Adding metrics soon...</h1>
+  <ComparisionTable {version1} {version2} />
+  <!-- dataVer1={version1Logs[key]}
+            dataVer2={version2Logs[key]} -->
 </div>
 <!-- </VersionContext.Provider> -->

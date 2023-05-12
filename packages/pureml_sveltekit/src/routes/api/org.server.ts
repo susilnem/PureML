@@ -27,7 +27,9 @@ export async function fetchOrgDetails(orgId: string, accessToken: string) {
       Accept: "application / json",
       Authorization: `Bearer ${accessToken}`,
     },
-  }).then((res) => res.json());
+  }).then((res) => res.json()).catch(err => {
+    throw err;
+  });
   return res.data;
 }
 

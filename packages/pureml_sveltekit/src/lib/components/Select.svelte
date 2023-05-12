@@ -32,18 +32,22 @@
   });
   const { base, selectIcon, noIcon, view } = selectStyles();
   export let title: string;
-  let selectedPerson: any = [];
+  // export let onChange: (event: Event, item: string) => void = () => {};
+  let selectedItem: any = [];
 </script>
 
 <div>
   {#if $$restProps.intent === "primary"}
     <Listbox
-      value={selectedPerson}
-      on:change={(e) => (selectedPerson = e.detail)}
+      value={selectedItem}
+      on:change={(e) => {
+        selectedItem = e.detail;
+        // onChange(e, selectedItem);
+      }}
       class={base()}
     >
       <ListboxButton class={selectIcon()}
-        >{selectedPerson.name || title}</ListboxButton
+        >{selectedItem.name || title}</ListboxButton
       >
       <Transition
         enter="transition duration-100 ease-out"

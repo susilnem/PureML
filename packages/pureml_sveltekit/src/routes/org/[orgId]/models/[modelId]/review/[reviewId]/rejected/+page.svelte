@@ -48,13 +48,13 @@
                       <th
                         class="text-slate-600 font-medium text-left border p-4 w-1/5"
                       >
-                        Rejected commit ver1
+                        Rejected commit version1
                       </th>
-                      <!-- {ver2 !== "" ? ( -->
+                      <!-- {version2 !== "" ? ( -->
                       <th
                         class="text-slate-600 font-medium text-left border p-4 w-1/5"
                       >
-                        ver2
+                        version2
                       </th>
                       <!--   ) : null} -->
                     </tr>
@@ -70,10 +70,10 @@
                                             ? reviewParams[param].slice(0, 5)
                                             : "-"}
                                         </td>
-                                        {ver2 !== "" && (
+                                        {version2 !== "" && (
                                           <td class="text-slate-600 font-medium text-left border p-4">
-                                            {ver2Params[param]
-                                              ? ver2Params[param].slice(0, 5)
+                                            {version2Params[param]
+                                              ? version2Params[param].slice(0, 5)
                                               : "-"}
                                           </td>
                                         )}

@@ -1,14 +1,48 @@
-<script>
+<script lang="ts">
   import { page } from "$app/stores";
   import Breadcrumbs from "$lib/components/Breadcrumbs.svelte";
   import Tabbar from "$lib/components/Tabbar.svelte";
   import Select from "$lib/components/Select.svelte";
   import { ListboxOption } from "@rgossiaux/svelte-headlessui";
   import Avatar from "$lib/components/Avatar.svelte";
+  import { version1, type Version, version2 } from "./stores";
+  import { onMount } from "svelte";
 
   export let data;
 
-  let versionData = data.versions;
+  function isJson(item: string | object) {
+    let value = typeof item !== "string" ? JSON.stringify(item) : item;
+    try {
+      value = JSON.parse(value);
+    } catch (e) {
+      return false;
+    }
+
+    return typeof value === "object" && value !== null;
+  }
+
+  let versionData: Version[] = data.versions;
+
+  onMount(() => {
+    if (!versionData) return;
+    if (!versionData[0]) return;
+
+    version1.set(versionData[0].version);
+    version2.set("");
+  });
+
+  function onVersionChangeHandler(event: Event, version: Version) {
+    if ((event?.target as HTMLInputElement)?.checked) {
+      version2.set(version.version);
+    } else if ($version1 === version.version && $version2 === "") {
+      new Error("You can't uncheck the present version");
+    } else if ($version1 === version.version) {
+      version1.set($version2);
+      version2.set("");
+    } else {
+      version2.set("");
+    }
+  }
 </script>
 
 <div
@@ -35,44 +69,26 @@
       <aside
         class="bg-slate-50 border-l-2 border-slate-100 h-full w-1/4 max-w-[400px] py-8 px-12 z-10"
       >
-        <form method="post" class="flex justify-end">
-          <!-- onChange={branchChange} -->
-          <input name="_action" value="changeBranch" type="hidden" />
-          <!-- <Select
-                  intent="primary"
-                  name="branch"
-                  title={data.params.branchId}
-                >
-                  {branchData.map((branch: any, index: number) => (
-                    <SelectPrimitive.Item
-                      key={`${branch}-${index}`}
-                      value={branch.value}
-                      class="flex items-center justify-between px-4 py-2 rounded-md text-base text-slate-600 font-medium cursor-pointer  hover:bg-slate-100 hover:border-none focus:outline-none"
-                    >
-                      <SelectPrimitive.ItemText class="text-slate-600 text-base font-medium">
-                        {branch.label}
-                      </SelectPrimitive.ItemText>
-                      <SelectPrimitive.ItemIndicator>
-                        <Check class="text-slate-400 w-4" />
-                      </SelectPrimitive.ItemIndicator>
-                    </SelectPrimitive.Item>
-                  ))}
-                </Select> -->
-          <Select
-            intent="primary"
-            fullWidth={false}
-            name="branch"
-            title={$page.params.branchId}
-            >{#each data.allBranches as branch}
-              <ListboxOption
-                value={branch.value}
-                class="flex items-center justify-between px-4 py-2 rounded-md text-base text-slate-600 font-medium cursor-pointer hover:bg-slate-100 hover:border-none focus:outline-none"
+        <Select
+          intent="primary"
+          fullWidth={false}
+          name="branch"
+          title={$page.params.branchId}
+          >{#each data.allBranches as branch}
+            <ListboxOption
+              value={branch.value}
+              class="flex items-center justify-between px-4 py-2 rounded-md text-base text-slate-600 font-medium cursor-pointer hover:bg-slate-100 hover:border-none focus:outline-none"
+            >
+              <a
+                data-sveltekit-reload
+                href={`/org/${$page.params.orgId}/datasets/${$page.params.datasetId}/versions/${branch.label}/datalineage`}
+                class="w-full"
               >
-                {branch.label}
-              </ListboxOption>
-            {/each}</Select
-          >
-        </form>
+                {branch.label}</a
+              >
+            </ListboxOption>
+          {/each}</Select
+        >
         {#if versionData}
           <ul class="h-3/4 space-y-2 mt-8 overflow-auto">
             {#each versionData as version}
@@ -83,27 +99,10 @@
                     name={"version2"}
                     value={version.version}
                     type="checkbox"
+                    checked={version.version === $version1 ||
+                      version.version === $version2}
+                    on:change={(e) => onVersionChangeHandler(e, version)}
                   />
-                  <!-- checked={
-                            version.version === ver1 || version.version === ver2
-                          }
-                          onChange={(e) => {
-                            if (e.target.checked) {
-                              setVer2(version.version);
-                            } else if (
-                              ver1 === version.version &&
-                              ver2 === ""
-                            ) {
-                              new Error(
-                                "You can't uncheck the present version"
-                              );
-                            } else if (ver1 === version.version) {
-                              setVer1(ver2);
-                              setVer2("");
-                            } else {
-                              setVer2("");
-                            }
-                          }} -->
                   <div
                     class="flex items-center justify-center pl-4 text-slate-600"
                   >

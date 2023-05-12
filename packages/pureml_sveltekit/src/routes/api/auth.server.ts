@@ -199,7 +199,11 @@ export async function fetchUserSettings(accessToken: string) {
       Accept: "application / json",
       Authorization: `Bearer ${accessToken}`,
     },
-  }).then((res) => (res.ok ? res.json() : null));
+  })
+    .then((res) => (res.ok ? res.json() : null))
+    .catch((err) => {
+      throw err;
+    });;
   return res?.data;
 }
 

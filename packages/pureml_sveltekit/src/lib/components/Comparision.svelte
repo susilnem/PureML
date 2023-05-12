@@ -3,8 +3,8 @@
 
   let open = false;
   let commonMetrics = [];
-  export let ver1 = "";
-  export let ver2 = "";
+  export let version1 = "";
+  export let version2 = "";
 </script>
 
 <section>
@@ -38,13 +38,13 @@
                 <th
                   class="text-slate-600 font-medium text-left border p-4 w-1/5"
                 >
-                  {ver1}
+                  {version1}
                 </th>
-                {#if ver2 !== ""}
+                {#if version2 !== ""}
                   <th
                     class="text-slate-600 font-medium text-left border p-4 w-1/5"
                   >
-                    {ver2}
+                    {version2}
                   </th>
                 {:else}
                   {null}
@@ -63,7 +63,7 @@
                               : "-"
                             : "No-data"}
                         </td>
-                        {ver2 !== "" && (
+                        {version2 !== "" && (
                           <td class="text-slate-600 font-medium text-left border p-4 w-1/5 truncate">
                             {dataVer2
                               ? dataVer2[metric]
