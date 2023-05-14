@@ -178,8 +178,12 @@ func (dao *Dao) GetTokens(userUUID uuid.UUID) ([]authmodels.TokenResponse, error
 	return dao.Datastore().GetTokens(userUUID)
 }
 
-func (dao *Dao) CreateToken(userUUID uuid.UUID, tokenUUID uuid.UUID, tokenSecret string) (*authmodels.CreateTokenResponse, error) {
-	return dao.Datastore().CreateToken(userUUID, tokenUUID, tokenSecret)
+func (dao *Dao) GetTokenByName(userUUID uuid.UUID, tokenName string) (*authmodels.TokenResponse, error) {
+	return dao.Datastore().GetTokenByName(userUUID, tokenName)
+}
+
+func (dao *Dao) CreateToken(userUUID uuid.UUID, tokenUUID uuid.UUID, tokenName string, tokenSecret string) (*authmodels.CreateTokenResponse, error) {
+	return dao.Datastore().CreateToken(userUUID, tokenUUID, tokenName, tokenSecret)
 }
 
 func (dao *Dao) ValidateUserToken(userUUID uuid.UUID, tokenUUID uuid.UUID) (bool, error) {

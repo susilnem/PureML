@@ -104,11 +104,10 @@ from pyngrok import ngrok
 load_dotenv()
 
 org_id = os.getenv('ORG_ID')
-api_id = os.getenv('API_ID')
-api_key = os.getenv('API_KEY')
+api_token = os.getenv('API_TOKEN')
 
-if api_id is not None and api_key is not None and org_id is not None:
-    pureml.login(org_id=org_id, api_id=api_id, api_key=api_key)
+if api_token is not None and org_id is not None:
+    pureml.login(org_id=org_id, api_token=api_token)
 
 predictor = Predictor()
 predictor.load_models()
@@ -201,7 +200,7 @@ def run(label, predict_path=None, requirements_path=None):
 
     if os.path.exists(interpreter_path):
 
-        run_command = "{interpreter_path} '{api_path}'".format(
+        run_command = "'{interpreter_path}' '{api_path}'".format(
             interpreter_path=interpreter_path, api_path=fastapi_schema.PATH_FASTAPI_FILE
         )
 

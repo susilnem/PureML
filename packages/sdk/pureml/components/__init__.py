@@ -33,7 +33,7 @@ def get_api_token():
     Returns
     -------
         The api token id and key is returned.
-        Dictionary format: {"api_id": api_id, "api_key": api_key}
+        Dictionary format: {"api_token": api_token}
     """
     path = path_schema.PATH_USER_TOKEN
     # path = os.path.expanduser(path)
@@ -42,12 +42,10 @@ def get_api_token():
         creds = open(path, "r").read()
 
         creds_json = json.loads(creds)
-        if "api_id" in creds_json and "api_key" in creds_json:
-            api_id = creds_json["api_id"]
-            api_key = creds_json["api_key"]
+        if "api_token" in creds_json:
+            api_token = creds_json["api_token"]
             return {
-                "api_id": api_id,
-                "api_key": api_key
+                "api_token": api_token
             }
     return
 

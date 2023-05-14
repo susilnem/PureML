@@ -52,10 +52,11 @@ def details():
 
     print("Org Id: ", org_id)
     if token is not None:
-        print("Access Token: ", token)
+        # print("Access Token: ", token)
+        print("Logged in using access token")
     if api_token is not None:
-        print("API Id: ", api_token["api_id"])
-        print("API Key: ", api_token["api_key"])
+        # print("API Key: ", api_token["api_token"])
+        print("Logged in using API token")
 
 
 @app.callback()
@@ -135,7 +136,7 @@ def login(
     interactive: bool = typer.Option(
         False, "--interactive", "-i", help="Login with email and password interactively"
     ),
-    api_key: bool = typer.Option(False, "--api-key", "-k", help="Login with api key"),
+    api_token: bool = typer.Option(False, "--api-token", "-t", help="Login with api token"),
 ):
     try:
         backend_base_url = get_backend_base_url(backend_url)
@@ -170,11 +171,10 @@ def login(
                 print(f"[red]Unable to login to your account!")
 
         # API key login
-        elif api_key:
+        elif api_token:
             print(f"\n[Enter your credentials to login[/\n")
-            api_id: str = typer.prompt("Enter your api id")
-            api_key: str = typer.prompt("Enter your api key")
-            save_auth(api_id=api_id, api_key=api_key)
+            api_token: str = typer.prompt("Enter your api token secret")
+            save_auth(api_token=api_token)
             select()
 
         # Browser based login

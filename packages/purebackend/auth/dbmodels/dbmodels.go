@@ -22,6 +22,7 @@ type Session struct {
 
 type Tokens struct {
 	commondbmodels.BaseModel `gorm:"embedded"`
+	Name                     string    `json:"name" gorm:"unique;not null"`
 	UserUUID                 uuid.UUID `json:"user_uuid" gorm:"type:uuid"`
 	LastUsedAt               time.Time `json:"last_used_at"`
 

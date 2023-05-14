@@ -58,6 +58,11 @@ definitions:
       device_location:
         type: string
     type: object
+  models.CreateTokenRequest:
+    properties:
+      name:
+        type: string
+    type: object
   models.DatasetReviewRequest:
     properties:
       description:
@@ -2763,6 +2768,13 @@ paths:
       consumes:
       - '*/*'
       description: Create a new API token for user
+      parameters:
+      - description: Token details
+        in: body
+        name: token
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateTokenRequest'
       produces:
       - application/json
       responses:
