@@ -256,7 +256,7 @@ export async function fetchAPITokens(accessToken: string) {
   return res.data;
 }
 
-export async function createAPIToken(accessToken: string) {
+export async function createAPIToken(accessToken: string, name: string) {
   const url = makeUrl(`user/create-token`);
   const res = await fetch(url, {
     method: "POST",
@@ -265,6 +265,9 @@ export async function createAPIToken(accessToken: string) {
       Accept: "application / json",
       Authorization: `Bearer ${accessToken}`,
     },
+    body: JSON.stringify({
+      name: name,
+    }),
   }).then((res) => res.json());
   return res;
 }
