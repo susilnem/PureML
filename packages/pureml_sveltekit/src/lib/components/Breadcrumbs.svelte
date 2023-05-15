@@ -7,14 +7,14 @@
   });
 </script>
 
-<ul class="flex pt-6">
+<ul class="flex pt-6 pr-10 border-r border-slate-200">
   {#each urlitems as item, index}
     <li>
       <a
         href={`/${url.slice(0, index + 3).join("/")}`}
         class={item === urlitems[urlitems.length - 1]
-          ? "font-medium text-slate-600 w-full"
-          : "text-slate-400 hover:text-slate-600 w-full"}
+          ? "font-semibold text-slate-950 w-full"
+          : "text-slate-400 hover:text-slate-950 w-full"}
       >
         {item}
       </a>

@@ -39,7 +39,7 @@
                   <Avatar>
                     {reviewCommit.created_by.name.charAt(0).toUpperCase()}
                   </Avatar>
-                  <div class="text-left text-sm text-slate-600 px-4">
+                  <div class="text-left text-slate-600 px-4">
                     <a
                       href={`/${data.userDetails[0].handle}`}
                       class="font-medium text-slate-800"

@@ -20,7 +20,7 @@
   interface $$Props extends VariantProps<typeof avatarStyles> {}
 </script>
 
-<div class="h-full">
+<div class="flex h-full items-center">
   <div class={avatarStyles({ ...$$restProps })}>
     <slot />
   </div>

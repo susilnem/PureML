@@ -4,12 +4,12 @@
   import { tv } from "tailwind-variants";
 
   const tabStyles = tv({
-    base: "sticky text-zinc-400",
+    base: "sticky text-zinc-400 pt-6",
     variants: {
       intent: {
-        primary: "pt-6 flex z-10 pl-6",
-        secondary: "pt-6 flex z-10 pl-6",
-        tertiary: "font-medium flex bg-slate-50 px-12",
+        primary: "flex z-10",
+        secondary: "flex z-10 pl-6",
+        tertiary: "font-medium flex bg-slate-50 px-6",
       },
       content: {
         primaryModelTab: "bg-slate-50",
@@ -43,6 +43,7 @@
   export let tab: string;
   let tabItems: any = [];
 
+  $$restProps.intent = $$props.tabType;
   tabContent = $$props.tabContent;
 
   if (tabContent === "primaryModel") {
@@ -53,9 +54,9 @@
         hyperlink: `/org/${orgId}/models/${modelId}`,
       },
       {
-        id: "versions",
-        name: "Versions",
-        hyperlink: `/org/${orgId}/models/${modelId}/versions/main/logs`,
+        id: "analysis",
+        name: "Analysis",
+        hyperlink: `/org/${orgId}/models/${modelId}/versions/main/performance`,
       },
       {
         id: "review",
@@ -72,8 +73,8 @@
         hyperlink: `/org/${orgId}/datasets/${datasetId}`,
       },
       {
-        id: "versions",
-        name: "Versions",
+        id: "analysis",
+        name: "Analysis",
         hyperlink: `/org/${orgId}/datasets/${datasetId}/versions/main/datalineage`,
       },
       {
@@ -110,14 +111,14 @@
   if (tabContent === "modelTab") {
     tabItems = [
       {
-        id: "userlogs",
-        name: "User Logs",
-        hyperlink: `/org/${orgId}/models/${modelId}/versions/main/logs`,
+        id: "performance",
+        name: "Performance",
+        hyperlink: `/org/${orgId}/models/${modelId}/versions/main/performance`,
       },
       // {
-      //   id: "graphs",
-      //   name: "Graphs",
-      //   hyperlink: `/org/versions/logs`,
+      //   id: "integrity",
+      //   name: "Integrity",
+      //   hyperlink: `/org/versions/integrity`,
       // },
     ];
   }

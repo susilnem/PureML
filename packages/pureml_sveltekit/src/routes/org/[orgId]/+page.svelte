@@ -52,13 +52,13 @@
               <p slot="tag">
                 {#if model.is_public === true}
                   <Tag
-                    ><p slot="icon"><Globe class="text-slate-400 w-4" /></p>
+                    ><p slot="icon"><Globe class="text-slate-400 w-2.5" /></p>
                     <p slot="text">Public</p></Tag
                   >
                 {:else}
                   <Tag
                     ><p slot="icon">
-                      <Fingerprint class="text-slate-400 w-4" />
+                      <Fingerprint class="text-slate-400 w-2.5" />
                     </p>
                     <p slot="text">Private</p></Tag
                   >
@@ -93,13 +93,13 @@
               <p slot="tag">
                 {#if dataset.is_public === true}
                   <Tag
-                    ><p slot="icon"><Globe class="text-slate-400 w-4" /></p>
+                    ><p slot="icon"><Globe class="text-slate-400 w-2.5" /></p>
                     <p slot="text">Public</p></Tag
                   >
                 {:else}
                   <Tag
                     ><p slot="icon">
-                      <Fingerprint class="text-slate-400 w-4" />
+                      <Fingerprint class="text-slate-400 w-2.5" />
                     </p>
                     <p slot="text">Private</p></Tag
                   >

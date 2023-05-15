@@ -3,12 +3,12 @@
   import { tv } from "tailwind-variants";
 
   const cardStyles = tv({
-    base: "text-slate-600 border border-slate-200 justify-center focus:outline-none",
+    base: "text-slate-600 border border-slate-200 justify-center focus:outline-none rounded-sm",
     variants: {
       intent: {
         badged:
-          "font-normal rounded-lg cursor-pointer px-6 py-4 hover:bg-slate-100 transform transition duration-300",
-        info: "items-center p-8 text-lg font-medium rounded-xl",
+          "font-normal cursor-pointer px-6 py-4 hover:bg-slate-100 transform transition duration-300",
+        info: "items-center p-8 text-lg font-medium",
       },
       fullWidth: {
         true: "w-full",
@@ -27,11 +27,10 @@
 
 {#if $$restProps.intent === "badged"}
   <div class={cardStyles({ ...$$restProps })}>
-    <header class="pb-0 text-slate-600">
+    <header class="pb-0">
       <div class="flex items-center">
-        <slot name="icon" />
-        <!-- <Box class="text-slate-400 w-4" /> -->
-        <span class="ml-2 truncate font-medium">{title}</span>
+        <slot name="icon"/>
+        <span class="ml-2 truncate text-slate-950">{title}</span>
       </div>
     </header>
     <div class="text-sm font-normal truncate pt-2">

@@ -3,7 +3,7 @@
   import { tv } from "tailwind-variants";
 
   const tagStyles = tv({
-    base: "badge badge-secondary badge-outline badge-lg rounded !text-slate-600",
+    base: "badge badge-secondary badge-outline badge-sm rounded !text-slate-600",
     variants: {
       intent: {
         text: "border-slate-100 pt-2 pb-2",

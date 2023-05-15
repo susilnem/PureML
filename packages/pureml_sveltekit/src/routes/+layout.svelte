@@ -9,9 +9,7 @@
 
 <Toaster />
 <div class="h-screen overflow-hidden">
-  {#if $page.url.pathname.includes("/auth") || $page.url.pathname === "/reset-password"}
-    <slot />
-  {:else}
+  {#if $page.url.pathname === "/models" || $page.url.pathname === "/datasets" || $page.url.pathname === `/${$page.params.username}` || $page.url.pathname === `/org/${$page.params.orgId}` || $page.url.pathname.includes("/settings")}
     {#if !data.orgDetails}
       <Navbar intent="loggedOut" user="" orgAvatarName="" />
     {:else}
@@ -28,6 +26,8 @@
         </a></Navbar
       >
     {/if}
+    <slot />
+  {:else}
     <slot />
   {/if}
 </div>

@@ -5,7 +5,9 @@
   let version2 = "0.12";
 </script>
 
-<Tabbar tabType="secondary" tabContent="datasetTab" tab="datalineage" />
+<div class="px-6 border-b border-slate-200">
+  <Tabbar tabType="primary" tabContent="datasetTab" tab="datalineage" />
+</div>
 <div class="px-12 pt-2 pb-8 h-[100vh] overflow-auto">
   <h1 class="text-red-600">Adding datalineage soon...</h1>
   <section>

@@ -1,9 +1,10 @@
 /** @type {import('./$types').Actions}  */
 
+import type { Actions } from "@sveltejs/kit";
 import { fetchSignIn } from "../../api/auth.server";
 import { fetchAllOrgs } from "../../api/org.server";
 
-export const actions = {
+export const actions: Actions = {
   default: async ({ cookies, request }: any) => {
     const form = await request.formData();
     const email = form.get("email");
