@@ -4,6 +4,8 @@ import type { Actions } from "./$types";
 export const actions: Actions = {
   default({ cookies }) {
     cookies.delete("accessToken", { path: "/" });
+    cookies.delete("orgName", { path: "/" });
+    cookies.delete("orgId", { path: "/" });
     throw redirect(302, "/auth/signin");
   },
 };
