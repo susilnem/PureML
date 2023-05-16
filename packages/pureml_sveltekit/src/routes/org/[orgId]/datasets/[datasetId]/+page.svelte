@@ -1,4 +1,5 @@
 <script>
+  import { page } from "$app/stores";
   import Breadcrumbs from "$lib/components/Breadcrumbs.svelte";
   import Tabbar from "$lib/components/Tabbar.svelte";
   import { FileCheck, Copy, Clock, Edit, Globe, Database } from "lucide-svelte";
@@ -10,6 +11,10 @@
     // toast.success("Copied to clipboard!");
   }
 </script>
+
+<svelte:head>
+  <title>{`Dataset Card | ${$page.params.datasetId}`}</title>
+</svelte:head>
 
 <div
   class="flex justify-center sticky top-0 bg-slate-50 w-full border-b border-slate-200"

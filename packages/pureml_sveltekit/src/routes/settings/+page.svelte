@@ -16,8 +16,12 @@
   }
 </script>
 
+<svelte:head>
+  <title>Profile | Settings</title>
+</svelte:head>
+
 <div class="flex justify-center w-full border-b-2 border-slate-100">
-  <div class="w-full 2xl:max-w-screen-2xl">
+  <div class="w-full 2xl:max-w-screen-2xl px-6">
     <Tabbar tabType="primary" tabContent="primarySettings" tab="profile" />
   </div>
 </div>

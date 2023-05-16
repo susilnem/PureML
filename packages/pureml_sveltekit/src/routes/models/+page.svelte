@@ -6,6 +6,11 @@
   export let data;
 </script>
 
+<svelte:head>
+  <title>{`Models | ${data.orgDetails[0].name}`}</title>
+  <meta name="description" content="Fing all your models here." />
+</svelte:head>
+
 <div class="flex justify-center w-full">
   <div
     class="bg-slate-50 flex flex-col h-screen overflow-hidden w-full 2xl:max-w-screen-2xl"

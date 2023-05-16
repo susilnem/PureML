@@ -23,8 +23,12 @@
   }
 </script>
 
+<svelte:head>
+  <title>API Tokens | Settings</title>
+</svelte:head>
+
 <div class="flex justify-center w-full border-b-2 border-slate-100">
-  <div class="w-full 2xl:max-w-screen-2xl">
+  <div class="w-full 2xl:max-w-screen-2xl px-6">
     <Tabbar tabType="primary" tabContent="primarySettings" tab="apiToken" />
   </div>
 </div>
@@ -44,7 +48,7 @@
             </tr>
           </thead>
           <tbody>
-            {#if data}
+            {#if data && data.apiTokens}
               {#each data.apiTokens as token}
                 <tr class="border border-slate-200 hover:bg-slate-50">
                   <td class="text-lg">{token.uuid}</td>
@@ -79,7 +83,7 @@
           </tbody>
         </table>
       </div>
-       <form method="POST" use:enhance>
+      <form method="POST" use:enhance>
         <input
           class="hidden"
           type="text"

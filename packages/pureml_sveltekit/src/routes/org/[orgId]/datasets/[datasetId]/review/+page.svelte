@@ -1,9 +1,14 @@
 <script>
+  import { page } from "$app/stores";
   import Avatar from "$lib/components/Avatar.svelte";
   import Tabbar from "$lib/components/Tabbar.svelte";
 
   export let data;
 </script>
+
+<svelte:head>
+  <title>{`New Commits | ${$page.params.datasetId}`}</title>
+</svelte:head>
 
 <Tabbar tabType="tertiary" tabContent="datasetReviewTab" tab="newcommits" />
 <div class="px-12 pt-8 w-full h-[75%] overflow-auto">

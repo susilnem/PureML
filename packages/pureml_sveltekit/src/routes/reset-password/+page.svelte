@@ -6,7 +6,6 @@
 
 <svelte:head>
   <title>Reset Password | PureML</title>
-  <meta name="description" content="Start your journey with PureML." />
 </svelte:head>
 
 <div class="w-screen h-screen flex items-center justify-center">

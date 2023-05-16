@@ -1,6 +1,5 @@
 <svelte:head>
   <title>Setttings | PureML</title>
-  <meta name="description" content="Start your journey with PureML." />
 </svelte:head>
 
 <div class="pb-12 pt-6 h-full bg-slate-50">

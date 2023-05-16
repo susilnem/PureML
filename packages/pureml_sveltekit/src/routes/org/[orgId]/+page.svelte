@@ -9,7 +9,6 @@
 
 <svelte:head>
   <title>{data.orgDetails[0].name} | PureML</title>
-  <meta name="description" content="Start your journey with PureML." />
 </svelte:head>
 
 <div class="flex h-[90%] overflow-auto">

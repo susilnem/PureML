@@ -24,8 +24,12 @@
   }
 </script>
 
+<svelte:head>
+  <title>Organization | Settings</title>
+</svelte:head>
+
 <div class="flex justify-center w-full border-b-2 border-slate-100">
-  <div class="w-full 2xl:max-w-screen-2xl">
+  <div class="w-full 2xl:max-w-screen-2xl px-6">
     <Tabbar tabType="primary" tabContent="primarySettings" tab="organization" />
   </div>
 </div>
@@ -71,7 +75,11 @@
         <label for="orgid" class="labelInput pb-1">
           <div class="text-left">Organization ID</div>
           <div class="input-icons">
-            <input class="hidden" name="orgid" value={data.orgDetails[0].uuid} />
+            <input
+              class="hidden"
+              name="orgid"
+              value={data.orgDetails[0].uuid}
+            />
             <input
               id="orgid"
               type="text"
