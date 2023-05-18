@@ -33,7 +33,7 @@
         {#each data.allCommits as reviewCommit}
           {#if reviewCommit.is_complete && reviewCommit.is_accepted}
             <a
-              href={`/org/${data.orgDetails[0].name}/models/${reviewCommit.model.name}/versions/main/logs`}
+              href={`/org/${data.orgDetails[0].name}/models/${reviewCommit.model.name}/versions/main/performance`}
               type="submit"
               class="pb-6 w-full"
             >

@@ -2,6 +2,7 @@
   import { page } from "$app/stores";
   import Breadcrumbs from "$lib/components/Breadcrumbs.svelte";
   import Tabbar from "$lib/components/Tabbar.svelte";
+  import VerticalLayout from "$lib/components/VerticalLayout.svelte";
   import { FileCheck, Copy, Clock, Edit, Globe, Database } from "lucide-svelte";
 
   export let data;
@@ -16,10 +17,8 @@
   <title>{`Dataset Card | ${$page.params.datasetId}`}</title>
 </svelte:head>
 
-<div
-  class="flex justify-center sticky top-0 bg-slate-50 w-full border-b border-slate-200"
->
-  <div class="flex px-12 2xl:pr-0 w-full max-w-screen-2xl">
+<VerticalLayout>
+  <div slot="tabbar" class="flex justify-between w-full">
     <Breadcrumbs />
     <Tabbar
       tabType="primary"
@@ -28,8 +27,133 @@
       fullWidth={false}
     />
   </div>
-</div>
-<div class="flex justify-center w-full">
+  <div slot="sidebar">
+    <div class="text-slate-800 font-medium text-base">Dataset details</div>
+    <div class="pt-2 text-slate-400">
+      <div class="flex justify-between items-center py-1">
+        <span class="w-1/7 flex items-center">
+          <Database class="w-4" />
+        </span>
+        <span class="w-1/2 pl-2">Name</span>
+        <span class="w-1/2 pl-2 text-slate-600 font-medium">
+          {`${data.datasetDetails[0].name}` || "Model Name"}
+        </span>
+      </div>
+      <div class="flex justify-between items-center py-1">
+        <span class="w-1/7 flex items-center">
+          <FileCheck class="w-4" />
+        </span>
+        <span class="w-1/2 pl-2">Dataset Id</span>
+        <span class="w-[48%] text-slate-600 font-medium flex justify-between">
+          <div class="w-4/5 pl-2 overflow-hidden truncate">
+            {`${data.datasetDetails[0].uuid}` || "Model Id"}
+          </div>
+          <Copy
+            class="text-slate-400 hover:text-slate-600 w-4 cursor-pointer"
+            on:click={() => copy()}
+          />
+        </span>
+      </div>
+      <div class="flex justify-between items-center py-1">
+        <span class="w-1/7 flex items-center">
+          <Clock class="w-4" />
+        </span>
+        <span class="w-1/2 pl-2">Created By</span>
+        <span class="w-1/2 pl-2 text-slate-600 font-medium">
+          {`${data.datasetDetails[0].created_by.name}` || "Created By"}
+        </span>
+      </div>
+      <div class="flex justify-between items-center py-1">
+        <span class="w-1/7 flex items-center">
+          <Edit class="w-4" />
+        </span>
+        <span class="w-1/2 pl-2">Last updated by</span>
+        <span class="w-1/2 pl-2 text-slate-600 font-medium">
+          {data.datasetDetails[0].updated_by.name || "User X"}
+        </span>
+      </div>
+      <div class="flex justify-between items-center py-1">
+        <span class="w-1/7 flex items-center">
+          <Globe class="w-4" />
+        </span>
+        <span class="w-1/2 pl-2">Public</span>
+        <span class="w-1/2 pl-2 text-slate-600 font-medium">
+          {`${data.datasetDetails[0].is_public ? "Yes" : "No"}`}
+        </span>
+      </div>
+    </div>
+  </div>
+  <div
+    slot="content"
+    class="pl-12 pr-8 pt-8 space-y-4 h-[50vh] w-full overflow-auto"
+  >
+    <!-- {edit ? (
+                <>
+                  <Form method="post" reloadDocument class="h-full">
+                    <div class="flex justify-between h-full">
+                      <ClientOnly
+                        fallback={
+                          <div class="w-2/5">Editor Failed to Load!</div>
+                        }
+                      >
+                        {() => (
+                          <Quill defaultValue={html} setContent={setContent} />
+                        )}
+                      </ClientOnly>
+                      <Button
+                        intent="secondary"
+                        fullWidth={false}
+                        type="submit"
+                        onClick={() => {
+                          toast.success("Saved your model card!");
+                        }}
+                      >
+                        <Save class="w-4" />{" "}
+                        <div class="pl-2">Save</div>
+                      </Button>
+                    </div>
+                    <input name="content" value={content} class="hidden" />
+                  </Form>
+                </>
+              ) : (
+                <>
+                  {html ? (
+                    <div class="flex justify-between">
+                      <div
+                        dangerouslySetInnerHTML={{ __html: html }}
+                        class="pr-6 text-slate-600"
+                      />
+                      <Button
+                        intent="icon"
+                        fullWidth={false}
+                        onClick={() => {
+                          setEdit(true);
+                        }}
+                      >
+                        <Pencil class="w-4" />{" "}
+                        <div class="pl-2">Edit</div>
+                      </Button>
+                    </div>
+                  ) : (
+                    <div class="flex flex-col justify-center items-center gap-y-1">
+                      <div class="text-base font-medium pt-44">
+                        Readme not available
+                      </div>
+                      <div>
+                        No details available in dataset card. Please contact
+                        author of the dataset.
+                      </div>
+                    </div>
+                  )}
+                </>
+              )} -->
+    <div class="prose">
+      {data.datasetDetails[0].readme.latest_version.content ||
+        "No readme added yet."}
+    </div>
+  </div>
+</VerticalLayout>
+<!-- <div class="flex justify-center w-full">
   <div
     class="bg-slate-50 flex flex-col h-screen overflow-hidden w-full 2xl:max-w-screen-2xl"
   >
@@ -95,7 +219,7 @@
         </div>
       </div>
       <div class="pl-12 pr-8 pt-8 space-y-4 h-[50vh] w-full overflow-auto">
-        <!-- {edit ? (
+        {edit ? (
                 <>
                   <Form method="post" reloadDocument class="h-full">
                     <div class="flex justify-between h-full">
@@ -154,7 +278,7 @@
                     </div>
                   )}
                 </>
-              )} -->
+              )}
         <div class="prose">
           {data.datasetDetails[0].readme.latest_version.content ||
             "No readme added yet."}
@@ -162,4 +286,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->

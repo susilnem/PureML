@@ -7,7 +7,7 @@
   });
 </script>
 
-<ul class="flex pt-6 pr-10 border-r border-slate-200">
+<ul class="flex pt-6 pr-10">
   {#each urlitems as item, index}
     <li>
       <a

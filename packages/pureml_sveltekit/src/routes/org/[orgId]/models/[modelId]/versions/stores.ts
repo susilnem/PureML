@@ -1,9 +1,10 @@
-import { writable, type Writable } from 'svelte/store';
+import { writable, type Writable } from "svelte/store";
 
 export interface Version {
-    version: string;
-    created_by: { name: string };
-    logs: { key: string; data: any }[];
+  branch: any;
+  version: string;
+  created_by: { name: string };
+  logs: { key: string; data: any }[];
 }
 
 export const version1 = writable("");

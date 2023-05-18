@@ -56,7 +56,7 @@
       {
         id: "analysis",
         name: "Analysis",
-        hyperlink: `/org/${orgId}/models/${modelId}/versions/main/performance`,
+        hyperlink: `/org/${orgId}/models/${modelId}/versions/performance`,
       },
       {
         id: "review",
@@ -113,13 +113,13 @@
       {
         id: "performance",
         name: "Performance",
-        hyperlink: `/org/${orgId}/models/${modelId}/versions/main/performance`,
+        hyperlink: `/org/${orgId}/models/${modelId}/versions/performance`,
       },
-      // {
-      //   id: "integrity",
-      //   name: "Integrity",
-      //   hyperlink: `/org/versions/integrity`,
-      // },
+      {
+        id: "integrity",
+        name: "Integrity",
+        hyperlink: `/org/versions/integrity`,
+      },
     ];
   }
   if (tabContent === "datasetTab") {
@@ -179,7 +179,7 @@
       {
         id: "metrics",
         name: "Metrics",
-        hyperlink: `/org/${orgId}/models/${modelId}/review/${reviewId}/logs`,
+        hyperlink: `/org/${orgId}/models/${modelId}/review/${reviewId}/performance`,
       },
       // {
       //   id: "graphs",

@@ -10,12 +10,12 @@
   export let form;
 
   if (form) {
-    if (form.status === 200 || form.status === 202) {
+    if (form.data.status === 200 || form.data.status === 202) {
       if (browser) {
-        window.location.href = "/models";
+        window.location.href = `/org/${form.orgName}`;
       }
       toast.success("Successfully signed in. Yayy!");
-    } else toast.error(form?.message);
+    } else toast.error(form.data?.message);
   }
 </script>
 

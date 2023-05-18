@@ -2,6 +2,7 @@
   import { page } from "$app/stores";
   import Breadcrumbs from "$lib/components/Breadcrumbs.svelte";
   import Tabbar from "$lib/components/Tabbar.svelte";
+  import VerticalLayout from "$lib/components/VerticalLayout.svelte";
   import { Box, FileCheck, Copy, Clock, Edit, Globe } from "lucide-svelte";
 
   export let data;
@@ -16,10 +17,8 @@
   <title>{`Model Card | ${$page.params.modelId}`}</title>
 </svelte:head>
 
-<div
-  class="flex justify-center sticky top-0 bg-slate-50 w-full border-b border-slate-200"
->
-  <div class="flex px-12 2xl:pr-0 w-full max-w-screen-2xl">
+<VerticalLayout>
+  <div slot="tabbar" class="flex justify-between w-full">
     <Breadcrumbs />
     <Tabbar
       tabType="primary"
@@ -28,74 +27,67 @@
       fullWidth={false}
     />
   </div>
-</div>
-<div class="flex justify-center w-full">
-  <div
-    class="bg-slate-50 flex flex-col h-screen overflow-hidden w-full 2xl:max-w-screen-2xl"
-  >
-    <div class="flex justify-between h-full">
-      <div
-        class="px-6 pt-8 w-1/4 max-w-1/5 bg-slate-50 border-r-2 border-slate-200"
-      >
-        <div class="text-slate-800 font-medium text-base">Model details</div>
-        <div class="pt-2 text-slate-400">
-          <div class="flex justify-between items-center py-1">
-            <span class="w-1/7 flex items-center">
-              <Box class="w-4" />
-            </span>
-            <span class="w-1/2 pl-2">Model Name</span>
-            <span class="w-1/2 pl-2 text-slate-600 font-medium">
-              {`${data.modelDetails[0].name}` || "Model Name"}
-            </span>
-          </div>
-          <div class="flex justify-between items-center py-1">
-            <span class="w-1/7 flex items-center">
-              <FileCheck class="w-4" />
-            </span>
-            <span class="w-1/2 pl-2">Model ID</span>
-            <span
-              class="w-[48%] text-slate-600 font-medium flex justify-between"
-            >
-              <div class="w-4/5 pl-2 overflow-hidden truncate">
-                {`${data.modelDetails[0].uuid}` || "Model UUID"}
-              </div>
-              <Copy
-                class="text-slate-400 hover:text-slate-600 w-4 cursor-pointer"
-                on:click={() => copy()}
-              />
-            </span>
-          </div>
-          <div class="flex justify-between items-center py-1">
-            <span class="w-1/7 flex items-center">
-              <Clock class="w-4" />
-            </span>
-            <span class="w-1/2 pl-2">Created By</span>
-            <span class="w-1/2 pl-2 text-slate-600 font-medium">
-              {`${data.modelDetails[0].created_by.name}` || "Created By"}
-            </span>
-          </div>
-          <div class="flex justify-between items-center py-1">
-            <span class="w-1/7 flex items-center">
-              <Edit class="w-4" />
-            </span>
-            <span class="w-1/2 pl-2">Last updated by</span>
-            <span class="w-1/2 pl-2 text-slate-600 font-medium">
-              {data.modelDetails[0].updated_by.name || "User X"}
-            </span>
-          </div>
-          <div class="flex justify-between items-center py-1">
-            <span class="w-1/7 flex items-center">
-              <Globe class="w-4" />
-            </span>
-            <span class="w-1/2 pl-2">Public</span>
-            <span class="w-1/2 pl-2 text-slate-600 font-medium">
-              {`${data.modelDetails[0].is_public ? "Yes" : "No"}`}
-            </span>
-          </div>
-        </div>
+  <div slot="sidebar">
+    <div class="text-slate-800 font-medium text-base">Model details</div>
+    <div class="pt-2 text-slate-400">
+      <div class="flex justify-between items-center py-1">
+        <span class="w-1/7 flex items-center">
+          <Box class="w-4" />
+        </span>
+        <span class="w-1/2 pl-2">Model Name</span>
+        <span class="w-1/2 pl-2 text-slate-600 font-medium">
+          {`${data.modelDetails[0].name}` || "Model Name"}
+        </span>
       </div>
-      <div class="pl-12 pr-8 pt-8 space-y-4 h-[50vh] w-full overflow-auto">
-        <!-- {edit ? (
+      <div class="flex justify-between items-center py-1">
+        <span class="w-1/7 flex items-center">
+          <FileCheck class="w-4" />
+        </span>
+        <span class="w-1/2 pl-2">Model ID</span>
+        <span class="w-[48%] text-slate-600 font-medium flex justify-between">
+          <div class="w-4/5 pl-2 overflow-hidden truncate">
+            {`${data.modelDetails[0].uuid}` || "Model UUID"}
+          </div>
+          <Copy
+            class="text-slate-400 hover:text-slate-600 w-4 cursor-pointer"
+            on:click={() => copy()}
+          />
+        </span>
+      </div>
+      <div class="flex justify-between items-center py-1">
+        <span class="w-1/7 flex items-center">
+          <Clock class="w-4" />
+        </span>
+        <span class="w-1/2 pl-2">Created By</span>
+        <span class="w-1/2 pl-2 text-slate-600 font-medium">
+          {`${data.modelDetails[0].created_by.name}` || "Created By"}
+        </span>
+      </div>
+      <div class="flex justify-between items-center py-1">
+        <span class="w-1/7 flex items-center">
+          <Edit class="w-4" />
+        </span>
+        <span class="w-1/2 pl-2">Last updated by</span>
+        <span class="w-1/2 pl-2 text-slate-600 font-medium">
+          {data.modelDetails[0].updated_by.name || "User X"}
+        </span>
+      </div>
+      <div class="flex justify-between items-center py-1">
+        <span class="w-1/7 flex items-center">
+          <Globe class="w-4" />
+        </span>
+        <span class="w-1/2 pl-2">Public</span>
+        <span class="w-1/2 pl-2 text-slate-600 font-medium">
+          {`${data.modelDetails[0].is_public ? "Yes" : "No"}`}
+        </span>
+      </div>
+    </div>
+  </div>
+  <div
+    slot="content"
+    class="pl-12 pr-8 pt-8 space-y-4 h-[50vh] w-full overflow-auto"
+  >
+    <!-- {edit ? (
                 <>
                   <Form method="post" reloadDocument class="h-full">
                     <div class="flex justify-between h-full">
@@ -155,11 +147,9 @@
                   )}
                 </>
               )} -->
-        <div class="prose">
-          {data.modelDetails[0].readme.latest_version.content ||
-            "No readme added yet."}
-        </div>
-      </div>
+    <div class="prose">
+      {data.modelDetails[0].readme.latest_version.content ||
+        "No readme added yet."}
     </div>
   </div>
-</div>
+</VerticalLayout>

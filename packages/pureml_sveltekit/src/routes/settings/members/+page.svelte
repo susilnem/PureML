@@ -146,7 +146,7 @@
                                   </SelectPrimitive.Viewport>
                                 </SelectPrimitive.Content>
                               </SelectPrimitive.Root> -->
-                      <Select intent="primary" name="members" title="Role"
+                      <Select intent="noIcon" name="members" title="Role"
                         >{#each listRoles as role (role.id)}
                           <ListboxOption
                             value={role}

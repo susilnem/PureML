@@ -10,6 +10,7 @@ export const actions: Actions = {
     const email = form.get("email");
     const password = form.get("password");
     const data = await fetchSignIn(email, password);
+    let orgName;
 
     if (data.status === 202 || data.status === 200) {
       const accesstoken = data.data[0].accessToken;
@@ -26,8 +27,9 @@ export const actions: Actions = {
         path: "/",
         sameSite: "strict",
       });
+      orgName = org[0].org.name;
     }
-    return data;
+    return {data, orgName};
 
     //   const session = await getSession(request.headers.get("Cookie"));
     //   const sessionId = new URL(request.url);

@@ -16,7 +16,7 @@
   }
 
   const navbarStyles = tv({
-    base: "navbar px-12 2xl:pr-0 py-0 max-w-screen-2xl",
+    base: "navbar px-12 py-0 max-w-screen-2xl",
     variants: {
       intent: {
         loggedIn: "",
@@ -135,11 +135,9 @@
           <li><img src={logo} alt="Logo" class="h-8" /></li>
         {:else}
           <li class="flex justify-center items-center pr-12 h-full">
-            <div
-              class="flex items-center w-48 border-r border-slate-200 h-full"
-            >
+            <div class="flex items-center h-full">
               <Avatar intent="primary">{orgAvatarName || "U"}</Avatar>
-              <div class="px-2 text-slate-600 md:text-xl">
+              <div class="px-2 text-slate-600">
                 <slot name="orgName" />
               </div>
               <Dropdown intent="start">
@@ -157,27 +155,6 @@
                 </p>
               </Dropdown>
             </div>
-            <a
-              href="/models"
-              class={`${linkCss($page.url.pathname === `/models`)}`}
-            >
-              <Box class="w-4 h-4" />
-              <span class="pl-2">Models</span>
-            </a>
-            <a
-              href="/datasets"
-              class={`${linkCss($page.url.pathname === `/datasets`)}`}
-            >
-              <Database class="w-4 h-4" />
-              <span class="pl-2">Datasets</span>
-            </a>
-            <a
-              href="https://pureml.mintlify.app"
-              class="flex justify-center items-center cursor-pointer px-5 hover:text-brand-200 text-slate-500"
-            >
-              <File class="w-4 h-4" />
-              <span class="pl-2">Docs</span>
-            </a>
           </li>
         {/if}
 
@@ -194,6 +171,33 @@
       </ul>
 
       <ul class="hidden md:flex md:justify-center items-center">
+        <li>
+          <a
+            href="/models"
+            class={`${linkCss($page.url.pathname === `/models`)}`}
+          >
+            <Box class="w-4 h-4" />
+            <span class="pl-2">Models</span>
+          </a>
+        </li>
+        <li>
+          <a
+            href="/datasets"
+            class={`${linkCss($page.url.pathname === `/datasets`)}`}
+          >
+            <Database class="w-4 h-4" />
+            <span class="pl-2">Datasets</span>
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://pureml.mintlify.app"
+            class="flex justify-center items-center cursor-pointer px-5 hover:text-brand-200 text-slate-500"
+          >
+            <File class="w-4 h-4" />
+            <span class="pl-2">Docs</span>
+          </a>
+        </li>
         {#if $$restProps.intent === "loggedOut"}
           <li class="flex">
             <div

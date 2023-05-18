@@ -22,9 +22,9 @@
     </div>
     <div class="h-[83%] overflow-auto">
       <div
-        class="px-12 pt-2 grid justify-center grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 4xl:grid-cols-10 gap-8 min-w-72"
+        class="px-12 pt-2 grid justify-center grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 4xl:grid-cols-6 gap-8 min-w-72"
       >
-        {#if data && data.datasets?.length > 0}
+        {#if data && data.datasets != ""}
           {#each data.datasets as dataset}
             <a
               href={`/org/${data.orgDetails[0].name}/datasets/${dataset.name}`}
