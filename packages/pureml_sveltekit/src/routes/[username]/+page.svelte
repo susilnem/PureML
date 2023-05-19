@@ -3,6 +3,7 @@
   import Card from "$lib/components/Card.svelte";
   import Error from "../+error.svelte";
   import { page } from "$app/stores";
+  import { base } from '$app/paths';
 
   export let data;
 </script>
@@ -89,7 +90,7 @@
                   class="pt-8 flex flex-col gap-y-4 md:flex md:flex-row w-full md:gap-x-4"
                 >
                   <div class="w-full">
-                    <a href="/models">
+                    <a href="{base}/models">
                       <Card
                         title="Models"
                         description=""
@@ -98,7 +99,7 @@
                     >
                   </div>
                   <div class="w-full">
-                    <a href="/datasets">
+                    <a href="{base}/datasets">
                       <Card
                         title="Datasets"
                         description=""
@@ -189,7 +190,7 @@
                   class="pt-8 flex flex-col gap-y-4 md:flex md:flex-row w-full md:gap-x-4"
                 >
                   <div class="w-full">
-                    <a href="/models">
+                    <a href="{base}/models">
                       <Card
                         title="Models"
                         description=""
@@ -198,7 +199,7 @@
                     >
                   </div>
                   <div class="w-full">
-                    <a href="/datasets">
+                    <a href="{base}/datasets">
                       <Card
                         title="Datasets"
                         description=""

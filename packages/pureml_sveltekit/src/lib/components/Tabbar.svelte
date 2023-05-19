@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { base } from "$app/paths"
   import { page } from "$app/stores";
   import clsx from "clsx";
   import { tv } from "tailwind-variants";
@@ -216,7 +217,7 @@
                 : "text-slate-500"
             } pb-4 hover:text-slate-850`}
           >
-            <a href={item.hyperlink}>
+            <a href={base + item.hyperlink}>
               <span>{item.name}</span>
             </a>
           </div>
@@ -234,7 +235,7 @@
               tab === item.id ? "bg-slate-200 rounded text-slate-600" : ""
             } px-4 py-2`}
           >
-            <a href={item.hyperlink}>
+            <a href={base + item.hyperlink}>
               <span>{item.name}</span>
             </a>
           </div>
@@ -254,7 +255,7 @@
                 : "text-slate-600"
             } px-4 py-2`}
           >
-            <a href={item.hyperlink}>
+            <a href={base + item.hyperlink}>
               <span>{item.name}</span>
             </a>
           </div>

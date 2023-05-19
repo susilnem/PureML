@@ -7,6 +7,7 @@
   import Avatar from "$lib/components/Avatar.svelte";
   import Dropdown from "$lib/components/Dropdown.svelte";
   import logo from "$lib/logos/PureMLLogoText.svg";
+  import { base } from '$app/paths';
 
   function linkCss(currentPage: boolean) {
     return clsx(
@@ -87,10 +88,10 @@
     </div>
     <div class="px-12 py-4">
       <li class="flex items-center">
-        <a href="/models"> Models </a>
+        <a href="{base}/models"> Models </a>
       </li>
       <li class="flex items-center">
-        <a href="/datasets"> Datasets </a>
+        <a href="{base}/datasets"> Datasets </a>
       </li>
       <li class="flex items-center">
         <a href="https://pureml.mintlify.app" class="w-max"> Docs </a>
@@ -100,7 +101,7 @@
           <div
             class="w-full flex justify-center items-center px-5 font-medium text-slate-500"
           >
-            <a href="/auth/signin" class="w-max"> Sign in </a>
+            <a href="{base}/auth/signin" class="w-max"> Sign in </a>
           </div>
           <div class="w-fit">
             <Button intent="primary">Sign up</Button>
@@ -173,7 +174,7 @@
       <ul class="hidden md:flex md:justify-center items-center">
         <li>
           <a
-            href="/models"
+            href="{base}/models"
             class={`${linkCss($page.url.pathname === `/models`)}`}
           >
             <Box class="w-4 h-4" />
@@ -182,7 +183,7 @@
         </li>
         <li>
           <a
-            href="/datasets"
+            href="{base}/datasets"
             class={`${linkCss($page.url.pathname === `/datasets`)}`}
           >
             <Database class="w-4 h-4" />
@@ -203,7 +204,7 @@
             <div
               class="w-full flex justify-center items-center px-5 font-medium text-slate-500"
             >
-              <a href="/auth/signin" class="w-max"> Sign in </a>
+              <a href="{base}/auth/signin" class="w-max"> Sign in </a>
             </div>
             <div class="w-fit">
               <Button intent="primary">Sign up</Button>

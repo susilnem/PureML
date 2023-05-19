@@ -1,5 +1,6 @@
-import { redirect } from "@sveltejs/kit";
+import { redirect } from "@sveltejs/kit"
+import { base } from "$app/paths"
 
 export function load() {
-  throw redirect(307, `/auth/signin`);
+	throw redirect(307, base + `/auth/signin`)
 }

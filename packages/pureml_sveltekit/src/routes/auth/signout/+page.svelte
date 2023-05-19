@@ -1,5 +1,6 @@
 <script>
   import Button from "$lib/components/Button.svelte";
+  import { base } from '$app/paths';
 </script>
 
 <form method="POST">
@@ -13,7 +14,7 @@
       </div>
     </div>
     <div class="flex justify-end gap-x-6">
-      <a href="/models"
+      <a href="{base}/models"
         ><Button intent="secondary" fullWidth={false}>Cancel</Button></a
       >
       <Button intent="primary" fullWidth={false}>Logout</Button>

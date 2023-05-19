@@ -5,6 +5,7 @@
   import logo from "$lib/logos/PureMLLogoText.svg";
   import toast from "svelte-french-toast";
   import { browser } from "$app/environment";
+  import { base } from "$app/paths"
 
   /** @type {import('./$types').ActionData} */
   export let form;
@@ -52,12 +53,12 @@
       </div>
     </form>
     <div class="flex items-center text-slate-600 justify-center mt-6">
-      <Link intent="secondary" hyperlink="/auth/forgot_password">
+      <Link intent="secondary" hyperlink="{base}/auth/forgot_password">
         Forgot Password?
       </Link>
       <p class="px-2 text-slate-400">|</p>
       <div class="flex items-center space-x-1 font-medium">
-        <Link intent="secondary" hyperlink="/auth/signup">Sign Up</Link>
+        <Link intent="secondary" hyperlink="{base}/auth/signup">Sign Up</Link>
       </div>
     </div>
   </div>

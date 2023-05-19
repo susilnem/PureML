@@ -3,6 +3,7 @@
   import Input from "$lib/components/Input.svelte";
   import Link from "$lib/components/Link.svelte";
   import logo from "$lib/logos/PureMLLogoText.svg";
+  import { base } from '$app/paths';
 </script>
 
 <div class="flex justify-center">
@@ -39,14 +40,14 @@
           <span class="text-slate-600">
             By clicking the Sign in button, you agree to PureML’s{" "}
             <a
-              href="/TermsAndCondition.pdf"
+              href="{base}/TermsAndCondition.pdf"
               target="_blank"
               class="text-blue-250"
             >
               Terms of Service
             </a>{" "}
             and{" "}
-            <a href="/PrivacyPolicy.pdf" target="_blank" class="text-blue-250">
+            <a href="{base}/PrivacyPolicy.pdf" target="_blank" class="text-blue-250">
               Privacy Policy
             </a>
             .
@@ -56,13 +57,13 @@
       </div>
     </form>
     <div class="flex items-center text-slate-600 justify-center mt-6">
-      <Link intent="secondary" hyperlink="/auth/forgot_password">
+      <Link intent="secondary" hyperlink="{base}/auth/forgot_password">
         Forgot Password?
       </Link>
       <p class="px-2 text-slate-400">|</p>
       <div class="flex items-center space-x-1 font-medium">
         <!-- <span>Already a user?</span> -->
-        <Link intent="secondary" hyperlink="/auth/signin">Sign In</Link>
+        <Link intent="secondary" hyperlink="{base}/auth/signin">Sign In</Link>
       </div>
     </div>
   </div>
