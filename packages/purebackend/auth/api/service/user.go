@@ -974,20 +974,6 @@ func (api *Api) UserResetPassword(request *models.Request) *models.Response {
 		if user == nil {
 			return models.NewDataResponse(http.StatusNotFound, nil, "User not found")
 		}
-		oldPassword := request.GetParsedBodyAttribute("old_password")
-		var oldPasswordData string
-		if oldPassword == nil {
-			oldPasswordData = ""
-		} else {
-			oldPasswordData = oldPassword.(string)
-		}
-		if oldPasswordData == "" {
-			return models.NewErrorResponse(http.StatusBadRequest, "Old password is required")
-		}
-		err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(oldPasswordData))
-		if err != nil {
-			return models.NewDataResponse(http.StatusUnauthorized, nil, "Invalid credentials")
-		}
 		newPassword := request.GetParsedBodyAttribute("new_password")
 		var newPasswordData string
 		if newPassword == nil {

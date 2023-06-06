@@ -41,7 +41,6 @@ type UserVerifyTokenRequest struct {
 
 type UserResetPasswordRequest struct {
 	Token       string `json:"token"`
-	OldPassword string `json:"old_password"`
 	NewPassword string `json:"new_password"`
 }
 
