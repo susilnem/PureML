@@ -140,170 +140,288 @@ func (api *Api) UserSignUp(request *models.Request) *models.Response {
 			panic(err)
 		}
 		verifyLink := api.app.Settings().Site.BaseURL + "/verify-email?token=" + signedString
-		emailTemplate := coreservice.BaseEmailTemplate("Verify your email address",
-			`<div style="
-				display: flex;
-				flex-direction: column;
-				align-items: flex-start;
-				padding: 0px;
-				gap: 32px;
-				height: 675px;
-			">
-			<div style="
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-				align-items: center;
-				padding: 32px;
-				gap: 16px;
-				width: 523px;
-				height: 437px;
-
-				border: 1px solid #e2e8f0;
-				border-radius: 16px;
-				">
-				<img src="./Verify your email_files/lULPiXM.png" alt="PureML_Logo" style="width: 100px; height: 28px">
-				<div style="
-					display: flex;
-					flex-direction: column;
-					align-items: center;
-					padding: 0px;
-					gap: 24px;
-
-					width: 459px;
-					height: 329px;
-				">
-				<div style="
-					display: flex;
-					flex-direction: column;
-					align-items: center;
-					padding: 0px;
-					gap: 24px;
-
-					width: 459px;
-					height: 121px;
-					">
-					<div style="
-						display: flex;
-						flex-direction: column;
-						align-items: center;
-						gap: 8px;
-						width: 459px;
-						height: 57px;
-					">
-					<span style="font-size: 24px; color: #1e293b; font-weight: 500">Verify your email</span>
-					<span>Hi `+user.Handle+`, click on the button below to verify your email.</span>
+		emailTemplate := coreservice.BaseEmailTemplate("Email Verification",
+			`<div style="margin: 0px auto; max-width: 600px">
+			<table
+			  align="center"
+			  border="0"
+			  cellpadding="0"
+			  cellspacing="0"
+			  role="presentation"
+			  style="width: 100%"
+			>
+			  <tbody>
+				<tr>
+				  <td
+					style="
+					  direction: ltr;
+					  font-size: 0px;
+					  padding: 0px;
+					  text-align: center;
+					"
+				  >
+					<!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;" ><![endif]-->
+					<div
+					  class="mj-column-per-100 mj-outlook-group-fix"
+					  style="
+						font-size: 0px;
+						text-align: left;
+						direction: ltr;
+						display: inline-block;
+						vertical-align: top;
+						width: 100%;
+					  "
+					>
+					  <table
+						border="0"
+						cellpadding="0"
+						cellspacing="0"
+						role="presentation"
+						style="vertical-align: top"
+						width="100%"
+					  >
+						<tbody>
+						  <tr>
+							<td
+							  align="center"
+							  style="
+								font-size: 0px;
+								padding: 10px 25px;
+								word-break: break-word;
+							  "
+							>
+							  <div
+								style="
+								  font-family: Roboto, Helvetica, sans-serif;
+								  font-size: 16px;
+								  font-weight: 300;
+								  line-height: 24px;
+								  text-align: center;
+								  color: #616161;
+								"
+							  >
+								Hi `+user.Handle+`, click on the button below to
+								verify your email.
+							  </div>
+							</td>
+						  </tr>
+						</tbody>
+					  </table>
 					</div>
-					<a href="`+verifyLink+`" style="text-decoration: none">
-						<button style="
-							color: white;
-							border-radius: 8px;
-							background-color: #191f4d;
-							padding-right: 16px;
-							padding-left: 16px;
-							padding-top: 8px;
-							padding-bottom: 8px;
-							">
-							Verify Email
-						</button>
-					</a>
-				</div>
-				<div style="width: 459px; border: 0.2px solid #e2e8f0"></div>
-				<div style="
-					font-style: normal;
-					font-weight: 400;
-					font-size: 14px;
-					line-height: 125%;
-					font-feature-settings: &#39;salt&#39; on;
-					">
-					If you did not make this request, then please ignore this mail.<br><br>
-					If you run into any issues you can drop a message on any of our
-					social media platforms or reach out to us on
-					<a href="mailto:contact.pureml@gmail.com" style="color: #0e4ddd">contact.pureml@gmail.com.</a>
-					We look forward to serving you and your business.
-				</div>
-				<div style="
-					display: flex;
-					flex-direction: column;
-					align-items: flex-start;
-					width: 100%;
-					">
-					Regards<br>Team PureML
-				</div>
-				</div>
-			</div>
-			<div style="
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-				align-items: center;
-				padding: 24px 32px;
-				gap: 32px;
-				width: 523px;
-				height: 206px;
-				background: #f8fafc;
-				border-radius: 8px;
-				">
-				<div style="
-					display: flex;
-					flex-direction: column;
-					justify-content: center;
-					align-items: left;
-					padding: 0px;
-					font-size: 14px;
-					gap: 24px;
-					width: 100%;
-				">
-				<div>
-					You recieved this email because you just requested for new
-					password.<br>If it's not you
-					<a target="_blank" href="mailto:contact.pureml@gmail.com" style="color: #0e4ddd">contact us.</a>
-					<br><br>©️ 2022 PureML. Inc | Texas, USA
-				</div>
-				<div style="justify-content: center; align-items: left; width: 100%">
-					Please visit our
-					<a target="_blank" href="http://www.pureml.com/">website</a> for more
-					support.
-				</div>
-				</div>
-				<div style="width: 474px; border: 1px solid #e2e8f0"></div>
-				<div style="
-					display: flex;
-					flex-direction: row;
-					justify-content: space-between;
-					align-items: center;
-					padding: 0px;
-					gap: 253px;
-					width: 100%;
-					height: 18px;
-				">
-				<img src="./Verify your email_files/lULPiXM.png" alt="PureML_Logo" style="width: 64px">
-				<div style="
-					display: flex;
-					flex-direction: row;
-					align-items: center;
-					padding: 0px;
-					gap: 16px;
-
-					width: 80px;
-					height: 16px;
-					">
-					<a href="https://www.linkedin.com/company/pureml-inc/" alt="Linkedin" target="_blank">
-					<img src="./Verify your email_files/l1ROz7q.png" alt="LI" style="width: 16px; height: 16px"></a>
-					<a href="https://twitter.com/getPureML" alt="Twitter" target="_blank">
-					<img src="./Verify your email_files/ph5MnVi.png" alt="TW" style="width: 16px; height: 16px"></a>
-					<a href="https://discord.gg/xNUHt9yguJ" alt="Discord" target="_blank">
-					<img src="./Verify your email_files/bBQ5HJb.png" alt="DC" style="width: 16px; height: 16px"></a>
-				</div>
-				</div>
-			</div>
-			</div>
-			<div id="DCFE8FFC-9B4C-8A56-8C72-80898549AB42"></div>`,
+					<!--[if mso | IE]></td></tr></table><![endif]-->
+				  </td>
+				</tr>
+			  </tbody>
+			</table>
+		  </div>
+		  <!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+		  <div style="margin: 0px auto; max-width: 600px">
+			<table
+			  align="center"
+			  border="0"
+			  cellpadding="0"
+			  cellspacing="0"
+			  role="presentation"
+			  style="width: 100%"
+			>
+			  <tbody>
+				<tr>
+				  <td
+					style="
+					  direction: ltr;
+					  font-size: 0px;
+					  padding: 0px;
+					  padding-top: 36px;
+					  text-align: center;
+					"
+				  >
+					<!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;" ><![endif]-->
+					<div
+					  class="mj-column-per-100 mj-outlook-group-fix"
+					  style="
+						font-size: 0px;
+						text-align: left;
+						direction: ltr;
+						display: inline-block;
+						vertical-align: top;
+						width: 100%;
+					  "
+					>
+					  <table
+						border="0"
+						cellpadding="0"
+						cellspacing="0"
+						role="presentation"
+						style="vertical-align: top"
+						width="100%"
+					  >
+						<tbody>
+						  <tr>
+							<td
+							  align="center"
+							  vertical-align="middle"
+							  style="
+								font-size: 0px;
+								padding: 10px 25px;
+								word-break: break-word;
+							  "
+							>
+							  <table
+								border="0"
+								cellpadding="0"
+								cellspacing="0"
+								role="presentation"
+								style="
+								  border-collapse: separate;
+								  line-height: 100%;
+								"
+							  >
+								<tr>
+								  <td
+									align="center"
+									bgcolor="#191f4d"
+									role="presentation"
+									style="
+									  border: none;
+									  border-radius: 3px;
+									  cursor: auto;
+									  mso-padding-alt: 10px 25px;
+									  background: #191f4d;
+									"
+									valign="middle"
+								  >
+								  	<a href="`+verifyLink+`" target="_blank">
+										<p
+										style="
+											display: inline-block;
+											background: #191f4d;
+											color: #ffffff;
+											font-family: Roboto, Helvetica, sans-serif;
+											font-size: 13px;
+											font-weight: normal;
+											line-height: 120%;
+											margin: 0;
+											text-decoration: none;
+											text-transform: none;
+											padding: 10px 25px;
+											mso-padding-alt: 0px;
+											border-radius: 3px;
+										"
+										>
+										Verify my email
+										</p>
+									</a>
+								  </td>
+								</tr>
+							  </table>
+							</td>
+						  </tr>
+						</tbody>
+					  </table>
+					</div>
+					<!--[if mso | IE]></td></tr></table><![endif]-->
+				  </td>
+				</tr>
+			  </tbody>
+			</table>
+		  </div>
+		  <!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+		  <div style="margin: 0px auto; max-width: 600px">
+			<table
+			  align="center"
+			  border="0"
+			  cellpadding="0"
+			  cellspacing="0"
+			  role="presentation"
+			  style="width: 100%"
+			>
+			  <tbody>
+				<tr>
+				  <td
+					style="
+					  direction: ltr;
+					  font-size: 0px;
+					  padding: 0px;
+					  padding-top: 24px;
+					  text-align: center;
+					"
+				  >
+					<!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;" ><![endif]-->
+					<div
+					  class="mj-column-per-100 mj-outlook-group-fix"
+					  style="
+						font-size: 0px;
+						text-align: left;
+						direction: ltr;
+						display: inline-block;
+						vertical-align: top;
+						width: 100%;
+					  "
+					>
+					  <table
+						border="0"
+						cellpadding="0"
+						cellspacing="0"
+						role="presentation"
+						style="vertical-align: top"
+						width="100%"
+					  >
+						<tbody>
+						  <tr>
+							<td
+							  align="center"
+							  style="
+								font-size: 0px;
+								padding: 10px 25px;
+								word-break: break-word;
+							  "
+							>
+							  <p
+								style="
+								  border-top: solid 1px #e0e0e0;
+								  font-size: 1px;
+								  margin: 0px auto;
+								  width: 100%;
+								"
+							  ></p>
+							  <!--[if mso | IE
+								]><table
+								  align="center"
+								  border="0"
+								  cellpadding="0"
+								  cellspacing="0"
+								  style="
+									border-top: solid 1px #e0e0e0;
+									font-size: 1px;
+									margin: 0px auto;
+									width: 550px;
+								  "
+								  role="presentation"
+								  width="550px"
+								>
+								  <tr>
+									<td style="height: 0; line-height: 0">
+									  &nbsp;
+									</td>
+								  </tr>
+								</table><!
+							  [endif]-->
+							</td>
+						  </tr>
+						</tbody>
+					  </table>
+					</div>
+					<!--[if mso | IE]></td></tr></table><![endif]-->
+				  </td>
+				</tr>
+			  </tbody>
+			</table>
+		  </div>`,
 		)
 		if err != nil {
 			return models.NewServerErrorResponse(err)
 		}
-		subject := "Verify your email address"
+		subject := "Verify your email address | PureML"
 		err = api.app.SendMail(user.Email, subject, emailTemplate)
 		if err != nil {
 			return models.NewServerErrorResponse(err)
@@ -504,170 +622,288 @@ func (api *Api) UserResendVerification(request *models.Request) *models.Response
 		panic(err)
 	}
 	verifyLink := api.app.Settings().Site.BaseURL + "/verify-email?token=" + signedString
-	emailTemplate := coreservice.BaseEmailTemplate("Verify your email address",
-		`<div style="
-				display: flex;
-				flex-direction: column;
-				align-items: flex-start;
-				padding: 0px;
-				gap: 32px;
-				height: 675px;
-			">
-			<div style="
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-				align-items: center;
-				padding: 32px;
-				gap: 16px;
-				width: 523px;
-				height: 437px;
-
-				border: 1px solid #e2e8f0;
-				border-radius: 16px;
-				">
-				<img src="./Verify your email_files/lULPiXM.png" alt="PureML_Logo" style="width: 100px; height: 28px">
-				<div style="
-					display: flex;
-					flex-direction: column;
-					align-items: center;
-					padding: 0px;
-					gap: 24px;
-
-					width: 459px;
-					height: 329px;
-				">
-				<div style="
-					display: flex;
-					flex-direction: column;
-					align-items: center;
-					padding: 0px;
-					gap: 24px;
-
-					width: 459px;
-					height: 121px;
-					">
-					<div style="
-						display: flex;
-						flex-direction: column;
-						align-items: center;
-						gap: 8px;
-						width: 459px;
-						height: 57px;
-					">
-					<span style="font-size: 24px; color: #1e293b; font-weight: 500">Verify your email</span>
-					<span>Hi `+user.Handle+`, click on the button below to verify your email.</span>
+	emailTemplate := coreservice.BaseEmailTemplate("Email Verification",
+		`<div style="margin: 0px auto; max-width: 600px">
+			<table
+			  align="center"
+			  border="0"
+			  cellpadding="0"
+			  cellspacing="0"
+			  role="presentation"
+			  style="width: 100%"
+			>
+			  <tbody>
+				<tr>
+				  <td
+					style="
+					  direction: ltr;
+					  font-size: 0px;
+					  padding: 0px;
+					  text-align: center;
+					"
+				  >
+					<!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;" ><![endif]-->
+					<div
+					  class="mj-column-per-100 mj-outlook-group-fix"
+					  style="
+						font-size: 0px;
+						text-align: left;
+						direction: ltr;
+						display: inline-block;
+						vertical-align: top;
+						width: 100%;
+					  "
+					>
+					  <table
+						border="0"
+						cellpadding="0"
+						cellspacing="0"
+						role="presentation"
+						style="vertical-align: top"
+						width="100%"
+					  >
+						<tbody>
+						  <tr>
+							<td
+							  align="center"
+							  style="
+								font-size: 0px;
+								padding: 10px 25px;
+								word-break: break-word;
+							  "
+							>
+							  <div
+								style="
+								  font-family: Roboto, Helvetica, sans-serif;
+								  font-size: 16px;
+								  font-weight: 300;
+								  line-height: 24px;
+								  text-align: center;
+								  color: #616161;
+								"
+							  >
+								Hi `+user.Handle+`, click on the button below to
+								verify your email.
+							  </div>
+							</td>
+						  </tr>
+						</tbody>
+					  </table>
 					</div>
-					<a href="`+verifyLink+`" style="text-decoration: none">
-						<button style="
-							color: white;
-							border-radius: 8px;
-							background-color: #191f4d;
-							padding-right: 16px;
-							padding-left: 16px;
-							padding-top: 8px;
-							padding-bottom: 8px;
-							">
-							Verify Email
-						</button>
-					</a>
-				</div>
-				<div style="width: 459px; border: 0.2px solid #e2e8f0"></div>
-				<div style="
-					font-style: normal;
-					font-weight: 400;
-					font-size: 14px;
-					line-height: 125%;
-					font-feature-settings: &#39;salt&#39; on;
-					">
-					If you did not make this request, then please ignore this mail.<br><br>
-					If you run into any issues you can drop a message on any of our
-					social media platforms or reach out to us on
-					<a href="mailto:contact.pureml@gmail.com" style="color: #0e4ddd">contact.pureml@gmail.com.</a>
-					We look forward to serving you and your business.
-				</div>
-				<div style="
-					display: flex;
-					flex-direction: column;
-					align-items: flex-start;
-					width: 100%;
-					">
-					Regards<br>Team PureML
-				</div>
-				</div>
-			</div>
-			<div style="
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-				align-items: center;
-				padding: 24px 32px;
-				gap: 32px;
-				width: 523px;
-				height: 206px;
-				background: #f8fafc;
-				border-radius: 8px;
-				">
-				<div style="
-					display: flex;
-					flex-direction: column;
-					justify-content: center;
-					align-items: left;
-					padding: 0px;
-					font-size: 14px;
-					gap: 24px;
-					width: 100%;
-				">
-				<div>
-					You recieved this email because you just requested for new
-					password.<br>If it's not you
-					<a target="_blank" href="mailto:contact.pureml@gmail.com" style="color: #0e4ddd">contact us.</a>
-					<br><br>©️ 2022 PureML. Inc | Texas, USA
-				</div>
-				<div style="justify-content: center; align-items: left; width: 100%">
-					Please visit our
-					<a target="_blank" href="http://www.pureml.com/">website</a> for more
-					support.
-				</div>
-				</div>
-				<div style="width: 474px; border: 1px solid #e2e8f0"></div>
-				<div style="
-					display: flex;
-					flex-direction: row;
-					justify-content: space-between;
-					align-items: center;
-					padding: 0px;
-					gap: 253px;
-					width: 100%;
-					height: 18px;
-				">
-				<img src="./Verify your email_files/lULPiXM.png" alt="PureML_Logo" style="width: 64px">
-				<div style="
-					display: flex;
-					flex-direction: row;
-					align-items: center;
-					padding: 0px;
-					gap: 16px;
-
-					width: 80px;
-					height: 16px;
-					">
-					<a href="https://www.linkedin.com/company/pureml-inc/" alt="Linkedin" target="_blank">
-					<img src="./Verify your email_files/l1ROz7q.png" alt="LI" style="width: 16px; height: 16px"></a>
-					<a href="https://twitter.com/getPureML" alt="Twitter" target="_blank">
-					<img src="./Verify your email_files/ph5MnVi.png" alt="TW" style="width: 16px; height: 16px"></a>
-					<a href="https://discord.gg/xNUHt9yguJ" alt="Discord" target="_blank">
-					<img src="./Verify your email_files/bBQ5HJb.png" alt="DC" style="width: 16px; height: 16px"></a>
-				</div>
-				</div>
-			</div>
-			</div>
-			<div id="DCFE8FFC-9B4C-8A56-8C72-80898549AB42"></div>`,
+					<!--[if mso | IE]></td></tr></table><![endif]-->
+				  </td>
+				</tr>
+			  </tbody>
+			</table>
+		  </div>
+		  <!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+		  <div style="margin: 0px auto; max-width: 600px">
+			<table
+			  align="center"
+			  border="0"
+			  cellpadding="0"
+			  cellspacing="0"
+			  role="presentation"
+			  style="width: 100%"
+			>
+			  <tbody>
+				<tr>
+				  <td
+					style="
+					  direction: ltr;
+					  font-size: 0px;
+					  padding: 0px;
+					  padding-top: 36px;
+					  text-align: center;
+					"
+				  >
+					<!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;" ><![endif]-->
+					<div
+					  class="mj-column-per-100 mj-outlook-group-fix"
+					  style="
+						font-size: 0px;
+						text-align: left;
+						direction: ltr;
+						display: inline-block;
+						vertical-align: top;
+						width: 100%;
+					  "
+					>
+					  <table
+						border="0"
+						cellpadding="0"
+						cellspacing="0"
+						role="presentation"
+						style="vertical-align: top"
+						width="100%"
+					  >
+						<tbody>
+						  <tr>
+							<td
+							  align="center"
+							  vertical-align="middle"
+							  style="
+								font-size: 0px;
+								padding: 10px 25px;
+								word-break: break-word;
+							  "
+							>
+							  <table
+								border="0"
+								cellpadding="0"
+								cellspacing="0"
+								role="presentation"
+								style="
+								  border-collapse: separate;
+								  line-height: 100%;
+								"
+							  >
+								<tr>
+								  <td
+									align="center"
+									bgcolor="#191f4d"
+									role="presentation"
+									style="
+									  border: none;
+									  border-radius: 3px;
+									  cursor: auto;
+									  mso-padding-alt: 10px 25px;
+									  background: #191f4d;
+									"
+									valign="middle"
+								  >
+								  	<a href="`+verifyLink+`" target="_blank">
+										<p
+										style="
+											display: inline-block;
+											background: #191f4d;
+											color: #ffffff;
+											font-family: Roboto, Helvetica, sans-serif;
+											font-size: 13px;
+											font-weight: normal;
+											line-height: 120%;
+											margin: 0;
+											text-decoration: none;
+											text-transform: none;
+											padding: 10px 25px;
+											mso-padding-alt: 0px;
+											border-radius: 3px;
+										"
+										>
+										Verify my email
+										</p>
+									</a>
+								  </td>
+								</tr>
+							  </table>
+							</td>
+						  </tr>
+						</tbody>
+					  </table>
+					</div>
+					<!--[if mso | IE]></td></tr></table><![endif]-->
+				  </td>
+				</tr>
+			  </tbody>
+			</table>
+		  </div>
+		  <!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+		  <div style="margin: 0px auto; max-width: 600px">
+			<table
+			  align="center"
+			  border="0"
+			  cellpadding="0"
+			  cellspacing="0"
+			  role="presentation"
+			  style="width: 100%"
+			>
+			  <tbody>
+				<tr>
+				  <td
+					style="
+					  direction: ltr;
+					  font-size: 0px;
+					  padding: 0px;
+					  padding-top: 24px;
+					  text-align: center;
+					"
+				  >
+					<!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;" ><![endif]-->
+					<div
+					  class="mj-column-per-100 mj-outlook-group-fix"
+					  style="
+						font-size: 0px;
+						text-align: left;
+						direction: ltr;
+						display: inline-block;
+						vertical-align: top;
+						width: 100%;
+					  "
+					>
+					  <table
+						border="0"
+						cellpadding="0"
+						cellspacing="0"
+						role="presentation"
+						style="vertical-align: top"
+						width="100%"
+					  >
+						<tbody>
+						  <tr>
+							<td
+							  align="center"
+							  style="
+								font-size: 0px;
+								padding: 10px 25px;
+								word-break: break-word;
+							  "
+							>
+							  <p
+								style="
+								  border-top: solid 1px #e0e0e0;
+								  font-size: 1px;
+								  margin: 0px auto;
+								  width: 100%;
+								"
+							  ></p>
+							  <!--[if mso | IE
+								]><table
+								  align="center"
+								  border="0"
+								  cellpadding="0"
+								  cellspacing="0"
+								  style="
+									border-top: solid 1px #e0e0e0;
+									font-size: 1px;
+									margin: 0px auto;
+									width: 550px;
+								  "
+								  role="presentation"
+								  width="550px"
+								>
+								  <tr>
+									<td style="height: 0; line-height: 0">
+									  &nbsp;
+									</td>
+								  </tr>
+								</table><!
+							  [endif]-->
+							</td>
+						  </tr>
+						</tbody>
+					  </table>
+					</div>
+					<!--[if mso | IE]></td></tr></table><![endif]-->
+				  </td>
+				</tr>
+			  </tbody>
+			</table>
+		  </div>`,
 	)
 	if err != nil {
 		return models.NewServerErrorResponse(err)
 	}
-	subject := "Verify your email address"
+	subject := "Verify your email address | PureML"
 	err = api.app.SendMail(user.Email, subject, emailTemplate)
 	if err != nil {
 		return models.NewServerErrorResponse(err)
@@ -707,172 +943,287 @@ func (api *Api) UserForgotPassword(request *models.Request) *models.Response {
 	}
 	verifyLink := api.app.Settings().Site.BaseURL + "/reset-password?token=" + signedString
 	emailTemplate := coreservice.BaseEmailTemplate("Reset your password",
-		`<div style="
-			display: flex;
-			flex-direction: column;
-			align-items: flex-start;
-			padding: 0px;
-			gap: 32px;
-			height: 675px;
-		">
-		<div style="
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			align-items: center;
-			padding: 32px;
-			gap: 16px;
-			width: 523px;
-			height: 437px;
-
-			border: 1px solid #e2e8f0;
-			border-radius: 16px;
-			">
-			<img src="./Reset your password_files/lULPiXM.png" alt="PureML_Logo" style="width: 100px; height: 28px">
-			<div style="
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				padding: 0px;
-				gap: 24px;
-
-				width: 459px;
-				height: 329px;
-			">
-			<div style="
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				padding: 0px;
-				gap: 24px;
-
-				width: 459px;
-				height: 121px;
-				">
-				<div style="
-					display: flex;
-					flex-direction: column;
-					align-items: center;
-					gap: 8px;
-					width: 459px;
-					height: 57px;
-				">
-				<span style="font-size: 24px; color: #1e293b; font-weight: 500">Reset your password</span>
-				<span>Hi `+user.Handle+`, click on the button below to reset your
-					password.</span>
+		`<div style="margin: 0px auto; max-width: 600px">
+		<table
+		  align="center"
+		  border="0"
+		  cellpadding="0"
+		  cellspacing="0"
+		  role="presentation"
+		  style="width: 100%"
+		>
+		  <tbody>
+			<tr>
+			  <td
+				style="
+				  direction: ltr;
+				  font-size: 0px;
+				  padding: 0px;
+				  text-align: center;
+				"
+			  >
+				<!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;" ><![endif]-->
+				<div
+				  class="mj-column-per-100 mj-outlook-group-fix"
+				  style="
+					font-size: 0px;
+					text-align: left;
+					direction: ltr;
+					display: inline-block;
+					vertical-align: top;
+					width: 100%;
+				  "
+				>
+				  <table
+					border="0"
+					cellpadding="0"
+					cellspacing="0"
+					role="presentation"
+					style="vertical-align: top"
+					width="100%"
+				  >
+					<tbody>
+					  <tr>
+						<td
+						  align="center"
+						  style="
+							font-size: 0px;
+							padding: 10px 25px;
+							word-break: break-word;
+						  "
+						>
+						  <div
+							style="
+							  font-family: Roboto, Helvetica, sans-serif;
+							  font-size: 16px;
+							  font-weight: 300;
+							  line-height: 24px;
+							  text-align: center;
+							  color: #616161;
+							"
+						  >
+							Hi `+user.Handle+`, click on the button below to
+							reset your password.
+						  </div>
+						</td>
+					  </tr>
+					</tbody>
+				  </table>
 				</div>
-				<a href="`+verifyLink+`" style="text-decoration: none">
-					<button style="
-						color: white;
-						border-radius: 8px;
-						background-color: #191f4d;
-						padding-right: 16px;
-						padding-left: 16px;
-						padding-top: 8px;
-						padding-bottom: 8px;
-					">
-					Reset Password
-					</button>
-				</a>
-			</div>
-			<div style="width: 459px; border: 0.2px solid #e2e8f0"></div>
-			<div style="
-				font-style: normal;
-				font-weight: 400;
-				font-size: 14px;
-				line-height: 125%;
-				font-feature-settings: &#39;salt&#39; on;
-				">
-				If you did not make this request, then please ignore this mail.<br><br>
-				If you run into any issues you can drop a message on any of our
-				social media platforms or reach out to us on
-				<a href="mailto:contact.pureml@gmail.com" style="color: #0e4ddd">contact.pureml@gmail.com.</a>
-				We look forward to serving you and your business.
-			</div>
-			<div style="
-				display: flex;
-				flex-direction: column;
-				align-items: flex-start;
-				width: 100%;
-				">
-				Regards<br>Team PureML
-			</div>
-			</div>
-		</div>
-		<div style="
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			align-items: center;
-			padding: 24px 32px;
-			gap: 32px;
-			width: 523px;
-			height: 206px;
-			background: #f8fafc;
-			border-radius: 8px;
-			">
-			<div style="
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-				align-items: left;
-				padding: 0px;
-				font-size: 14px;
-				gap: 24px;
-				width: 100%;
-			">
-			<div>
-				You recieved this email because you just requested for new
-				password.<br>If it’s not you
-				<a target="_blank" href="mailto:contact.pureml@gmail.com" style="color: #0e4ddd">contact us.</a>
-				<br><br>©️ 2022 PureML. Inc | Texas, USA
-			</div>
-			<div style="justify-content: center; align-items: left; width: 100%">
-				Please visit our
-				<a target="_blank" href="http://www.pureml.com/">website</a> for more
-				support.
-			</div>
-			</div>
-			<div style="width: 472px; border: 1px solid #e2e8f0"></div>
-			<div style="
-				display: flex;
-				flex-direction: row;
-				justify-content: space-between;
-				align-items: center;
-				padding: 0px;
-				gap: 253px;
-				width: 100%;
-				height: 18px;
-			">
-			<img src="./Reset your password_files/lULPiXM.png" alt="PureML_Logo" style="width: 64px">
-			<div style="
-				display: flex;
-				flex-direction: row;
-				align-items: center;
-				padding: 0px;
-				gap: 16px;
-
-				width: 80px;
-				height: 16px;
-				">
-				<a href="https://www.linkedin.com/company/pureml-inc/" alt="Linkedin" target="_blank">
-				<img src="./Reset your password_files/l1ROz7q.png" alt="Linkedin" style="width: 16px; height: 16px"></a>
-				<a href="https://twitter.com/getPureML" alt="Twitter" target="_blank">
-				<img src="./Reset your password_files/ph5MnVi.png" alt="Twitter" style="width: 16px; height: 16px"></a>
-				<a href="https://discord.gg/xNUHt9yguJ" alt="Discord" target="_blank">
-				<img src="./Reset your password_files/bBQ5HJb.png" alt="Discord" style="width: 16px; height: 16px"></a>
-			</div>
-			</div>
-		</div>
-		</div>
-	
-
-	<div id="763B5B14-27EC-CABC-9C2E-973F68AB4B1D"></div>`,
+				<!--[if mso | IE]></td></tr></table><![endif]-->
+			  </td>
+			</tr>
+		  </tbody>
+		</table>
+	  </div>
+	  <!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+	  <div style="margin: 0px auto; max-width: 600px">
+		<table
+		  align="center"
+		  border="0"
+		  cellpadding="0"
+		  cellspacing="0"
+		  role="presentation"
+		  style="width: 100%"
+		>
+		  <tbody>
+			<tr>
+			  <td
+				style="
+				  direction: ltr;
+				  font-size: 0px;
+				  padding: 0px;
+				  padding-top: 36px;
+				  text-align: center;
+				"
+			  >
+				<!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;" ><![endif]-->
+				<div
+				  class="mj-column-per-100 mj-outlook-group-fix"
+				  style="
+					font-size: 0px;
+					text-align: left;
+					direction: ltr;
+					display: inline-block;
+					vertical-align: top;
+					width: 100%;
+				  "
+				>
+				  <table
+					border="0"
+					cellpadding="0"
+					cellspacing="0"
+					role="presentation"
+					style="vertical-align: top"
+					width="100%"
+				  >
+					<tbody>
+					  <tr>
+						<td
+						  align="center"
+						  vertical-align="middle"
+						  style="
+							font-size: 0px;
+							padding: 10px 25px;
+							word-break: break-word;
+						  "
+						>
+						  <table
+							border="0"
+							cellpadding="0"
+							cellspacing="0"
+							role="presentation"
+							style="
+							  border-collapse: separate;
+							  line-height: 100%;
+							"
+						  >
+							<tr>
+							  <td
+								align="center"
+								bgcolor="#191f4d"
+								role="presentation"
+								style="
+								  border: none;
+								  border-radius: 3px;
+								  cursor: auto;
+								  mso-padding-alt: 10px 25px;
+								  background: #191f4d;
+								"
+								valign="middle"
+							  >
+							  	<a href="` + verifyLink + `" target="_blank" >
+									<p
+									style="
+										display: inline-block;
+										background: #191f4d;
+										color: #ffffff;
+										font-family: Roboto, Helvetica, sans-serif;
+										font-size: 13px;
+										font-weight: normal;
+										line-height: 120%;
+										margin: 0;
+										text-decoration: none;
+										text-transform: none;
+										padding: 10px 25px;
+										mso-padding-alt: 0px;
+										border-radius: 3px;
+									"
+									>
+									Reset my password
+									</p>
+								</a>
+							  </td>
+							</tr>
+						  </table>
+						</td>
+					  </tr>
+					</tbody>
+				  </table>
+				</div>
+				<!--[if mso | IE]></td></tr></table><![endif]-->
+			  </td>
+			</tr>
+		  </tbody>
+		</table>
+	  </div>
+	  <!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+	  <div style="margin: 0px auto; max-width: 600px">
+		<table
+		  align="center"
+		  border="0"
+		  cellpadding="0"
+		  cellspacing="0"
+		  role="presentation"
+		  style="width: 100%"
+		>
+		  <tbody>
+			<tr>
+			  <td
+				style="
+				  direction: ltr;
+				  font-size: 0px;
+				  padding: 0px;
+				  padding-top: 24px;
+				  text-align: center;
+				"
+			  >
+				<!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;" ><![endif]-->
+				<div
+				  class="mj-column-per-100 mj-outlook-group-fix"
+				  style="
+					font-size: 0px;
+					text-align: left;
+					direction: ltr;
+					display: inline-block;
+					vertical-align: top;
+					width: 100%;
+				  "
+				>
+				  <table
+					border="0"
+					cellpadding="0"
+					cellspacing="0"
+					role="presentation"
+					style="vertical-align: top"
+					width="100%"
+				  >
+					<tbody>
+					  <tr>
+						<td
+						  align="center"
+						  style="
+							font-size: 0px;
+							padding: 10px 25px;
+							word-break: break-word;
+						  "
+						>
+						  <p
+							style="
+							  border-top: solid 1px #e0e0e0;
+							  font-size: 1px;
+							  margin: 0px auto;
+							  width: 100%;
+							"
+						  ></p>
+						  <!--[if mso | IE
+							]><table
+							  align="center"
+							  border="0"
+							  cellpadding="0"
+							  cellspacing="0"
+							  style="
+								border-top: solid 1px #e0e0e0;
+								font-size: 1px;
+								margin: 0px auto;
+								width: 550px;
+							  "
+							  role="presentation"
+							  width="550px"
+							>
+							  <tr>
+								<td style="height: 0; line-height: 0">
+								  &nbsp;
+								</td>
+							  </tr>
+							</table><!
+						  [endif]-->
+						</td>
+					  </tr>
+					</tbody>
+				  </table>
+				</div>
+				<!--[if mso | IE]></td></tr></table><![endif]-->
+			  </td>
+			</tr>
+		  </tbody>
+		</table>
+	  </div>`,
 	)
 	if err != nil {
 		return models.NewServerErrorResponse(err)
 	}
-	subject := "Reset your password"
+	subject := "Reset your password | PureML"
 	err = api.app.SendMail(user.Email, subject, emailTemplate)
 	if err != nil {
 		return models.NewServerErrorResponse(err)
