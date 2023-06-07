@@ -4732,9 +4732,6 @@ const docTemplate = `{
                 "new_password": {
                     "type": "string"
                 },
-                "old_password": {
-                    "type": "string"
-                },
                 "token": {
                     "type": "string"
                 }
