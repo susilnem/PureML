@@ -13,9 +13,11 @@ import typing
 
 from urllib.parse import urljoin
 
-from . import get_token, get_org_id
+from pureml.cli.helpers import get_auth_headers
 
-from pureml.schema import PathSchema, BackendSchema
+from . import get_org_id
+
+from pureml.schema import PathSchema, BackendSchema, ContentTypeHeader
 from joblib import Parallel, delayed
 
 path_schema = PathSchema().get_instance()
@@ -38,7 +40,6 @@ def details(
 
     """
 
-    user_token = get_token()
     org_id = get_org_id()
 
     url = "org/{}/model/{}/branch/{}/version/{}/log".format(
@@ -46,10 +47,7 @@ def details(
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": "Bearer {}".format(user_token),
-    }
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_FORM_URL_ENCODED)
 
     response = requests.get(url, headers=headers)
 
@@ -99,7 +97,6 @@ def add(
 
     """
 
-    user_token = get_token()
     org_id = get_org_id()
 
     url = "org/{}/model/{}/branch/{}/version/{}/log".format(
@@ -107,12 +104,12 @@ def add(
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = {"Authorization": "Bearer {}".format(user_token)}
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_FORM_URL_ENCODED)
 
     if os.path.isfile(artifact):
         file = {"file": (name, open(artifact, "rb"))}
     else:
-        print("[bold red] Artifact doesnot exist at the given path")
+        print("[bold red] Artifact does not exist at the given path")
 
     data = {"name": name, "path": artifact}
 
@@ -147,7 +144,6 @@ def fetch(model_name: str, model_version: str = "latest", name: str = ""):
 
     """
 
-    user_token = get_token()
     org_id = get_org_id()
 
     def fetch_artifact(artifact_details: dict):
@@ -160,10 +156,7 @@ def fetch(model_name: str, model_version: str = "latest", name: str = ""):
 
         name_fetched = artifact_details["artifact"]
 
-        headers = {
-            "Content-Type": "application/x-www-form-urlencoded",
-            "Authorization": "Bearer {}".format(user_token),
-        }
+        headers = get_auth_headers(content_type=ContentTypeHeader.APP_FORM_URL_ENCODED)
 
         print("Artifact url", url)
 
@@ -231,7 +224,6 @@ def delete(
 
     """
 
-    user_token = get_token()
     org_id = get_org_id()
 
     url = "org/{}/model/{}/branch/{}/version/{}/log".format(
@@ -239,10 +231,7 @@ def delete(
     )
     url = urljoin(backend_schema.BASE_URL, url)
 
-    headers = {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": "Bearer {}".format(user_token),
-    }
+    headers = get_auth_headers(content_type=ContentTypeHeader.APP_FORM_URL_ENCODED)
 
     # artifact_details = details(model_name=model_name, artifact=artifact)
 

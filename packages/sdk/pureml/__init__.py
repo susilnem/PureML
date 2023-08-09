@@ -25,4 +25,5 @@ from .package import docker, fastapi
 from .schema import Input, Output
 from .predictor.predictor import BasePredictor
 
-__version__ = "0.3.5"
+
+__version__ = "0.3.8"

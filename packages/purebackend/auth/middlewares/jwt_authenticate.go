@@ -18,7 +18,6 @@ import (
 
 const (
 	AuthHeaderName   = "Authorization"
-	APIIdHeaderName  = "X-Api-Id"
 	APIKeyHeaderName = "X-Api-Key"
 	ContextAuthKey   = "User"
 )
@@ -74,18 +73,26 @@ func AuthenticateJWT(app core.App) echo.MiddlewareFunc {
 func AuthenticateAPI(app core.App) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(context echo.Context) error {
-			apiIdHeaderValue := middlewares.ExtractRequestHeader(APIIdHeaderName, context)
-			if apiIdHeaderValue == "" {
-				return next(context)
-			}
 			apiKeyHeaderValue := middlewares.ExtractRequestHeader(APIKeyHeaderName, context)
 			if apiKeyHeaderValue == "" {
 				return next(context)
 			}
+			// split the apiKey to API ID and API Secret
+			apiKeyParts := strings.Split(apiKeyHeaderValue, ".")
+			if len(apiKeyParts) != 2 {
+				context.Response().WriteHeader(http.StatusForbidden)
+				_, err := context.Response().Writer.Write([]byte("API key is invalid"))
+				if err != nil {
+					return err
+				}
+				return nil
+			}
+			apiIdHeaderValue := apiKeyParts[0]
+			apiKeySecretHeaderValue := apiKeyParts[1]
 			tokenUUID, err := uuid.FromString(apiIdHeaderValue)
 			if err != nil {
 				context.Response().WriteHeader(http.StatusForbidden)
-				_, err := context.Response().Writer.Write([]byte("API Id is invalid"))
+				_, err := context.Response().Writer.Write([]byte("API key is invalid"))
 				if err != nil {
 					return err
 				}
@@ -94,7 +101,7 @@ func AuthenticateAPI(app core.App) echo.MiddlewareFunc {
 			tokenSecretHMAC := hmac.New(sha256.New, []byte(app.Settings().APITokenSecretKey))
 			tokenSecretHMAC.Write([]byte(tokenUUID.String()))
 			tokenSecret := hex.EncodeToString(tokenSecretHMAC.Sum(nil))
-			if tokenSecret != apiKeyHeaderValue {
+			if tokenSecret != apiKeySecretHeaderValue {
 				context.Response().WriteHeader(http.StatusForbidden)
 				_, err := context.Response().Writer.Write([]byte("API key is invalid"))
 				if err != nil {

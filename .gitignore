@@ -1,6 +1,5 @@
 .vscode
 
-dist/
 .venv/
 .pureml
 poetry.lock
@@ -14,6 +13,8 @@ packages/purebackend/purebackend.exe
 packages/purebackend/vendor
 
 packages/pureml_frontend/node_modules
+
+packages/pureml_sdk/dist
 
 __pycache__/
 *.pyc

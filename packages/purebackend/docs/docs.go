@@ -3871,6 +3871,17 @@ const docTemplate = `{
                     "User"
                 ],
                 "summary": "Create API Token.",
+                "parameters": [
+                    {
+                        "description": "Token details",
+                        "name": "token",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.CreateTokenRequest"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -4492,6 +4503,14 @@ const docTemplate = `{
                 }
             }
         },
+        "models.CreateTokenRequest": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
         "models.DatasetReviewRequest": {
             "type": "object",
             "properties": {
@@ -4711,9 +4730,6 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "new_password": {
-                    "type": "string"
-                },
-                "old_password": {
                     "type": "string"
                 },
                 "token": {

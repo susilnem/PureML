@@ -7,6 +7,7 @@ from pureml.utils.package import process_input, process_output
 from pureml.utils.version_utils import parse_version_label
 from pureml import predict, pip_requirement, resources
 from pureml.utils.resources import zip_content, unzip_content
+import sys
 
 
 prediction_schema = PredictSchema()
@@ -33,7 +34,7 @@ def get_resources(label, resources_path):
                 prediction_schema.PATH_RESOURCES, path_schema.PATH_PREDICT_DIR
             )
         else:
-            raise Exception(resources_path, "doesnot exists!!!")
+            raise Exception(resources_path, "does not exists!!!")
     else:
         print("Taking the fetched resources file path")
 
@@ -56,7 +57,7 @@ def get_predict_file(label, predict_path):
         if os.path.exists(predict_path):
             shutil.copy(predict_path, prediction_schema.PATH_PREDICT)
         else:
-            raise Exception(predict_path, "doesnot exists!!!")
+            raise Exception(predict_path, "does not exists!!!")
     else:
         print("Taking the fetched predict.py file path")
 
@@ -75,7 +76,7 @@ def get_requirements_file(label, requirements_path):
         if os.path.exists(requirements_path):
             shutil.copy(requirements_path, prediction_schema.PATH_PREDICT_REQUIREMENTS)
         else:
-            raise Exception(requirements_path, "doesnot exists!!!")
+            raise Exception(requirements_path, "does not exists!!!")
     else:
         print("Taking the fetched requirements.txt file path")
 
@@ -103,9 +104,10 @@ from pyngrok import ngrok
 load_dotenv()
 
 org_id = os.getenv('ORG_ID')
-access_token = os.getenv('ACCESS_TOKEN')
+api_token = os.getenv('API_TOKEN')
 
-pureml.login(org_id=org_id, access_token=access_token)
+if api_token is not None and org_id is not None:
+    pureml.login(org_id=org_id, api_token=api_token)
 
 predictor = Predictor()
 predictor.load_models()
@@ -194,11 +196,17 @@ def run(label, predict_path=None, requirements_path=None):
         label, predict_path=predict_path, requirements_path=requirements_path
     )
 
-    run_command = "python '{api_path}'".format(
-        api_path=fastapi_schema.PATH_FASTAPI_FILE
-    )
+    interpreter_path = str(sys.executable)
 
-    os.system(run_command)
+    if os.path.exists(interpreter_path):
+
+        run_command = "'{interpreter_path}' '{api_path}'".format(
+            interpreter_path=interpreter_path, api_path=fastapi_schema.PATH_FASTAPI_FILE
+        )
+
+        os.system(run_command)
+    else:
+        print("Interpreter not found at", interpreter_path)
 
     # app = FastAPI()
 

@@ -1,0 +1,289 @@
+import { BACKEND_URL } from "$env/static/private";
+// import Airtable from "airtable";
+// import { Client } from "@notionhq/client";
+
+// ###########################################################################
+const makeUrl = (path: string): string => `${BACKEND_URL}${path}`;
+// ###########################################################################
+
+// ############################## contactus api ##############################
+// const base = new Airtable({
+//   endpointUrl: "https://api.airtable.com",
+//   apiKey: process.env.AIRTABLE_API_KEY,
+// }).base("appAR7Cxhflh7YVe9");
+
+// export default base;
+
+// ############################## ml tools ##############################
+
+// export async function fetchMLTools() {
+//   const notionSecret = process.env.NOTION_SECRET;
+//   const notionDatabaseId = process.env.NOTION_DATABASE_ID;
+
+//   const notion = new Client({ auth: notionSecret });
+//   if (!notionSecret || !notionDatabaseId) {
+//     return null;
+//   }
+
+//   const res = await notion.databases.query({
+//     database_id: notionDatabaseId,
+//     sorts: [
+//       {
+//         property: "Name",
+//         direction: "ascending",
+//       },
+//     ],
+//   });
+//   return res.results;
+// }
+
+// ############################## generative ai tools ##############################
+
+// export async function fetchGenerativeAITools() {
+//   const notionSecret = process.env.NOTION_SECRET;
+//   const notionDatabaseId = process.env.NOTION_AI_DATABASE_ID;
+
+//   const notion = new Client({ auth: notionSecret });
+//   if (!notionSecret || !notionDatabaseId) {
+//     return null;
+//   }
+
+//   const res = await notion.databases.query({
+//     database_id: notionDatabaseId,
+//     sorts: [
+//       {
+//         property: "Name",
+//         direction: "ascending",
+//       },
+//     ],
+//   });
+//   return res.results;
+// }
+
+// ############################ authentication api ###########################
+
+export async function fetchSignIn(
+  email: string,
+  password: string,
+  username?: string
+) {
+  const url = makeUrl(`user/login`);
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+  }).then((res) => res.json());
+  return res;
+}
+
+export async function fetchSignUp(
+  name: string,
+  username: string,
+  email: string,
+  password: string,
+  bio?: string,
+  avatar?: string
+) {
+  const url = makeUrl(`user/signup`);
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application / json",
+    },
+    body: JSON.stringify({
+      name,
+      handle: username,
+      email,
+      password,
+      bio: "",
+      avatar: "",
+    }),
+  }).then((res) => res.json());
+  return res;
+}
+
+export async function fetchVerifyEmail(token: string | undefined) {
+  const url = makeUrl(`user/verify-email`);
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application / json",
+    },
+    body: JSON.stringify({
+      token: token,
+    }),
+  }).then((res) => res.json());
+  return res;
+}
+
+export async function fetchVerifySession(
+  accessToken: string,
+  sessionId: string
+) {
+  const url = makeUrl(`user/verify-session`);
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application / json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({
+      session_id: sessionId,
+    }),
+  }).then((res) => res.json());
+  return res;
+}
+
+export async function fetchForgotPassword(email: string) {
+  const url = makeUrl(`user/forgot-password`);
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application / json",
+    },
+    body: JSON.stringify({
+      email,
+    }),
+  }).then((res) => res.json());
+  return res;
+}
+
+export async function fetchVerifyResetPassword(accessToken: string) {
+  const url = makeUrl(`user/verify-reset-password`);
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application / json",
+    },
+    body: JSON.stringify({
+      token: accessToken,
+    }),
+  }).then((res) => res.json());
+  return res;
+}
+
+export async function fetchResetPassword(
+  new_password: string,
+  old_password: string,
+  accessToken: string | undefined
+) {
+  const url = makeUrl(`user/reset-password`);
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application / json",
+    },
+    body: JSON.stringify({
+      new_password: new_password,
+      old_password: old_password,
+      token: accessToken,
+    }),
+  }).then((res) => res.json());
+  return res;
+}
+
+// ############################# user details api ############################
+
+export async function fetchUserSettings(accessToken: string) {
+  const url = makeUrl(`user/profile`);
+  const res = await fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application / json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  })
+    .then((res) => (res.ok ? res.json() : null))
+    .catch((err) => {
+      throw err;
+    });;
+  return res?.data;
+}
+
+export async function fetchPublicProfile(username: string) {
+  const url = makeUrl(`user/profile/${username}`);
+  const res = await fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application / json",
+    },
+  }).then((res) => res.json());
+  return res.data;
+}
+
+// ######################### update user details api #############################
+
+export async function updateProfile(
+  name: string,
+  bio: string,
+  accessToken: string,
+  avatar?: string
+) {
+  const url = makeUrl(`user/profile`);
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application / json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({
+      name,
+      bio,
+      avatar: "",
+    }),
+  }).then((res) => res.json());
+  return res;
+}
+
+// ############################# api tokens api ############################
+
+export async function fetchAPITokens(accessToken: string) {
+  const url = makeUrl(`user/tokens`);
+  const res = await fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application / json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  }).then((res) => res.json());
+  return res.data;
+}
+
+export async function createAPIToken(accessToken: string) {
+  const url = makeUrl(`user/create-token`);
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application / json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  }).then((res) => res.json());
+  return res;
+}
+
+export async function deleteAPIToken(tokenUUID: string, accessToken: string) {
+  const url = makeUrl(`user/delete-token/${tokenUUID}`);
+  const res = await fetch(url, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application / json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({
+      tokenUUID: tokenUUID,
+    }),
+  }).then((res) => res.json());
+  return res;
+}
